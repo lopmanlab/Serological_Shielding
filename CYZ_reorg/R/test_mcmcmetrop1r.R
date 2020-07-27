@@ -10,8 +10,8 @@ v.obs = pars_nyc$observed
 v.obs_rate = c(0,v.obs[2:length(v.obs)] - v.obs[1:(length(v.obs)-1)])
 
   # TODO: Figre out parameters, figure out initial conditions, and fit specifics
-  # psi = 1 #overdispersion parameter
-  # rho = 0.9 #reporting rate
+psi = 1 #overdispersion parameter
+  #rho = 0.9 #reporting rate
 tolerance = 1e-20
 
 ## negative binomial regression with an improper unform prior
@@ -19,11 +19,10 @@ tolerance = 1e-20
 seir_err = function(theta, y, X){
   print(theta)
   pars_nyc[['q']] = exp(theta[1])
-  pars_nyc[['socialDistancing_other']] = exp(theta[2])
-  pars_nyc[['p_full']] = exp(theta[3])
-  pars_nyc[['p_reduced']] = exp(theta[4])
-  psi = exp(theta[5])
-  rho = exp(theta[6])
+    #pars_nyc[['socialDistancing_other']] = exp(theta[2])
+    #pars_nyc[['p_full']] = exp(theta[3])
+    #pars_nyc[['p_reduced']] = exp(theta[4])
+  rho = exp(theta[2])
   
   # Run Model
   model_out = ode(y = X
@@ -47,7 +46,7 @@ seir_err = function(theta, y, X){
 }
 
 post.samp = MCMCmetrop1R(seir_err
-                          , theta.init=c(-1,0,0,0,0,0)
+                          , theta.init=c(-1,0)
                           , y=v.obs
                           , X=X0
                           , mcmc=3000
