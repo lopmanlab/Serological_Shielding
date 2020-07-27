@@ -329,6 +329,25 @@ seir_model_shields_rcfc_nolatent = function(t, X, Pars) {
 
   #seir_model_shields_rcfc_nolatent(0, X0, pars)
 
-
-
-
+Get_Inits = function(Pars){
+  
+  X0=rep(0,Pars$nTotSubComp)
+  
+  # Remove from susceptible pool ...
+  X0[1]=Pars$agestruc[1]*Pars$N-inits$I_c0
+  X0[2]=Pars$agestruc[2]*Pars$frac_home*Pars$N-inits$I_a0
+  X0[3]=Pars$agestruc[2]*Pars$frac_reduced*Pars$N-inits$I_rc0
+  X0[4]=Pars$agestruc[2]*Pars$frac_full*Pars$N-inits$I_fc0
+  X0[5]=Pars$agestruc[3]*Pars$N-inits$I_e0
+  
+  # ... and add to infected
+  X0[11]=inits$I_c0
+  X0[12]=inits$I_a0
+  X0[13]=inits$I_rc0
+  X0[14]=inits$I_fc0
+  X0[15]=inits$I_e0
+  
+  names(X0) = Pars$varNames
+  
+  return(X0)
+}

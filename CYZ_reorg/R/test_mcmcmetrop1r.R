@@ -1,75 +1,58 @@
+rm(list=ls())
 require(MCMCpack)
 
-setwd('/Users/czhao/Documents/CYZ GITHUB/Weitz Group/COVID-19/Lopman COVID collab/Serological_Shielding/')
-source('CYZ_reorg/R/input_SD_Simulations.R')
+# Get Pars and Inits
+source('C:/Users/czhao/Documents/CYZ GITHUB/Weitz Group/COVID-19/Lopman Covid SeroPos/Serological_Shielding/CYZ_reorg/R/input_fits.R')
+X0 = Get_Inits(pars_nyc)
 
-# Get Pars
-pars_doNothing = pars_default
+# Observed Data
+v.obs = pars_nyc$observed
+v.obs_rate = c(0,v.obs[2:length(v.obs)] - v.obs[1:(length(v.obs)-1)])
 
-pars_doNothing[['socialDistancing_other']]=0.25
-pars_doNothing[['socialDistancing_other_c']]=0.25
-pars_doNothing[['p_reduced']]=0.1
-pars_doNothing[['p_reduced_c']]=0.1
-pars_doNothing[['daily_tests']]=0
+  # TODO: Figre out parameters, figure out initial conditions, and fit specifics
+  # psi = 1 #overdispersion parameter
+  # rho = 0.9 #reporting rate
+tolerance = 1e-20
 
-pars_doNothing[['tStart_distancing']]=500
-pars_doNothing[['tStart_test']]=500
-pars_doNothing[['tStart_target']]=500
-pars_doNothing[['tStart_school']]=500
-pars_doNothing[['tStart_reopen']]=500
-
-# Run Model
-model_out = ode(y = X0
-                , times = pars_doNothing$times
-                , fun = seir_model_shields_rcfc_nolatent
-                , parms = pars_doNothing
-                , method='ode45')
-model_out = as.data.frame(model_out)[,-1]
-
-y_base = rowSums(model_out[, pars_doNothing$D_ids])/pars_doNothing$N
-# Infected=pars_doNothing$N - sum(model_out[366, c(pars_doNothing$S_ids, pars_doNothing$S_pos_ids)])
-# Pinfect=Infected/pars_doNothing$N
-# Infected; Pinfect
-# 
-# Deaths=sum(model_out[366, pars_doNothing$D_ids])
-# Deaths
-
-
-
-
-##  negative binomial regression with an improper unform prior
+## negative binomial regression with an improper unform prior
 ## X and y are passed as args to MCMCmetrop1R
-seir_err = function(theta, y=y_base, X){
-  pars = pars_default
-  pars[['R0']] = theta[0]
-  pars[['q']] = theta[1]
+seir_err = function(theta, y, X){
+  print(theta)
+  pars_nyc[['q']] = exp(theta[1])
+  pars_nyc[['socialDistancing_other']] = exp(theta[2])
+  pars_nyc[['p_full']] = exp(theta[3])
+  pars_nyc[['p_reduced']] = exp(theta[4])
+  psi = exp(theta[5])
+  rho = exp(theta[6])
   
+  # Run Model
   model_out = ode(y = X
-                , times = pars$times
-                , fun = seir_model_shields_rcfc_nolatent
-                , parms = pars
-                , method='ode45')
+                  , times = pars_nyc$times
+                  , fun = seir_model_shields_rcfc_nolatent
+                  , parms = pars_nyc
+                  , method='ode45')
+  model_out = as.data.frame(model_out)[,-1]
   
-  y_out = rowSums(model_out[, pars$D_ids])/pars$N
+  # Extract new cases by day
+  y_model_byDay = rowSums(model_out[, pars_nyc$D_ids])
+  y_rates = y_model_byDay[2:length(y_model_byDay)] - y_model_byDay[1:(length(y_model_byDay)-1)]
+  y_rates = c(0, y_rates)
   
-  log_like = -sum((y-y_out)^2)/2
-  return(log_like)
+  # Aggregate by week
+  v.model = unlist(lapply(split(y_rates, rep(1:(length(y_model_byDay)/7), each=7)), sum)) 
+  
+  # Likelihood of v.obs given v.model
+  log_like = dnbinom(y, psi, mu=rho*v.model+tolerance, log=TRUE)
+  return(sum(log_like))
 }
 
-
 post.samp = MCMCmetrop1R(seir_err
-                          , theta.init=c(0.1,0.1)
-                          , y=y_base
+                          , theta.init=c(-1,0,0,0,0,0)
+                          , y=v.obs
                           , X=X0
-                          , thin=1
-                          , mcmc=200
-                          , burnin=100
-                          , tune=0.1
-                          , verbose=5
+                          , mcmc=3000
+                          , burnin=1000
+                          , verbose=100
                           , logfun=TRUE
                           , seed=list(NA,1))
-
-raftery.diag(post.samp)
-plot(post.samp)
-summary(post.samp)
 
