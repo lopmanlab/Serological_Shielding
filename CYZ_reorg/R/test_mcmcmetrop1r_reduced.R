@@ -7,23 +7,26 @@ require(doParallel)
 
 # Get Pars and Inits
 source('C:/Users/czhao/Documents/CYZ GITHUB/Weitz Group/COVID-19/Lopman Covid SeroPos/Serological_Shielding/CYZ_reorg/R/input_fits.R')
-X0 = Get_Inits(pars_nyc)
+X0 = Get_Inits(pars_nyc_reduced_in)
 
 # Observed Data
-v.obs = pars_nyc$observed
+v.obs = pars_nyc_reduced_in$observed
+  #source('C:/Users/czhao/Documents/CYZ GITHUB/Weitz Group/COVID-19/Lopman Covid SeroPos/Serological_Shielding/CYZ_reorg/R/adhoc_get_example.R')
 
 # Theta Conditions
-  #th_init = c(.1, 0.1, 0.25, 10, 0.25)
-th_init = c(0.04, .25, .25, 2, .25)
+th_init = c(.04, 0.1, 0.25, 10, 0.25)
+  #th_init = c(.05, .4, .4, 9, .4)
+  #th_init = th_opts
 th_min = c(0, 0, 0, 0, 0)
-th_max = c(.1, 1, 1, 60, 1)
+th_max = c(1, 1, 1, 60, 1)
 
 # Logit-Transform
 th_init = qlogis(th_init/(th_max-th_min))
 
+
 # (1) Define Likelihood ---------------------------------------------------
 
-seir_err = function(theta, y, X, Pars = pars_nyc){
+seir_err = function(theta, y, X, Pars = pars_nyc_reduced_in){
   print(theta)
   # Un-transform
   th_norm = plogis(theta)
@@ -60,7 +63,7 @@ seir_err = function(theta, y, X, Pars = pars_nyc){
     
     model_shift = ode(y = X
                       , times = time_shift
-                      , fun = seir_model_shields_rcfc_nolatent
+                      , fun = seir_model_shields_reduced
                       , parms = Pars_in
                       , method = 'ode45')
     X0_shift = model_shift[nrow(model_shift),-1]
@@ -71,7 +74,7 @@ seir_err = function(theta, y, X, Pars = pars_nyc){
   # Run with shift
   model_out = ode(y = X0_shift
                   , times = Pars_in$times
-                  , fun = seir_model_shields_rcfc_nolatent
+                  , fun = seir_model_shields_reduced
                   , parms = Pars_in
                   , method = 'ode45')
   
@@ -83,7 +86,7 @@ seir_err = function(theta, y, X, Pars = pars_nyc){
   
   # Aggregate by week
   v.D_model = v.D_model_byWeek
-
+  
   # Calculate the log likelihood of the observed new case rates compared to the model rates
   #log_like = dnbinom(y, psi, mu=rho*v.D_model, log=TRUE) ## negative binomial regression with an improper uninform prior
   #log_like = dpois(x=y, lambda = v.D_model, log=TRUE)
@@ -94,6 +97,8 @@ seir_err = function(theta, y, X, Pars = pars_nyc){
   
   log_like = dpois(x=dDo.dt, lambda = dDm.dt, log=TRUE)
   
+    #print(dDm.dt)
+    #print(dDo.dt)
   print(sum(log_like))
   return(sum(log_like))
 }
@@ -133,7 +138,7 @@ post.samp.optimal_parameters = apply(df.post_samp, 2, function(df_in){
 th_opts = post.samp.optimal_parameters
 
 # Get NYC Defualts
-temp_pars = pars_nyc
+temp_pars = pars_nyc_reduced_in
 temp_X0 = Get_Inits(temp_pars)
 
 # Adjust with MCMC-learned values
@@ -157,7 +162,7 @@ if(th_opts[4]){
   }
   model_shift = ode(y = temp_X0
                     , times = time_delay
-                    , fun = seir_model_shields_rcfc_nolatent
+                    , fun = seir_model_shields_reduced
                     , parms = temp_pars
                     , method = 'ode45')
   X_new_init = model_shift[nrow(model_shift),-1]
@@ -165,16 +170,14 @@ if(th_opts[4]){
   X_new_init = temp_X0
 }
 
-
 # Get Inits
 model_out = ode(y = X_new_init
                 , times = temp_pars$times
-                , fun = seir_model_shields_rcfc_nolatent
+                , fun = seir_model_shields_reduced
                 , parms = temp_pars
                 , method='ode45')
 t = model_out[,1]
 model_out = as.data.frame(model_out)[,-1] # remove the time column
-
 
 # Prevalence
 v.prev_byDay = temp_pars$N - rowSums(model_out[, temp_pars$S_ids])
@@ -193,11 +196,10 @@ v.D_byWeek_rate = c(0,v.D_byWeek[-1] - v.D_byWeek[-length(v.D_byWeek)])
 
 v.obs_rate = c(0,v.obs[-1] - v.obs[-length(v.obs)])
 
-
 # Plot Cumulatives
 temp.df = data.frame('D_model' = v.D_byDay, 'Prev_model' = v.prev_byDay/temp_pars$N, 'time' = t, 'D_obs' = NA)
 temp.df$D_obs[1+7*(1:length(v.obs)-1)] = v.obs
-temp.df$time = as.Date(pars_nyc$t0) + temp.df$time + 2
+temp.df$time = as.Date(pars_nyc_reduced_in$t0) + temp.df$time + 2
 
 ggplot(temp.df, aes(x = time)) + 
   geom_line(size = 1, aes(y = D_model/1000, linetype = 'D_model')) + 
@@ -226,9 +228,9 @@ print(v.obs)
 # stats -------------------------------------------------------------------
 X_init = temp_X0
 X_fin = model_out[nrow(model_out),]
- 
-tot_D = sum(X_fin[pars_nyc$D_ids])
-tot_infec = sum(X_fin[c(pars_nyc$D_ids, pars_nyc$R_ids, pars_nyc$Isym_ids, pars_nyc$Iasym_ids)])
+
+tot_D = sum(X_fin[pars_nyc_reduced_in$D_ids])
+tot_infec = sum(X_fin[c(pars_nyc_reduced_in$D_ids, pars_nyc_reduced_in$R_ids, pars_nyc_reduced_in$Isym_ids, pars_nyc_reduced_in$Iasym_ids)])
 
 
 
@@ -241,5 +243,5 @@ tot_infec = sum(X_fin[c(pars_nyc$D_ids, pars_nyc$R_ids, pars_nyc$Isym_ids, pars_
 
 
 # outputs -----------------------------------------------------------------
-save(post.samp,post.samp.out, seir_err, th_init, th_max, th_min, X0, file='2020-08-07_Fit-q-c-psymp-tstart-p_red-sd_other.R')
+save(post.samp,post.samp.out, seir_err, th_init, th_max, th_min, X0, file='2020-08-14_Fit_TEST2-q-c-psymp-tstart-p_red-sd_other.R')
 

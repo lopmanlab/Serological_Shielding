@@ -20,6 +20,7 @@ model_pars[['agestruc']]=c(sum(model_pars$agefrac.0[1:2])
                            , sum(0.5*model_pars$agefrac.0[7], model_pars$agefrac.0[8:10]))
 
 # Timeline
+model_pars[['t0']]='2020-01-01'
 model_pars[['nDays']]=365 # days
 model_pars[['times']]=0:model_pars$nDays
 
@@ -126,11 +127,11 @@ intervention_pars[['tStart_target']]=115
 intervention_pars[['tStart_school']]=230
 intervention_pars[['tStart_reopen']]=500
 
-intervention_pars[['socialDistancing_other']]=0.25
-intervention_pars[['p_reduced']]=0.5      # proportion of contacts reduced 
-intervention_pars[['p_full']]=1           # proportion of contacts reduced for full contact adults
+intervention_pars[['socialDistancing_other']]=0.25 # fraction of contacts reduced to when social distancing
+intervention_pars[['p_reduced']]=0.5      # proportion of contacts reduced to
+intervention_pars[['p_full']]=1           # proportion of contacts reduced to for full contact adults
 
-intervention_pars[['alpha']]=1.2          # shielding. Note this is not alpha_JSW, but (alpha_JSW+1)
+intervention_pars[['alpha']]=1          # shielding. Note this is not alpha_JSW, but (alpha_JSW+1)
 intervention_pars[['c']]=1
 
 intervention_pars[['socialDistancing_other_c']]=0.25
@@ -149,10 +150,10 @@ epi_pars[['gamma_a']]=1/7           # Recovery rate, undocumented (Kissler et al
 epi_pars[['gamma_s']]=1/7           # Recovery rate, undocumented (Kissler et al)
 epi_pars[['gamma_hs']]=1/5          # LOS for subcritical cases (medrxiv paper)
 epi_pars[['gamma_hc']]=1/7          # LOS for critical cases (medrxiv paper)
-epi_pars[['p']]=0.5#0.14            # Fraction 'Symptomatic'documented' (Shaman's paper)
+epi_pars[['p_symptomatic']]=0.5#0.14            # Fraction 'Symptomatic'documented' (Shaman's paper)
 
-epi_pars[['hosp_frac']]=c(0.002, 0.056, 0.224)  # From MMWR
-epi_pars[['hosp_crit']]=c(0.001, 0.0048, 0.099) # From CDC, MMWR
+epi_pars[['hosp_frac']]=c(0.002, 0.056, 0.224)  # From MMWR -- Of the symptomatic cases, how many are hospitalized?
+epi_pars[['hosp_crit']]=c(0.001, 0.0048, 0.099) # From CDC, MMWR -- Of the symptomatic cases, how many are critically hospitalized?
 epi_pars[['crit_die']]=c(0, 0.5, 0.5)           # Obtained from initial fitting
 
 epi_pars[['hosp_frac_5']]=epi_pars$hosp_frac[c(1,2,2,2,3)]
@@ -167,11 +168,17 @@ epi_pars[['crit_die_5']]=epi_pars$crit_die[c(1,2,2,2,3)]
 # Initial conditions
 inits=list()
 
-inits[['I_c0']]=60
-inits[['I_a0']]=20
-inits[['I_rc0']]=50
-inits[['I_fc0']]=1
-inits[['I_e0']]=40
+inits[['Isym_c0']]=60
+inits[['Isym_a0']]=20
+inits[['Isym_rc0']]=50
+inits[['Isym_fc0']]=1
+inits[['Isym_e0']]=40
+
+inits[['Iasym_c0']]=0
+inits[['Iasym_a0']]=0
+inits[['Iasym_rc0']]=0
+inits[['Iasym_fc0']]=0
+inits[['Iasym_e0']]=0
 
 
 # (6) Remainder -----------------------------------------------------------
