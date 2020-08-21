@@ -1,17 +1,14 @@
 clear data model options
-ny_data = csvread('us-ny.csv',3,2);
-temp_y = [0;ny_data(:,3)];
-dydt = temp_y(2:123)-temp_y(1:122);
+data.xdata = [28    55    83    110   138   225   375]';   % x (mg / L COD)
+data.ydata = [0.053 0.060 0.112 0.105 0.099 0.122 0.125]'; % y (1 / h)
 
-data.tdata = [1:1:122]';
-data.ydata = dydt; % new deaths reported that day, t=1 == 3/1/2020
+%data = csvread('us-ny.csv',3,2);
 
 
-%%%
-llfun = @(theta) -1*SEIR_model_shields_LL(data.tdata, data.ydata, theta, pars_default);
-[tmin,llmin]=fminsearchbnd(llfun,[0.25; 0.25; 0.25; 0.25], [0;0;0;0], [1;1;1;1]);
+modelfun = @(x,theta) theta(1)*x./(theta(2)+x);
+ssfun    = @(theta,data) sum((data.ydata-modelfun(data.xdata,theta)).^2);
 
-
+[tmin,ssmin]=fminsearch(ssfun,[0.15;100],[],data)
 n = length(data.xdata);
 p = 2;
 mse = ssmin/(n-p) % estimate for the error variance
