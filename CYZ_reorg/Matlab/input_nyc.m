@@ -9,6 +9,7 @@ temp_y = [0;ny_data]; % 3 is deaths, 2 is cases
 l_temp = length(temp_y);
 dydt = temp_y(2:l_temp) - temp_y(1:(l_temp-1));
 
+% Set the target as the rate of new deaths.
 pars_nyc.target = dydt;
 
 % Other NY Data

@@ -5,10 +5,10 @@ data.ydata = [0.053 0.060 0.112 0.105 0.099 0.122 0.125]'; % y (1 / h)
 %data = csvread('us-ny.csv',3,2);
 
 
-modelfun = @(x,theta) theta(1)*x./(theta(2)+x);
+modelfun = @(x,theta) theta(3)*theta(1)*x./(theta(2)+x);
 ssfun    = @(theta,data) sum((data.ydata-modelfun(data.xdata,theta)).^2);
 
-[tmin,ssmin]=fminsearch(ssfun,[0.15;100],[],data)
+[tmin,ssmin]=fminsearch(ssfun,[0.15;100;1],[],data)
 n = length(data.xdata);
 p = 2;
 mse = ssmin/(n-p) % estimate for the error variance
