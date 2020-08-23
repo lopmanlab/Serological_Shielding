@@ -9,6 +9,7 @@ model_pars_reduced.agestruc = [sum(model_pars_reduced.agefrac_0(1:2)), sum([mode
 % Timeline
 model_pars_reduced.t0 = "2020-01-01";
 model_pars_reduced.nDays = 365; % days
+model_pars_reduced.nWeeks = floor(365/7);
 model_pars_reduced.times = 0:model_pars_reduced.nDays;
 
 % Indices

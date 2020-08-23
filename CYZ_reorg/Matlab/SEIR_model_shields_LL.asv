@@ -11,9 +11,22 @@ function loglikelihood = SEIR_model_shields_LL(times, dYdt_target, Theta, Pars)
     pars_in.p_reduced = Theta(4);
        
     % Fit to Initial Conditions
-    pars_in.Isym_a0=Theta(5);     % Symptomatic Adults:
-    pars_in.Iasym_a0=Theta(5)/pars_in.p_symptomatic * (1-pars_in.p_symptomatic);     % Asymptomatic Adults:
+    % Symptomatic Adults:
+    % initial conditions - patient 0
+    pars_in.Isym_a0=Theta(5);
+    pars_in.Isym_rc0=0;
+    pars_in.Isym_fc0=0;
+    pars_in.Isym_e0=0;
 
+    % we assume that a single reported symptomatic case implies a number of asymptomatic cases.
+    pars_in.Iasym_a0=Theta(5)/pars_in.p_symptomatic * (1-pars_in.p_symptomatic);
+    pars_in.Iasym_rc0=0;
+    pars_in.Iasym_fc0=0;
+    pars_in.Iasym_e0=0;
+    % Asymptomatic Adults:
+    
+    % Exposed Adults:
+    
     % ODE Options
     opts = odeset();
     
