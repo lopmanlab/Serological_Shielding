@@ -19,6 +19,10 @@ function out = plot_MCMC_res(NSamples, Chain, Comps, Pars, Res)
         end
         mean_res = SEIR_model_shields_Theta(Res.mean, Pars.times, Pars, j_comp, false);
         plot((1:length(mean_res)), mean_res, 'LineWidth', 3)
+        % If deaths, include data
+        if j_comp == "D"
+            plot(7*(1:Pars.nWeeks), cumsum(Pars.target), 's')
+        end
         title(j_comp)
     out = chain_samp;
 end
