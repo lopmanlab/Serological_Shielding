@@ -20,19 +20,19 @@ mse = ssmin/(n-p) % estimate for the error variance
 params = {
     {'q', tmin(1), 0, 1}
     {'c', tmin(2), 0, 1}
-    {'p_sym', tmin(3), 0, 1}
-    {'p_red; sd_red', tmin(4), 0, 1}
-    {'Isym_a0', tmin(5), 0, 200}
+    {'p_{sym}', tmin(3), 0, 1}
+    {'p_{red}; sd_{red}', tmin(4), 0, 1}
+    {'I_{sym}^{a}(t=0)', tmin(5), 0, 200}
     };
 
 model.ssfun  = ssfun;
 model.sigma2 = mse; % (initial) error variance from residuals of the lsq fit
 
 model.N = length(data.ydata);  % total number of observations
-model.S20 = model.sigma2;      % prior mean for sigma2
-model.N0  = 4;                 % prior accuracy for sigma2
+%model.S20 = model.sigma2;      % prior mean for sigma2
+%model.N0  = 4;                 % prior accuracy for sigma2
 
-options.nsimu = 4000;
+options.nsimu = 5000;
 
 %% Run MCMC
 [res,chain,s2chain] = mcmcrun(model,data,params,options);
@@ -49,4 +49,7 @@ mcmcplot(chain,[],res,'denspanel',2);
 chainstats(chain,res)
 
 %% Predictions from MCMC
-modelfun = @(th,d) algaefun(d(:,1),th,th(7:9),d);
+
+plot_MCMC_res(100, chain, ["S", "E", "Isym", "Iasym", "R", "D"], pars_nyc, res)
+
+

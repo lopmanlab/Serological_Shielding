@@ -12,14 +12,11 @@ input_nyc
 pars_targ.target = round(Calc_dD_dt_byWeek(y_targ, pars_targ))';
 
 %% MCMC Start point:
-pars_test = pars_nyc;
-pars_test.target = pars_targ.target;
-
-data.xdata = pars_test.times';
-data.ydata = pars_test.target; % new deaths reported that day, t=1 == 2/27/2020
+data.xdata = pars_targ.times';
+data.ydata = pars_targ.target; % new deaths reported that day, t=1 == 2/27/2020
 
 %% Find a good starting point.
-ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL(Data_in.xdata, Data_in.ydata, Theta_in, pars_nyc, false);
+ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL(Data_in.xdata, Data_in.ydata, Theta_in, pars_targ, false);
 ssminfun = @(Theta_in) ssfun(Theta_in, data);
 [tmin,ssmin]=fminsearchbnd(ssminfun,[0.2; 0.25; 0.3; 0.25; 5], [0;0;0;0;1], [1;1;1;1;200]);
 
@@ -45,7 +42,7 @@ model.N = length(data.ydata);  % total number of observations
 model.S20 = model.sigma2;      % prior mean for sigma2
 model.N0  = 4;                 % prior accuracy for sigma2
 
-options.nsimu = 4000;
+options.nsimu = 10000;
 
 %% Run MCMC
 [res,chain,s2chain] = mcmcrun(model,data,params,options);
@@ -62,7 +59,7 @@ mcmcplot(chain,[],res,'denspanel',2);
 chainstats(chain,res)
 
 %% Predictions from MCMC
-modelfun = @(Data, Theta) SEIR_model_shields_MCMCPredict(Theta, Data(:,1), pars_test)';
+modelfun = @(Data, Theta) SEIR_model_shields_MCMCPredict(Theta, Data(:,1), pars_targ)';
 
 nsample = 500;
 out = mcmcpred(res,chain,s2chain,data.xdata,modelfun,nsample);
