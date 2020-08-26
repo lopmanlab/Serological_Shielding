@@ -101,7 +101,7 @@ intervention_pars_reduced.socialDistancing_other = 0.25; % fraction of contacts 
 intervention_pars_reduced.p_reduced = 0.5;      % proportion of contacts reduced to
 intervention_pars_reduced.p_full = 1;           % proportion of contacts reduced to for full contact adults
 
-intervention_pars_reduced.alpha = 1;          % shielding. Note this is not alpha_JSW, but (alpha_JSW+1)
+intervention_pars_reduced.alpha = 1;            % shielding. Note this is not alpha_JSW, but (alpha_JSW+1)
 intervention_pars_reduced.c = 1;
 
 intervention_pars_reduced.socialDistancing_other_c = 0.25;
@@ -116,20 +116,20 @@ contact_pars_reduced.OtherContacts_Distancing_5x5=contact_pars_reduced.OtherCont
 % (4) Epi Pars ------------------------------------------------------------
 epi_pars_reduced = [];
 
-epi_pars_reduced.R0 = 3.1;                % Note on R0: with base structure 63.28q
-epi_pars_reduced.q = epi_pars_reduced.R0/79.27;   % Probability of transmission from children
-epi_pars_reduced.asymp_red = 0.55;        % Relative infectiousness of asymptomatic vs symptomatic case
+epi_pars_reduced.R0 = 2.9;                  % Note on R0: with base structure 63.28q
+epi_pars_reduced.q = 0.0451;                % Probability of transmission from children
+epi_pars_reduced.asymp_red = 0.55;          % Relative infectiousness of asymptomatic vs symptomatic case
 
-epi_pars_reduced.gamma_e = 1/3;           % Latent period (He et al)
-epi_pars_reduced.gamma_a = 1/7;           % Recovery rate, undocumented (Kissler et al)
-epi_pars_reduced.gamma_s = 1/7;           % Recovery rate, undocumented (Kissler et al)
-epi_pars_reduced.gamma_hs = 1/5;          % LOS for subcritical cases (medrxiv paper)
-epi_pars_reduced.gamma_hc = 1/7;          % LOS for critical cases (medrxiv paper)
-epi_pars_reduced.p_symptomatic = 0.5;%0.14            % Fraction "Symptomatic"documented" (Shaman"s paper)
+epi_pars_reduced.gamma_e = 1/3;             % Latent period (He et al)
+epi_pars_reduced.gamma_a = 1/7;             % Recovery rate, undocumented (Kissler et al)
+epi_pars_reduced.gamma_s = 1/7;             % Recovery rate, undocumented (Kissler et al)
+epi_pars_reduced.gamma_hs = 1/15;           % LOS for subcritical cases (medrxiv paper)
+epi_pars_reduced.gamma_hc = 1/15;           % LOS for critical cases (medrxiv paper)
+epi_pars_reduced.p_symptomatic = 0.14;      % Fraction "Symptomatic/documented" (Shaman"s paper)
 
-epi_pars_reduced.hosp_frac = [0.002, 0.056, 0.224];  % From MMWR -- Of the symptomatic cases, how many are hospitalized?
-epi_pars_reduced.hosp_crit = [0.001, 0.0048, 0.099]; % From CDC, MMWR -- Of the symptomatic cases, how many are critically hospitalized?
-epi_pars_reduced.crit_die = [0, 0.5, 0.5];           % Obtained from initial fitting
+epi_pars_reduced.hosp_frac = [0.061, 0.182, 0.417];     % Of the symptomatic cases, how many are hospitalized?
+epi_pars_reduced.hosp_crit = [0.000, 0.063, 0.173];     % Of the symptomatic cases, how many are critically hospitalized?
+epi_pars_reduced.crit_die = [0, 0.5, 0.5];              % Obtained from initial fitting
 
 epi_pars_reduced.hosp_frac_5 = epi_pars_reduced.hosp_frac([1,2,2,2,3]);
 epi_pars_reduced.hosp_crit_5 = epi_pars_reduced.hosp_crit([1,2,2,2,3]);

@@ -1,7 +1,12 @@
 function out = plot_MCMC_res(NSamples, Chain, Comps, Pars, Res)
     %% Predictions from MCMC
-    chain_out = Chain(50000:100000,:);
-    i_samp = randi([1, 50000], 1,NSamples);
+    
+    % Take second half of chain
+    burnIn = floor(length(Chain)/2);
+    burnOut = burnIn:length(Chain);
+    
+    chain_out = Chain(burnOut,:);
+    i_samp = randi([1, length(burnOut)], 1,NSamples);
 
     chain_samp = chain_out(i_samp,:);
 
@@ -23,6 +28,7 @@ function out = plot_MCMC_res(NSamples, Chain, Comps, Pars, Res)
         if j_comp == "D"
             plot(7*(1:Pars.nWeeks), cumsum(Pars.target), 's')
         end
+        ylim([0, Inf])
         title(j_comp)
     out = chain_samp;
 end

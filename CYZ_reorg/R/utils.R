@@ -176,6 +176,7 @@ seir_model_shields_rcfc_nolatent = function(t, X, Pars) {
   WorkContacts_10x10_TargetedDistancing[6,]=WorkContacts_10x10_TargetedDistancing[5,]
   WorkContacts_10x10_TargetedDistancing[7,]=WorkContacts_10x10_TargetedDistancing[5,]/p_reduced_c
   WorkContacts_10x10_TargetedDistancing[8,]=WorkContacts_10x10_TargetedDistancing[5,]/p_reduced_c
+
   
   # Other contacts
   #   - BASELINE OTHER CONTACTS MATRIX: People mix freely, contacts are based 
@@ -203,7 +204,6 @@ seir_model_shields_rcfc_nolatent = function(t, X, Pars) {
   #     shielded but change the number to pre-pandemic levels
   OtherContacts_10x10_TargetedDistancing_c=OtherContacts_10x10_TargetedDistancing
   OtherContacts_10x10_TargetedDistancing_c[(1:5)*2-1,]=OtherContacts_10x10_TargetedDistancing[(1:5)*2-1,]/socialDistancing_other_c
-
   
   # (2) Evolve Contact Matrices over time -----------------------------------
   

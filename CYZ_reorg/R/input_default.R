@@ -141,19 +141,19 @@ intervention_pars[['p_reduced_c']]=0.1
 # (4) Epi Pars ------------------------------------------------------------
 epi_pars=list()
 
-epi_pars[['R0']]=3.1                # Note on R0: with base structure 63.28q
-epi_pars[['q']]=epi_pars$R0/79.27   # Probability of transmission from children
+epi_pars[['R0']]=2.9                # Note on R0: with base structure 63.28q
+epi_pars[['q']]=0.0451              # Probability of transmission from children
 epi_pars[['asymp_red']]=0.55        # Relative infectiousness of asymptomatic vs symptomatic case
 
 epi_pars[['gamma_e']]=1/3           # Latent period (He et al)
 epi_pars[['gamma_a']]=1/7           # Recovery rate, undocumented (Kissler et al)
 epi_pars[['gamma_s']]=1/7           # Recovery rate, undocumented (Kissler et al)
-epi_pars[['gamma_hs']]=1/5          # LOS for subcritical cases (medrxiv paper)
-epi_pars[['gamma_hc']]=1/7          # LOS for critical cases (medrxiv paper)
-epi_pars[['p_symptomatic']]=0.5#0.14            # Fraction 'Symptomatic'documented' (Shaman's paper)
+epi_pars[['gamma_hs']]=1/15         # LOS for subcritical cases (medrxiv paper)
+epi_pars[['gamma_hc']]=1/15         # LOS for critical cases (medrxiv paper)
+epi_pars[['p_symptomatic']]=0.14    # Fraction 'Symptomatic'documented' (Shaman's paper)
 
-epi_pars[['hosp_frac']]=c(0.002, 0.056, 0.224)  # From MMWR -- Of the symptomatic cases, how many are hospitalized?
-epi_pars[['hosp_crit']]=c(0.001, 0.0048, 0.099) # From CDC, MMWR -- Of the symptomatic cases, how many are critically hospitalized?
+epi_pars[['hosp_frac']]=c(0.061, 0.182, 0.417)  # From MMWR -- Of the symptomatic cases, how many are hospitalized?
+epi_pars[['hosp_crit']]=c(0.000, 0.063, 0.173)  # From CDC, MMWR -- Of the symptomatic cases, how many are critically hospitalized?
 epi_pars[['crit_die']]=c(0, 0.5, 0.5)           # Obtained from initial fitting
 
 epi_pars[['hosp_frac_5']]=epi_pars$hosp_frac[c(1,2,2,2,3)]
