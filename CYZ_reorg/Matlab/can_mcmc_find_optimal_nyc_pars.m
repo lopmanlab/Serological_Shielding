@@ -35,7 +35,7 @@ model.N = length(data.ydata);  % total number of observations
 %model.S20 = model.sigma2;      % prior mean for sigma2
 %model.N0  = 4;                 % prior accuracy for sigma2
 
-options.nsimu = 200000;
+options.nsimu = 100000;
 
 %% Run MCMC
 [res,chain,s2chain] = mcmcrun(model,data,params,options);
@@ -55,4 +55,4 @@ chainstats(chain,res)
 
 plot_MCMC_res(100, chain, ["S", "E", "Isym", "Iasym", "R", "D"], pars_nyc, res)
 
-save OUTPUT/2020-08-26_MCMCRun.mat
+save OUTPUT/2020-08-27_MCMCRun.mat

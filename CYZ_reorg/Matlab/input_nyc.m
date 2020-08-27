@@ -28,7 +28,7 @@ pars_nyc.date_dist_end = datetime(2020,06,08);
 pars_nyc.daily_tests = 0;
 pars_nyc.tStart_distancing = 1+days(pars_nyc.date_dist_start - pars_nyc.t0);
 pars_nyc.tStart_test = 500;
-pars_nyc.tStart_target = 500;
+pars_nyc.tStart_target = 1+days(pars_nyc.date_dist_start - pars_nyc.t0);
 pars_nyc.tStart_school = 500;
 pars_nyc.tStart_reopen = 1+days(pars_nyc.date_dist_end - pars_nyc.t0);
 

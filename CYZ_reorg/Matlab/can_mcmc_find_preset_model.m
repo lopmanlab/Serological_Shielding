@@ -59,20 +59,7 @@ mcmcplot(chain,[],res,'denspanel',2);
 chainstats(chain,res)
 
 %% Predictions from MCMC
-modelfun = @(Data, Theta) SEIR_model_shields_MCMCPredict(Theta, Data(:,1), pars_targ)';
 
-nsample = 500;
-out = mcmcpred(res,chain,s2chain,data.xdata,modelfun,nsample);
+plot_MCMC_res(100, chain, ["S", "E", "Isym", "Iasym", "R", "D"], pars_nyc, res)
 
-figure(4); clf
-mcmcpredplot(out);
-% add the 'y' observations to the plot
-hold on
-for i=1:3
-  subplot(3,1,i)
-  hold on
-  plot(data.ydata(:,1),data.ydata(:,i+1),'s');
-  ylabel(''); title(data.ylabels(i+1));
-  hold off
-end
-xlabel('days');
+save OUTPUT/2020-08-26_MCMCRun.mat

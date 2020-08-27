@@ -3,7 +3,7 @@ model_pars_reduced = [];
 
 % Population
 model_pars_reduced.N = 323*10^6;
-model_pars_reduced.agefrac_0 = [0.12,0.13,0.13,0.13,0.13,0.13,0.11,0.06,0.04,0.02]; % from Weitz model
+model_pars_reduced.agefrac_0 = [0.119,0.124,0.134,0.131,0.124,0.133,0.119,0.073,0.03,0.013]; % ref (49)
 model_pars_reduced.agestruc = [sum(model_pars_reduced.agefrac_0(1:2)), sum([model_pars_reduced.agefrac_0(3:6), 0.5*model_pars_reduced.agefrac_0(7)]), sum([0.5*model_pars_reduced.agefrac_0(7), model_pars_reduced.agefrac_0(8:10)])];
 
 % Timeline
@@ -82,6 +82,7 @@ contact_pars_reduced.SchoolContacts_5x5 = Expand_5x5(contact_pars_reduced.School
 contact_pars_reduced.OtherContacts_5x5 = Expand_5x5(contact_pars_reduced.OtherContacts,contact_pars_reduced.frac_home,contact_pars_reduced.frac_reduced,contact_pars_reduced.frac_full);
 
 
+
 % (3) Intervention Pars ---------------------------------------------------
 intervention_pars_reduced = [];
 
@@ -117,18 +118,18 @@ contact_pars_reduced.OtherContacts_Distancing_5x5=contact_pars_reduced.OtherCont
 epi_pars_reduced = [];
 
 epi_pars_reduced.R0 = 2.9;                  % Note on R0: with base structure 63.28q
-epi_pars_reduced.q = 0.0451;                % Probability of transmission from children
+epi_pars_reduced.q = 0.039;                % Probability of transmission from children
 epi_pars_reduced.asymp_red = 0.55;          % Relative infectiousness of asymptomatic vs symptomatic case
 
 epi_pars_reduced.gamma_e = 1/3;             % Latent period (He et al)
 epi_pars_reduced.gamma_a = 1/7;             % Recovery rate, undocumented (Kissler et al)
 epi_pars_reduced.gamma_s = 1/7;             % Recovery rate, undocumented (Kissler et al)
-epi_pars_reduced.gamma_hs = 1/15;           % LOS for subcritical cases (medrxiv paper)
-epi_pars_reduced.gamma_hc = 1/15;           % LOS for critical cases (medrxiv paper)
-epi_pars_reduced.p_symptomatic = 0.14;      % Fraction "Symptomatic/documented" (Shaman"s paper)
+epi_pars_reduced.gamma_hs = 1/5;           % LOS for subcritical cases (medrxiv paper)
+epi_pars_reduced.gamma_hc = 1/7;           % LOS for critical cases (medrxiv paper)
+epi_pars_reduced.p_symptomatic = 0.5;      % Fraction "Symptomatic/documented" (Shaman"s paper)
 
-epi_pars_reduced.hosp_frac = [0.061, 0.182, 0.417];     % Of the symptomatic cases, how many are hospitalized?
-epi_pars_reduced.hosp_crit = [0.000, 0.063, 0.173];     % Of the symptomatic cases, how many are critically hospitalized?
+epi_pars_reduced.hosp_frac = [0.002, 0.056, 0.224];     % Of the symptomatic cases, how many are hospitalized?
+epi_pars_reduced.hosp_crit = [0.001, 0.0048, 0.099];     % Of the symptomatic cases, how many are critically hospitalized?
 epi_pars_reduced.crit_die = [0, 0.5, 0.5];              % Obtained from initial fitting
 
 epi_pars_reduced.hosp_frac_5 = epi_pars_reduced.hosp_frac([1,2,2,2,3]);

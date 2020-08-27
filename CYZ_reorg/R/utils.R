@@ -208,14 +208,16 @@ seir_model_shields_rcfc_nolatent = function(t, X, Pars) {
   # (2) Evolve Contact Matrices over time -----------------------------------
   
   #Change matrices used over time
-  if(t<tStart_distancing | t>=tStart_reopen){ #Use baseline matrices until social distancing starts
+  if(t<tStart_distancing){ #Use baseline matrices until social distancing starts
+    print(1)
     CM = HomeContacts_10x10 + 
       SchoolContacts_10x10_Baseline + 
       WorkContacts_10x10_Baseline +
       OtherContacts_10x10_Baseline 
   }
   
-  if(t>=tStart_distancing & t<tStart_reopen){
+  if(t>=tStart_distancing & t<tStart_target){
+    print(2)
     # if(t>=tStart_distancing & t<tStart_target){ #Use these matrices under general social distancing without testing
     CM = HomeContacts_10x10 +
       WorkContacts_10x10_Distancing +
@@ -223,17 +225,26 @@ seir_model_shields_rcfc_nolatent = function(t, X, Pars) {
   }
   
   if(t>=tStart_target & t<tStart_school){ #Use these matrices between the start of targeting and schools reopening
+    print(3)
     CM = HomeContacts_10x10 +
       WorkContacts_10x10_TargetedDistancing + 
       OtherContacts_10x10_TargetedDistancing_c
   }
   
   if(t>=tStart_school){ #Keep most matrices the same but add schools back in
+    print(4)
     CM = HomeContacts_10x10 + 
       WorkContacts_10x10_TargetedDistancing + 
       OtherContacts_10x10_TargetedDistancing_c + 
       SchoolContacts_10x10_Baseline
   }
+  
+  print(HomeContacts_10x10[(1:5)*2,][,(1:5)*2])
+  print(WorkContacts_10x10_TargetedDistancing[(1:5)*2,][,(1:5)*2])
+  print(OtherContacts_10x10_TargetedDistancing_c[(1:5)*2,][,(1:5)*2])
+
+  print(CM[(1:5)*2,][,(1:5)*2])
+  
   
   
   # (3) Calculate v.fois ------------------------------------------------------

@@ -35,53 +35,34 @@ frac_comb = [0,1,0,1,0,1,0,1,0,1]; % interleaved
 
 %% (1) Derive Contact Matrices ---------------------------------------------
 
-% Broad distancing matrix
-%   - Children have no work contacts
-%   - Non-essential workers don't work
-%   - Reduced contact workers reduce contacts by p_reduced and those contacts are 
-%     proportional to prevalence in the population
-WorkContacts_5x5_Distancing = zeros(5,5);
-WorkContacts_5x5_Distancing(3,:) = Pars.WorkContacts_5x5(3,:)*Pars.p_reduced;
-WorkContacts_5x5_Distancing(4,:) = Pars.WorkContacts_5x5(4,:)*Pars.p_full;
+temp_reduction_c = [0;0;Pars.p_reduced_c;1;0];
+Pars.WorkContacts_TargetedDistancing_5x5 = Pars.WorkContacts_5x5.*temp_reduction_c;
 
-% Targeted distancing work
-%   - DISTANCING CONDITIONAL ON TESTING: People working from home regain their 
-%     workplace contacts if they test positive 
-%   - People in reduced and full contact occupations have the distribution of 
-%     their workplace contacts changed by alpha
-%   - We use fixed shielding (except we multiply by alpha and not alpha +1), 
-%     so we correct for the situation where alpha times prevalence is greater than 1
-Scale = frac_released*Pars.alpha;
-Scale(Scale>1)=1;
-
-WorkContacts_5x5_TargetedDistancing = zeros(5,5);
-DistancedWork_RedContact = Pars.WorkContacts_5x5(3,:)*Pars.p_reduced_c;
-WorkContacts_5x5_TargetedDistancing(3,:) = DistancedWork_RedContact;
-WorkContacts_5x5_TargetedDistancing(4,:) = DistancedWork_RedContact/Pars.p_reduced_c;
-
-% Other contacts
-%   - BASELINE OTHER CONTACTS MATRIX: People mix freely, contacts are based 
-%     on proportion in the population
-%OtherContacts_5x5_TargetedDistancing_c
-OtherContacts_5x5_TargetedDistancing_c=Pars.OtherContacts_Distancing_5x5;
+Pars.OtherContacts_TargetedDistancing_c_5x5 = Pars.OtherContacts_5x5*Pars.socialDistancing_other_c;
 
 
 %Change matrices used over timemat_X
-if (t<Pars.tStart_distancing) || (t>=Pars.tStart_reopen) %Use baseline matrices until social distancing starts
-    CM = Pars.HomeContacts_5x5 + Pars.SchoolContacts_5x5 + Pars.WorkContacts_5x5 + Pars.OtherContacts_5x5;
-elseif (t>=Pars.tStart_distancing) && (t<Pars.tStart_reopen) %Use these matrices under general social distancing without testing
-    CM = Pars.HomeContacts_5x5 + Pars.WorkContacts_Distancing_5x5 + Pars.OtherContacts_Distancing_5x5;
+% XXX 08.27.2020 - Modified from original to allow elseif control.
+
+if (t<Pars.tStart_distancing) || (t >= Pars.tStart_reopen) %Use baseline matrices until social distancing starts
+    CM = Pars.HomeContacts_5x5 + ...
+        Pars.SchoolContacts_5x5 + ...
+        Pars.WorkContacts_5x5 + ...
+        Pars.OtherContacts_5x5;    
+elseif (t>=Pars.tStart_distancing) && (t<Pars.tStart_target) %Use these matrices under general social distancing without testing
+    CM = Pars.HomeContacts_5x5 + ...
+        Pars.WorkContacts_Distancing_5x5 + ...
+        Pars.OtherContacts_Distancing_5x5;
 elseif (t>=Pars.tStart_target) && (t<Pars.tStart_school)
     CM = Pars.HomeContacts_5x5 + ...
-        WorkContacts_5x5_TargetedDistancing + ...
-        OtherContacts_5x5_TargetedDistancing_c;
+        Pars.WorkContacts_TargetedDistancing_5x5 + ...
+        Pars.OtherContacts_TargetedDistancing_c_5x5;    
 elseif (t>=Pars.tStart_school)
     CM = Pars.HomeContacts_5x5 + ...
-        WorkContacts_5x5_TargetedDistancing + ...
-        OtherContacts_5x5_TargetedDistancing_c + ...
+        Pars.WorkContacts_TargetedDistancing_5x5 + ...
+        Pars.OtherContacts_TargetedDistancing_c_5x5 + ...
         Pars.SchoolContacts_5x5;
 end
-
 
 %% (3) Calculate v_fois ------------------------------------------------------
 
