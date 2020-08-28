@@ -18,8 +18,8 @@ pars_nyc.agestruc = [2208909, 5944919, 1283369]/pars_nyc.N;
 
 pars_nyc.t0 = datetime(2020,02,27); % Since the data is weekly, I'm back-inferring the start date.
 pars_nyc.tf = datetime(2020,07,01);
-pars_nyc.nDays = 18*7;
-pars_nyc.nWeeks = 18; % 18 data points, 17 weeks. 24 because we include t0.
+pars_nyc.nDays = days(pars_nyc.tf - pars_nyc.t0)+1;
+pars_nyc.nWeeks = round(days(pars_nyc.tf - pars_nyc.t0)/7); % 18 data points, 17 weeks. 24 because we include t0.
 pars_nyc.times = 1:pars_nyc.nDays;
 
 pars_nyc.date_dist_start = datetime(2020,03,16);

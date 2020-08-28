@@ -27,8 +27,7 @@ for i_reopen = 1:length(reopen_dates)
     % Calculate HCris
     out = sum(Y(:,pars_in.Hcri_ids), 2);
     
-    sum(Y(365,pars_in.D_ids),2)
-    1 - sum(Y(365,pars_in.S_ids),2)/pars_in.N
+    sum(Y(365,pars_in.D_ids),2), pars_in.N - sum(Y(365,pars_in.S_ids),2)
 
     % Plot
     plot(pars_in.times, out)

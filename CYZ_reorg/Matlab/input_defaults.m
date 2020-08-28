@@ -3,7 +3,7 @@ model_pars_reduced = [];
 
 % Population
 model_pars_reduced.N = 323*10^6;
-model_pars_reduced.agefrac_0 = [0.119,0.124,0.134,0.131,0.124,0.133,0.119,0.073,0.03,0.013]; % ref (49)
+model_pars_reduced.agefrac_0 = [0.12,0.13,0.13,0.13,0.13,0.13,0.11,0.06,0.04,0.02]; % ref (49)
 model_pars_reduced.agestruc = [sum(model_pars_reduced.agefrac_0(1:2)), sum([model_pars_reduced.agefrac_0(3:6), 0.5*model_pars_reduced.agefrac_0(7)]), sum([0.5*model_pars_reduced.agefrac_0(7), model_pars_reduced.agefrac_0(8:10)])];
 
 % Timeline
@@ -99,7 +99,7 @@ intervention_pars_reduced.tStart_school = 230;
 intervention_pars_reduced.tStart_reopen = 500;
 
 intervention_pars_reduced.socialDistancing_other = 0.25; % fraction of contacts reduced to when social distancing
-intervention_pars_reduced.p_reduced = 0.5;      % proportion of contacts reduced to
+intervention_pars_reduced.p_reduced = 0.1;      % proportion of contacts reduced to
 intervention_pars_reduced.p_full = 1;           % proportion of contacts reduced to for full contact adults
 
 intervention_pars_reduced.alpha = 1;            % shielding. Note this is not alpha_JSW, but (alpha_JSW+1)
@@ -117,7 +117,7 @@ contact_pars_reduced.OtherContacts_Distancing_5x5=contact_pars_reduced.OtherCont
 % (4) Epi Pars ------------------------------------------------------------
 epi_pars_reduced = [];
 
-epi_pars_reduced.R0 = 2.9;                  % Note on R0: with base structure 63.28q
+epi_pars_reduced.R0 = 3.1;                  % Note on R0: with base structure 63.28q
 epi_pars_reduced.q = 0.039;                % Probability of transmission from children
 epi_pars_reduced.asymp_red = 0.55;          % Relative infectiousness of asymptomatic vs symptomatic case
 
