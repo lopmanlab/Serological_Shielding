@@ -14,6 +14,9 @@ function [t, Y, pars_out] = SEIR_model_shields_ThetaSweep(Theta, times, Pars)
     pars_in.Isym_a0=Theta(5);     % Symptomatic Adults:
     pars_in.Iasym_a0=Theta(5)/pars_in.p_symptomatic * (1-pars_in.p_symptomatic);     % Asymptomatic Adults:
 
+    % Fit target date
+    pars_in.tStart_target=19+Theta(6);
+    
     % Fit a death rate
         %pars_in.hosp_frac_5(2:4)=Theta(6)/4;
         %pars_in.hosp_frac_5(5)=Theta(6);
