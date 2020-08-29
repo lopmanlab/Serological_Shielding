@@ -92,10 +92,11 @@ intervention_pars_reduced.specificity = 0.998;
 intervention_pars_reduced.daily_tests = 10^3;
 
 % Other intervention parameters
-intervention_pars_reduced.tStart_distancing = 70;
-intervention_pars_reduced.tStart_test = 107;    % can change when in the outbreak testing becomes available
-intervention_pars_reduced.tStart_target = 115;
-intervention_pars_reduced.tStart_school = 230;
+intervention_pars_reduced.t0 = datetime(2020,01,15);
+intervention_pars_reduced.tStart_distancing = days(datetime(2020,03,25)-intervention_pars_reduced.t0)+1;
+intervention_pars_reduced.tStart_test = days(datetime(2020,05,01)-datetime(2020,01,15)+1);    % can change when in the outbreak testing becomes available
+intervention_pars_reduced.tStart_target = days(datetime(2020,05,09)-datetime(2020,01,15)+1);
+intervention_pars_reduced.tStart_school = days(datetime(2020,09,01)-intervention_pars_reduced.t0)+1;
 intervention_pars_reduced.tStart_reopen = 500;
 
 intervention_pars_reduced.socialDistancing_other = 0.25; % fraction of contacts reduced to when social distancing
@@ -107,11 +108,6 @@ intervention_pars_reduced.c = 1;
 
 intervention_pars_reduced.socialDistancing_other_c = 0.25;
 intervention_pars_reduced.p_reduced_c = 0.1;
-
-% Modified 5x5s
-temp_reduction = [0;0;intervention_pars_reduced.p_reduced;intervention_pars_reduced.p_full;0];
-contact_pars_reduced.WorkContacts_Distancing_5x5=contact_pars_reduced.WorkContacts_5x5.*temp_reduction;
-contact_pars_reduced.OtherContacts_Distancing_5x5=contact_pars_reduced.OtherContacts_5x5*intervention_pars_reduced.socialDistancing_other;
 
 
 % (4) Epi Pars ------------------------------------------------------------

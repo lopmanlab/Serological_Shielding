@@ -1,12 +1,7 @@
 clear
 %% Load Data
 input_nyc
-input_wash
-input_sflor
-pars_in = pars_sflor;
-
-
-
+pars_in = pars_nyc;
 
 %% Setup
 data.xdata = pars_in.times';
@@ -61,7 +56,6 @@ mcmcplot(chain,[],res,'denspanel',2);
 chainstats(chain,res)
 
 %% Predictions from MCMC
+plot_MCMC_res(1000, chain, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, res)
 
-plot_MCMC_res(100, chain, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, res)
-
-save OUTPUT/2020-08-28_MCMCRun_sflor.mat
+save OUTPUT/2020-08-28_MCMCRun_nyc.mat

@@ -1,18 +1,40 @@
-input_defaults;
+clear
 
-opts=odeset();
-%[t,y]=ode45(@SEIR_model_shields, [0:1:365], X0, opts, pars_default);
+% Set Defaults
+input_defaults
 
-t_final = 365;
-D_res = zeros(11, t_final+1);
-cs = 0:0.01:1;
+% Modify Defaults
+pars_default.tStart_test = 500;
 
-for i = 1:length(cs)
-    pars_sweep = pars_default;
-    pars_sweep.q = i;
-    [t,y]=ode45(@SEIR_model_shields, [0:1:t_final], X0, opts, pars_sweep);
-    
-    D_res(i,:) = sum(y(:,pars_sweep.D_ids),2)';
+% Values
+reopen_dates = [1; 121; 182; 244; 500];
+cvals = 0:0.1:1;
+pred_vals = 0:0.1:1;
+
+% Run Calculation
+figure()
+hold on
+
+res = zeros(length(cvals), length(pred_vals));
+for i_cval = 1:length(cvals)
+    for j_pred_val = 1:length(pred_vals)
+        % Change Var
+        pars_in = pars_default;
+        pars_in.c = cvals(i_cval);
+        pars_in.p_reduced = pred_vals(j_pred_val);
+        pars_in.socialDistancing_other = pred_vals(j_pred_val);
+
+        % ODE options
+        opts = odeset(); % options
+        X0 = Get_Inits(pars_in); % parameters
+        [t,Y]=ode45(@SEIR_model_shields_full, pars_in.times, X0, opts, pars_in); % model calc
+
+        % Calculate HCris
+        out = sum(Y(:,pars_in.D_ids), 2);
+
+        res(i_cval,j_pred_val) = out(length(out));
+        
+        % Plot
+        plot(pars_in.times, out)
+    end
 end
-
-

@@ -35,9 +35,13 @@ frac_comb = [0,1,0,1,0,1,0,1,0,1]; % interleaved
 
 %% (1) Derive Contact Matrices ---------------------------------------------
 
+% Modified 5x5s
+temp_reduction = [0;0;Pars.p_reduced;Pars.p_full;0];
+Pars.WorkContacts_Distancing_5x5 = Pars.WorkContacts_5x5.*temp_reduction;
+Pars.OtherContacts_Distancing_5x5 = Pars.OtherContacts_5x5*Pars.socialDistancing_other;
+
 temp_reduction_c = [0;0;Pars.p_reduced_c;1;0];
 Pars.WorkContacts_TargetedDistancing_5x5 = Pars.WorkContacts_5x5.*temp_reduction_c;
-
 Pars.OtherContacts_TargetedDistancing_c_5x5 = Pars.OtherContacts_5x5*Pars.socialDistancing_other_c;
 
 
