@@ -111,21 +111,42 @@ intervention_pars_reduced.p_reduced_c = 0.1;
 
 
 % (4) Epi Pars ------------------------------------------------------------
-epi_pars_reduced = [];
 
-epi_pars_reduced.R0 = 3.1;                  % Note on R0: with base structure 63.28q
-epi_pars_reduced.q = 0.039;                % Probability of transmission from children
+% PNAS
+pnas_pars_reduced = [];
+pnas_pars_reduced.R0 = 3.1;                 % Note on R0: with base structure 63.28q
+pnas_pars_reduced.q = 0.039;                % Probability of transmission from children
+pnas_pars_reduced.gamma_hs = 1/5;           % LOS for subcritical cases (medrxiv paper)
+pnas_pars_reduced.gamma_hc = 1/7;           % LOS for critical cases (medrxiv paper)
+
+pnas_pars_reduced.p_symptomatic = 0.5;      % Fraction "Symptomatic/documented" (Shaman"s paper)
+
+pnas_pars_reduced.hosp_frac = [0.002, 0.056, 0.224];      % Of the symptomatic cases, how many are hospitalized?
+pnas_pars_reduced.hosp_crit = [0.001, 0.0048, 0.099];     % Of the symptomatic cases, how many are critically hospitalized?
+
+% Lancet
+lancet_pars_reduced = [];
+lancet_pars_reduced.R0 = 2.9;                 % Note on R0: with base structure 63.28q
+lancet_pars_reduced.q = 0.0451;               % Probability of transmission from children
+lancet_pars_reduced.gamma_hs = 1/15;          % LOS for subcritical cases (medrxiv paper)
+lancet_pars_reduced.gamma_hc = 1/15;          % LOS for critical cases (medrxiv paper)
+
+lancet_pars_reduced.p_symptomatic = .14;      % Fraction "Symptomatic/documented" (Shaman"s paper)
+
+lancet_pars_reduced.hosp_frac = [0.061, 0.182, 0.417];      % Of the symptomatic cases, how many are hospitalized?
+lancet_pars_reduced.hosp_crit = [0.002, 0.056, 0.22];       % Of the symptomatic cases, how many are critically hospitalized?
+
+% LIFE OF PNAS // Which one // Which one?
+    %epi_pars_reduced = lancet_pars_reduced;
+epi_pars_reduced = pnas_pars_reduced;
+
+% Remaining EPI pars
 epi_pars_reduced.asymp_red = 0.55;          % Relative infectiousness of asymptomatic vs symptomatic case
 
 epi_pars_reduced.gamma_e = 1/3;             % Latent period (He et al)
 epi_pars_reduced.gamma_a = 1/7;             % Recovery rate, undocumented (Kissler et al)
 epi_pars_reduced.gamma_s = 1/7;             % Recovery rate, undocumented (Kissler et al)
-epi_pars_reduced.gamma_hs = 1/5;           % LOS for subcritical cases (medrxiv paper)
-epi_pars_reduced.gamma_hc = 1/7;           % LOS for critical cases (medrxiv paper)
-epi_pars_reduced.p_symptomatic = 0.5;      % Fraction "Symptomatic/documented" (Shaman"s paper)
 
-epi_pars_reduced.hosp_frac = [0.002, 0.056, 0.224];     % Of the symptomatic cases, how many are hospitalized?
-epi_pars_reduced.hosp_crit = [0.001, 0.0048, 0.099];     % Of the symptomatic cases, how many are critically hospitalized?
 epi_pars_reduced.crit_die = [0, 0.5, 0.5];              % Obtained from initial fitting
 
 epi_pars_reduced.hosp_frac_5 = epi_pars_reduced.hosp_frac([1,2,2,2,3]);
@@ -139,6 +160,8 @@ epi_pars_reduced.crit_die_5 = epi_pars_reduced.crit_die([1,2,2,2,3]);
 
 % Initial conditions
 inits = [];
+
+inits.E_a0 = 0;
 
 inits.Isym_c0 = 60;
 inits.Isym_a0 = 20;

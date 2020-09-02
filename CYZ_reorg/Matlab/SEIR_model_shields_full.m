@@ -44,10 +44,8 @@ temp_reduction_c = [0;0;Pars.p_reduced_c;1;0];
 Pars.WorkContacts_TargetedDistancing_5x5 = Pars.WorkContacts_5x5.*temp_reduction_c;
 Pars.OtherContacts_TargetedDistancing_c_5x5 = Pars.OtherContacts_5x5*Pars.socialDistancing_other_c;
 
-
 %Change matrices used over timemat_X
 % XXX 08.27.2020 - Modified from original to allow elseif control.
-
 if (t<Pars.tStart_distancing) || (t >= Pars.tStart_reopen) %Use baseline matrices until social distancing starts
     CM = Pars.HomeContacts_5x5 + ...
         Pars.SchoolContacts_5x5 + ...

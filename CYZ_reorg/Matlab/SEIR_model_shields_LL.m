@@ -19,7 +19,7 @@ function loglikelihood = SEIR_model_shields_LL(times, dYdt_target, Theta, Pars, 
     
     
     %[xs; lambdas]
-    loglikelihoods  = logpoispdf(xs(3:Pars.nWeeks), lambdas(3:Pars.nWeeks));
+    loglikelihoods  = logpoispdf(xs(4:Pars.nWeeks), lambdas(4:Pars.nWeeks));
     loglikelihood = sum(loglikelihoods);
     % for log likelihood, high likelihood is good
     %loglikelihood = -log(sum((xs-lambdas).^2)); % for sum of squares, low

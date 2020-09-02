@@ -5,7 +5,7 @@ pars_nyc = pars_default;
 
 %% Read NY Data
 ny_data = csvread('nyc.csv',1,2); % don't read text columns
-temp_y = [0;ny_data]; % 3 is deaths, 2 is cases
+temp_y = [0;0;ny_data]; % 3 is deaths, 2 is cases
 l_temp = length(temp_y);
 dydt = temp_y(2:l_temp) - temp_y(1:(l_temp-1));
 
@@ -16,7 +16,7 @@ pars_nyc.target = dydt;
 pars_nyc.N = 2208909 + 5944919 + 1283369;
 pars_nyc.agestruc = [2208909, 5944919, 1283369]/pars_nyc.N;
 
-pars_nyc.t0 = datetime(2020,02,27); % Since the data is weekly, I'm back-inferring the start date.
+pars_nyc.t0 = datetime(2020,02,20); % Since the data is weekly, I'm back-inferring the start date.
 pars_nyc.tf = datetime(2020,07,01);
 pars_nyc.nDays = days(pars_nyc.tf - pars_nyc.t0)+1;
 pars_nyc.nWeeks = round(days(pars_nyc.tf - pars_nyc.t0)/7); % 18 data points, 17 weeks. 24 because we include t0.
@@ -31,6 +31,9 @@ pars_nyc.tStart_test = 500;
 pars_nyc.tStart_target = 1+days(pars_nyc.date_dist_start - pars_nyc.t0);
 pars_nyc.tStart_school = 500;
 pars_nyc.tStart_reopen = 1+days(pars_nyc.date_dist_end - pars_nyc.t0);
+
+% initial conditions - exposure
+pars_nyc.E_a0=0;
 
 % initial conditions - patient 0
 pars_nyc.Isym_c0=0;
