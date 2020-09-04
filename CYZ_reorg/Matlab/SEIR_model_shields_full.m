@@ -16,8 +16,8 @@ function dYdt = SEIR_model_shields_full(t, X, Pars)
 dYdt=zeros(length(X),1);
 
 % Update Pars
-Pars.socialDistancing_other_c = 1-(0.75*Pars.c);
-Pars.p_reduced_c = 1-(0.9*Pars.c);
+Pars.socialDistancing_other_c = 1-((1-Pars.socialDistancing_other)*Pars.c);
+Pars.p_reduced_c = 1-((1-Pars.p_reduced)*Pars.c);
 
 % Load in Matrix Form
 mat_X = Vec_to_Mat(X, Pars.nSubgroups, Pars.nCompartments);
