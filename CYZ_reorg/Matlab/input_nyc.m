@@ -32,19 +32,5 @@ pars_nyc.tStart_target = 1+days(pars_nyc.date_dist_start - pars_nyc.t0);
 pars_nyc.tStart_school = 500;
 pars_nyc.tStart_reopen = 1+days(pars_nyc.date_dist_end - pars_nyc.t0);
 
-% initial conditions - exposure
-pars_nyc.E_a0=0;
-
-% initial conditions - patient 0
-pars_nyc.Isym_c0=0;
-pars_nyc.Isym_a0=1;
-pars_nyc.Isym_rc0=0;
-pars_nyc.Isym_fc0=0;
-pars_nyc.Isym_e0=0;
-
-% we assume that a single reported symptomatic case implies a number of asymptomatic cases.
-pars_nyc.Iasym_c0=0;
-pars_nyc.Iasym_a0=10;
-pars_nyc.Iasym_rc0=0;
-pars_nyc.Iasym_fc0=0;
-pars_nyc.Iasym_e0=0;
+% Back-calculate initial conditions from X0_target
+pars_nyc.X0_target = round(Calc_Init_Conds(pars_nyc));

@@ -32,16 +32,5 @@ pars_wash.tStart_target = 1+days(pars_wash.date_dist_start - pars_wash.t0);
 pars_wash.tStart_school = 500;
 pars_wash.tStart_reopen = 1+days(pars_wash.date_dist_end - pars_wash.t0);
 
-% initial conditions - patient 0
-pars_wash.Isym_c0=0;
-pars_wash.Isym_a0=1;
-pars_wash.Isym_rc0=0;
-pars_wash.Isym_fc0=0;
-pars_wash.Isym_e0=0;
-
-% we assume that a single reported symptomatic case implies a number of asymptomatic cases.
-pars_wash.Iasym_c0=0;
-pars_wash.Iasym_a0=10;
-pars_wash.Iasym_rc0=0;
-pars_wash.Iasym_fc0=0;
-pars_wash.Iasym_e0=0;
+% Back-calculate initial conditions from X0_target
+pars_wash.X0_target = round(Calc_Init_Conds(pars_wash));

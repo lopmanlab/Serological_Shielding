@@ -10,7 +10,7 @@ model_pars_reduced.agestruc = [sum(model_pars_reduced.agefrac_0(1:2)), sum([mode
 model_pars_reduced.t0 = "2020-01-01";
 model_pars_reduced.nDays = 365; % days
 model_pars_reduced.nWeeks = floor(365/7);
-model_pars_reduced.times = 0:model_pars_reduced.nDays;
+model_pars_reduced.times = 1:model_pars_reduced.nDays;
 
 % Indices
 model_pars_reduced.subgroups = ["c", "a", "rc", "fc", "e"];
@@ -208,7 +208,14 @@ end
 
 
 % (7) Test Cases ----------------------------------------------------------
-
 X0 = Get_Inits(pars_default);
 
-clear("contact_pars_reduced", "epi_pars_reduced", "f", "i", "inits", "intervention_pars_reduced", "model_pars_reduced", "N", "Nc", "temp_idxMat", "temp_idxNames", "temp_varMat", "temp_reduction");
+% (8) Target --------------------------------------------------------------
+% Target is the weekly death rate.
+[t, Y] = ode45(@SEIR_model_shields_full, pars_default.times, Get_Inits(pars_default), odeset(), pars_default);
+Y_tmax = size(Y,1)-mod(size(Y,1),7);
+pars_default.target = round(Calc_dD_dt_byWeek(Y(1:Y_tmax,:), pars_default));
+
+pars_default.X0_target = round(Calc_Init_Conds(pars_default));
+
+clear("t", "Y", "Y_tmax", "contact_pars_reduced", "epi_pars_reduced", "f", "i", "inits", "intervention_pars_reduced", "model_pars_reduced", "N", "Nc", "temp_idxMat", "temp_idxNames", "temp_varMat", "temp_reduction");

@@ -32,16 +32,5 @@ pars_sflor.tStart_target = 1+days(pars_sflor.date_dist_start - pars_sflor.t0);
 pars_sflor.tStart_school = 500;
 pars_sflor.tStart_reopen = 1+days(pars_sflor.date_dist_end - pars_sflor.t0);
 
-% initial conditions - patient 0
-pars_sflor.Isym_c0=0;
-pars_sflor.Isym_a0=1;
-pars_sflor.Isym_rc0=0;
-pars_sflor.Isym_fc0=0;
-pars_sflor.Isym_e0=0;
-
-% we assume that a single reported symptomatic case implies a number of asymptomatic cases.
-pars_sflor.Iasym_c0=0;
-pars_sflor.Iasym_a0=10;
-pars_sflor.Iasym_rc0=0;
-pars_sflor.Iasym_fc0=0;
-pars_sflor.Iasym_e0=0;
+% Back-calculate initial conditions from X0_target
+pars_sflor.X0_target = round(Calc_Init_Conds(pars_sflor));
