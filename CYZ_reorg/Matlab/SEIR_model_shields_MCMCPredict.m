@@ -1,3 +1,5 @@
+%% 09.07.2020 - DEPRECATED
+
 function dD_dt_byWeek = SEIR_model_shields_MCMCPredict(Theta, times, Pars)
     %% This function is because I can't figure out another way to set up the predictions using what I have.
     %% Set and Update Parameters

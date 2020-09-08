@@ -1,7 +1,7 @@
 clear
 %% Load Data
-input_wash
-pars_in = pars_wash;
+input_nyc
+pars_in = pars_nyc;
 
 %% Setup
 data.xdata = pars_in.times';
@@ -10,7 +10,7 @@ data.ydata = pars_in.target; % new deaths reported that day, t=1 == 2/27/2020
 ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
 ssminfun = @(Theta_in) ssfun(Theta_in, data);
 %% Find a good starting point.
-[tmin,ssmin]=fminsearchbnd(ssminfun,[0.02;0.25;0.3;0.1;0.25;0], [0;0;0;0;0;0], [0.05;1;1;1;1;100]);
+[tmin,ssmin]=fminsearchbnd(ssminfun,[0.02;0.25;0.3;0.1;0.25;0;0], [0;0;0;0;0;0;0], [0.05;1;1;1;1;100;100]);
 
 SEIR_model_shields_LL(data.xdata, data.ydata, tmin, pars_in, true)
 
@@ -26,6 +26,7 @@ params = {
     {'sd_{red}', tmin(4), 0, 1}
     {'p_{red}', tmin(5), 0, 1}
     {'t_{targ}', tmin(6), 0, Inf}
+    {'init_{scale}', tmin(7), 0, Inf}
         %{'hosp_{frac}', tmin(6), 0, 1}
         %{'hosp_{crit}', tmin(6), 0, 1}
     };
@@ -35,7 +36,7 @@ model.sigma2 = mse; % (initial) error variance from residuals of the lsq fit
 
 model.N = length(data.ydata);  % total number of observations
 
-options.nsimu = 10000;
+options.nsimu = 5000;
  
 %% Run MCMC
 % 2x burn-in 20000
@@ -47,7 +48,7 @@ options.nsimu = 10000;
 [res2,chain2,s2chain2] = mcmcrun(model,data,params,options,res_burn);
 [res3,chain3,s2chain3] = mcmcrun(model,data,params,options,res_burn);
 
-options.nsimu = 100000;
+options.nsimu = 5000;
 [res4,chain4,s2chain4] = mcmcrun(model,data,params,options,res_burn);
 
 
@@ -68,4 +69,4 @@ chainstats(chain,res)
 %% Predictions from MCMC
 plot_MCMC_res(100, chain, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, res)
 
-save OUTPUT/2020-09-07_MCMCRun_wash_PNAS.mat
+save OUTPUT/2020-09-07_MCMCRun_nyc_PNAS.mat

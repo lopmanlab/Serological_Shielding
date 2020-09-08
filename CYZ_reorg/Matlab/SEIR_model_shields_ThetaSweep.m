@@ -14,16 +14,26 @@ function [t, Y, pars_out] = SEIR_model_shields_ThetaSweep(Theta, times, Pars)
     pars_in.tStart_target=pars_in.tStart_distancing+Theta(6);
     
     % Fit to Initial Conditions
-        %pars_in.Isym_a0=Theta(5);     % Symptomatic Adults:
-        %pars_in.Iasym_a0=Theta(5)/pars_in.p_symptomatic * (1-pars_in.p_symptomatic);     % Asymptomatic Adults:
-        %pars_in.E_a0=Theta(6);
+    X0 = pars_in.X0_target;
     
+    % Only E, Iasym, and Isym will be changed. Ratios are constant. XXX 09.07.2020 - initial cond hotfix
+    Theta_Scale = (1+Theta(7));
+    Temp_Tot = X0(pars_in.E_ids) + ...
+        X0(pars_in.Iasym_ids) + ...
+        X0(pars_in.Isym_ids);
+    
+    X0(pars_in.E_ids) = Theta_Scale*pars_in.X0_target(pars_in.E_ids);
+    X0(pars_in.Iasym_ids) = Theta_Scale*pars_in.X0_target(pars_in.Iasym_ids);
+    X0(pars_in.Isym_ids) = Theta_Scale*pars_in.X0_target(pars_in.Isym_ids);
+
+    X0(pars_in.S_ids) = pars_in.X0_target(pars_in.S_ids) - Temp_Tot*Theta(7);
+    
+            
     %% Run ODEs
     opts = odeset(); % options
         %X0 = round(Calc_Init_Conds(pars_in));
         %X0 = Get_Inits(pars_in); % parameters
-    [t,Y]=ode45(@SEIR_model_shields_full, times, pars_in.X0_target, opts, pars_in); % model calc
-        %[t,Y]=ode45(@SEIR_model_shields, times, X0, opts, pars_in); % model calc
+    [t,Y]=ode45(@SEIR_model_shields_full, times, X0, opts, pars_in); % model calc
 
     %% Outputs
     pars_out = pars_in;
