@@ -1,14 +1,15 @@
 clear
 %% Load Data
-input_nyc
-pars_in = pars_nyc;
+input_sflor
+pars_in = pars_sflor;
 
 %% Setup
 data.xdata = pars_in.times';
 data.ydata = pars_in.target; % new deaths reported that day, t=1 == 2/27/2020
 
 ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
-ssminfun = @(Theta_in) ssfun(Theta_in, data);
+ssminfun = @(Theta_in) ssfun(Theta_in, data); % Wrapper for fminsearchbnd
+
 %% Find a good starting point.
 [tmin,ssmin]=fminsearchbnd(ssminfun,[0.02;0.25;0.3;0.1;0.25;0;0], [0;0;0;0;0;0;0], [0.05;1;1;1;1;100;100]);
 
@@ -25,10 +26,8 @@ params = {
     {'p_{sym}', tmin(3), 0, 1}
     {'sd_{red}', tmin(4), 0, 1}
     {'p_{red}', tmin(5), 0, 1}
-    {'t_{targ}', tmin(6), 0, Inf}
+    {'t_{targ}', tmin(6), 0, 30}
     {'init_{scale}', tmin(7), 0, Inf}
-        %{'hosp_{frac}', tmin(6), 0, 1}
-        %{'hosp_{crit}', tmin(6), 0, 1}
     };
 
 model.ssfun  = ssfun;
@@ -38,23 +37,63 @@ model.N = length(data.ydata);  % total number of observations
 
 options.nsimu = 5000;
  
-%% Run MCMC
-% 2x burn-in 20000
-[res_burn,chain,s2chain] = mcmcrun(model,data,params,options);
-[res_burn,chain,s2chain] = mcmcrun(model,data,params,options,res_burn);
+%% Run MCMC /w 2x burn-in
 
-% 3x out
-[res1,chain1,s2chain1] = mcmcrun(model,data,params,options,res_burn);
-[res2,chain2,s2chain2] = mcmcrun(model,data,params,options,res_burn);
-[res3,chain3,s2chain3] = mcmcrun(model,data,params,options,res_burn);
+% 1
+[res1,chain1,s2chain1] = mcmcrun(model,data,params,options);
+[res1,chain1,s2chain1] = mcmcrun(model,data,params,options,res1);
+[res1,chain1,s2chain1] = mcmcrun(model,data,params,options,res1);
 
+% Modify for 2-4
 options.nsimu = 5000;
-[res4,chain4,s2chain4] = mcmcrun(model,data,params,options,res_burn);
 
+% 2
+params = {
+    {'q', 2*tmin(1)*rand(1), 0, Inf}
+    {'c', rand(1), 0, 1}
+    {'p_{sym}', rand(1), 0, 1}
+    {'sd_{red}', rand(1), 0, 1}
+    {'p_{red}', rand(1), 0, 1}
+    {'t_{targ}', 30*rand(1), 0, 30}
+    {'init_{scale}', 100*rand(1), 0, Inf}
+    };
+[res2,chain2,s2chain2] = mcmcrun(model,data,params,options);
+[res2,chain2,s2chain2] = mcmcrun(model,data,params,options,res2);
+[res2,chain2,s2chain2] = mcmcrun(model,data,params,options,res2);
+
+% 3
+params = {
+    {'q', 2*tmin(1)*rand(1), 0, Inf}
+    {'c', rand(1), 0, 1}
+    {'p_{sym}', rand(1), 0, 1}
+    {'sd_{red}', rand(1), 0, 1}
+    {'p_{red}', rand(1), 0, 1}
+    {'t_{targ}', 30*rand(1), 0, 30}
+    {'init_{scale}', 100*rand(1), 0, Inf}
+    };
+[res3,chain3,s2chain3] = mcmcrun(model,data,params,options);
+[res3,chain3,s2chain3] = mcmcrun(model,data,params,options,res3);
+[res3,chain3,s2chain3] = mcmcrun(model,data,params,options,res3);
+
+% 4
+params = {
+    {'q', 2*tmin(1)*rand(1), 0, Inf}
+    {'c', rand(1), 0, 1}
+    {'p_{sym}', rand(1), 0, 1}
+    {'sd_{red}', rand(1), 0, 1}
+    {'p_{red}', rand(1), 0, 1}
+    {'t_{targ}', 30*rand(1), 0, 30}
+    {'init_{scale}', 100*rand(1), 0, Inf}
+    };
+[res4,chain4,s2chain4] = mcmcrun(model,data,params,options);
+[res4,chain4,s2chain4] = mcmcrun(model,data,params,options,res4);
+[res4,chain4,s2chain4] = mcmcrun(model,data,params,options,res4);
+
+%SEIR_model_shields_LL(data.xdata, data.ydata, res1.mean, pars_in, true)
 
 %% Eval MCMC
-res = res4;
-chain = chain4;
+res = res3;
+chain = chain3;
 
 figure(2); clf
 mcmcplot(chain,[],res,'chainpanel');
@@ -67,6 +106,6 @@ mcmcplot(chain,[],res,'denspanel',2);
 chainstats(chain,res)
 
 %% Predictions from MCMC
-plot_MCMC_res(100, chain, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, res)
+plot_MCMC_res(100, {chain1, chain2, chain3, chain4}, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, {res1, res2, res3, res4})
 
-save OUTPUT/2020-09-07_MCMCRun_nyc_PNAS.mat
+save OUTPUT/2020-09-11_MCMCRun_sflor_LANCET.mat

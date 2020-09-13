@@ -23,7 +23,7 @@ function loglikelihood = SEIR_model_shields_LL(times, dYdt_target, Theta, Pars, 
     loglikelihoods = logpoispdf(xs(4:pars_in.nWeeks), lambdas(4:pars_in.nWeeks));
     
     % R0 penalty
-    FACTOR = 100;
+    FACTOR = 10;
     R0_expected = 3;
     
     logpenalty = logpoispdf(FACTOR*Calc_R0(pars_in), FACTOR*R0_expected);

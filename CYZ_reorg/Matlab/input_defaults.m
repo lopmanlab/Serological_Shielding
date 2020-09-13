@@ -137,8 +137,8 @@ lancet_pars_reduced.hosp_frac = [0.061, 0.182, 0.417];      % Of the symptomatic
 lancet_pars_reduced.hosp_crit = [0.002, 0.056, 0.22];       % Of the symptomatic cases, how many are critically hospitalized?
 
 % LIFE OF PNAS // Which one // Which one?
-    %epi_pars_reduced = lancet_pars_reduced;
-epi_pars_reduced = pnas_pars_reduced;
+epi_pars_reduced = lancet_pars_reduced;
+    %epi_pars_reduced = pnas_pars_reduced;
 
 % Remaining EPI pars
 epi_pars_reduced.asymp_red = 0.55;          % Relative infectiousness of asymptomatic vs symptomatic case
