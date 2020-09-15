@@ -1,7 +1,7 @@
 clear
 %% Load Data
-input_sflor
-pars_in = pars_sflor;
+input_nyc
+pars_in = pars_nyc;
 
 %% Setup
 data.xdata = pars_in.times';
@@ -108,4 +108,4 @@ chainstats(chain,res)
 %% Predictions from MCMC
 plot_MCMC_res(100, {chain1, chain2, chain3, chain4}, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, {res1, res2, res3, res4})
 
-save OUTPUT/2020-09-11_MCMCRun_sflor_LANCET.mat
+save OUTPUT/2020-09-15_MCMCRun_nyc_LANCET_SS.mat
