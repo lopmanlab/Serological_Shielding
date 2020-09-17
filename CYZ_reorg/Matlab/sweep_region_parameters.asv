@@ -1,0 +1,34 @@
+clear
+
+%% Set Pars
+CHAIN_LENGTH = 5000;
+CHAIN_REP = 4;
+N_CHAINS = 4;
+            
+
+%% RUN
+for PARAMETER_SET = ["PNAS", "LANCET"]    
+    for REGION = ["sflor", "nyc", "wash"]        
+        for LIKELIHOOD_TYPE = ["SS", "LL"]
+            MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS);
+        end
+    end
+end
+%% Evaluate MCMC
+load OUTPUT/2020-09-15_MCMCRun_sflor_PNAS_SS.mat
+
+res = res3;
+chain = chain3;
+
+figure(2); clf
+mcmcplot(chain,[],res,'chainpanel');
+figure(3); clf
+mcmcplot(chain,[],res,'pairs');
+figure(4); clf
+mcmcplot(chain,[],res,'denspanel',2);
+
+% Did Model Converge?
+chainstats(chain,res)
+
+%% Predictions from MCMC
+plot_MCMC_res(100, {chain1, chain2, chain3, chain4}, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, {res1, res2, res3, res4})

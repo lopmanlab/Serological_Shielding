@@ -1,4 +1,4 @@
-function sumsq = SEIR_model_shields_LL(times, dYdt_target, Theta, Pars, PLOT_RES)
+function sumsq = SEIR_model_shields_SS(times, dYdt_target, Theta, Pars, PLOT_RES)
     [t, y, pars_in] = SEIR_model_shields_ThetaSweep(Theta, times, Pars);
     
     %% Calculate New Deaths per Week

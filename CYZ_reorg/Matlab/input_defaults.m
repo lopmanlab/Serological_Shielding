@@ -137,8 +137,15 @@ lancet_pars_reduced.hosp_frac = [0.061, 0.182, 0.417];      % Of the symptomatic
 lancet_pars_reduced.hosp_crit = [0.002, 0.056, 0.22];       % Of the symptomatic cases, how many are critically hospitalized?
 
 % LIFE OF PNAS // Which one // Which one?
-epi_pars_reduced = lancet_pars_reduced;
-    %epi_pars_reduced = pnas_pars_reduced;
+if PARAMETER_SET == "PNAS"
+    "Using PNAS parameter set"
+    epi_pars_reduced = pnas_pars_reduced;
+elseif PARAMETER_SET == "LANCET"
+    "Using LANCET parameter set"
+    epi_pars_reduced = lancet_pars_reduced;
+else
+    "ERROR: Unable to specify parameter set"
+end
 
 % Remaining EPI pars
 epi_pars_reduced.asymp_red = 0.55;          % Relative infectiousness of asymptomatic vs symptomatic case
@@ -152,8 +159,6 @@ epi_pars_reduced.crit_die = [0, 0.5, 0.5];              % Obtained from initial 
 epi_pars_reduced.hosp_frac_5 = epi_pars_reduced.hosp_frac([1,2,2,2,3]);
 epi_pars_reduced.hosp_crit_5 = epi_pars_reduced.hosp_crit([1,2,2,2,3]);
 epi_pars_reduced.crit_die_5 = epi_pars_reduced.crit_die([1,2,2,2,3]);  
-
-% Overwrite Using Ferguson Parms
 
 
 % (5) Inits ---------------------------------------------------------------
