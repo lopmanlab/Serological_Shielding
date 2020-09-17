@@ -21,6 +21,8 @@ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIH
         ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_SS(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
     elseif LIKELIHOOD_TYPE == "LL"
         ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
+    elseif LIKELIHOOD_TYPE == "SSpen"
+        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_SSpen(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
     else
         print("ERROR: No Likelihood Specified")
     end

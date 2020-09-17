@@ -1,4 +1,4 @@
-mailfunction loglikelihood = SEIR_model_shields_LL(times, dYdt_target, Theta, Pars, PLOT_RES)
+function sumsq = SEIR_model_shields_SS(times, dYdt_target, Theta, Pars, PLOT_RES)
     [t, y, pars_in] = SEIR_model_shields_ThetaSweep(Theta, times, Pars);
     
     %% Calculate New Deaths per Week
@@ -18,21 +18,15 @@ mailfunction loglikelihood = SEIR_model_shields_LL(times, dYdt_target, Theta, Pa
         plot(1:pars_in.nWeeks, lambdas, 's' , 'Markerface', [0.8500, 0.3250, 0.0980])
     end
     
-    
-    %[xs; lambdas]
-    loglikelihoods = logpoispdf(xs(4:pars_in.nWeeks), lambdas(4:pars_in.nWeeks));
-    
+       
     % R0 penalty
-    FACTOR = 10;
     R0_expected = 3;
     
-    logpenalty = logpoispdf(FACTOR*Calc_R0(pars_in), FACTOR*R0_expected);
-    loglikelihood = sum(loglikelihoods) + FACTOR*logpenalty;
+    % Sero Penalty
+    % <INSERT SERO PENALTY!>
     
-    %round([Calc_R0(pars_in)*FACTOR; loglikelihood; FACTOR*logpenalty])
-    
-    % for log likelihood, high likelihood is good
-    %loglikelihood = -log(sum((xs-lambdas).^2)); % for sum of squares, low
+    % In the main call, this will be multiplied by -2. 
+    sumsq = -(sum((xs-lambdas).^2)) - (R0_expected - Calc_R0(pars_in))^2; % for sum of squares, low
     %error is good. 
 end
 
