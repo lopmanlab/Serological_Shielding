@@ -223,4 +223,7 @@ pars_default.target = round(Calc_dD_dt_byWeek(Y(1:Y_tmax,:), pars_default));
 
 pars_default.X0_target = round(Calc_Init_Conds(pars_default));
 
+% (9) Seroprevalence ------------------------------------------------------
+pars_default.Sero_table = readtable('sero_data_all.csv');
+
 clear("t", "Y", "Y_tmax", "contact_pars_reduced", "epi_pars_reduced", "f", "i", "inits", "intervention_pars_reduced", "model_pars_reduced", "N", "Nc", "temp_idxMat", "temp_idxNames", "temp_varMat", "temp_reduction");

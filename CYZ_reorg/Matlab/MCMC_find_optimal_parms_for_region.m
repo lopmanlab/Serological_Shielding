@@ -32,8 +32,8 @@ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIH
 
     %% Find a good starting point.
     [tmin,ssmin]=fminsearchbnd(ssminfun,[0.02;0.25;0.3;0.1;0.25;0;0], [0;0;0;0;0;0;0], [0.05;1;1;1;1;100;100]);
-
-    SEIR_model_shields_LL(data.xdata, data.ydata, tmin, pars_in, true)
+        %SEIR_model_shields_LL(data.xdata, data.ydata, tmin, pars_in,
+        %true) % Verification check
 
     n = length(data.xdata);
     p = 2;

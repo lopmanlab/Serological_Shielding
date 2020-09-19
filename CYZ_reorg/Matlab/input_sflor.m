@@ -34,3 +34,13 @@ pars_sflor.tStart_reopen = 1+days(pars_sflor.date_dist_end - pars_sflor.t0);
 
 % Back-calculate initial conditions from X0_target
 pars_sflor.X0_target = round(Calc_Init_Conds(pars_sflor));
+
+% Seroprevalence
+temp_seroData = pars_sflor.Sero_table(find(~cellfun('isempty',strfind(pars_sflor.Sero_table.location,'sflor'))),[3:7]);
+
+pars_sflor.sero = temp_seroData.x_Reac;
+pars_sflor.sero_min = temp_seroData.x95CI_low;
+pars_sflor.sero_max = temp_seroData.x95CI_high;
+pars_sflor.sero_date = temp_seroData.sero_end;
+
+pars_sflor.tSero = days(pars_sflor.sero_date-pars_sflor.t0);

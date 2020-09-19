@@ -34,3 +34,13 @@ pars_wash.tStart_reopen = 1+days(pars_wash.date_dist_end - pars_wash.t0);
 
 % Back-calculate initial conditions from X0_target
 pars_wash.X0_target = round(Calc_Init_Conds(pars_wash));
+
+% Seroprevalence
+temp_seroData = pars_wash.Sero_table(find(~cellfun('isempty',strfind(pars_wash.Sero_table.location,'wash'))),[3:7]);
+
+pars_wash.sero = temp_seroData.x_Reac;
+pars_wash.sero_min = temp_seroData.x95CI_low;
+pars_wash.sero_max = temp_seroData.x95CI_high;
+pars_wash.sero_date = temp_seroData.sero_end;
+
+pars_wash.tSero = days(pars_wash.sero_date-pars_wash.t0);

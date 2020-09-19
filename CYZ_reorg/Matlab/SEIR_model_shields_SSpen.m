@@ -23,10 +23,15 @@ function sumsq = SEIR_model_shields_SS(times, dYdt_target, Theta, Pars, PLOT_RES
     R0_expected = 3;
     
     % Sero Penalty
-    % <INSERT SERO PENALTY!>
+    sero_exp = pars_in.N*pars_in.sero/100;
+        %sero_low = pars_in.N*pars_in.sero_min/100; % data entered as percentages, hence /100
+        %sero_high = pars_in.N*pars_in.sero_max/100;
+
+    sero_model = (pars_in.N - sum(y(pars_in.tSero,pars_in.S_ids),2));
+
     
     % In the main call, this will be multiplied by -2. 
-    sumsq = -(sum((xs-lambdas).^2)) - (R0_expected - Calc_R0(pars_in))^2; % for sum of squares, low
+    sumsq = -(sum((xs-lambdas).^2)) - (R0_expected - Calc_R0(pars_in))^2 - (sero_exp-sero_model)^2; % for sum of squares, low
     %error is good. 
 end
 

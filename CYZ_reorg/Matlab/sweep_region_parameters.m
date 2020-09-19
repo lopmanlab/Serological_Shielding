@@ -9,7 +9,7 @@ N_CHAINS = 5;
 %% RUN
 for PARAMETER_SET = ["PNAS", "LANCET"]    
     for REGION = ["sflor", "nyc", "wash"]        
-        for LIKELIHOOD_TYPE = ["SSPen"]%["SS", "LL"]
+        for LIKELIHOOD_TYPE = ["SSpen"]%["SS", "LL"]
             MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS);
         end
     end

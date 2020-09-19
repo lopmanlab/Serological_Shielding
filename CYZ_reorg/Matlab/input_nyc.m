@@ -34,3 +34,13 @@ pars_nyc.tStart_reopen = 1+days(pars_nyc.date_dist_end - pars_nyc.t0);
 
 % Back-calculate initial conditions from X0_target
 pars_nyc.X0_target = round(Calc_Init_Conds(pars_nyc));
+
+% Seroprevalence
+temp_seroData = pars_nyc.Sero_table(find(~cellfun('isempty',strfind(pars_nyc.Sero_table.location,'nyc'))),[3:7]);
+
+pars_nyc.sero = temp_seroData.x_Reac;
+pars_nyc.sero_min = temp_seroData.x95CI_low;
+pars_nyc.sero_max = temp_seroData.x95CI_high;
+pars_nyc.sero_date = temp_seroData.sero_end;
+
+pars_nyc.tSero = days(pars_nyc.sero_date-pars_nyc.t0);
