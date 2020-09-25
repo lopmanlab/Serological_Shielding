@@ -17,12 +17,10 @@ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIH
     data.xdata = pars_in.times';
     data.ydata = pars_in.target; % new deaths reported that day, t=1 == 2/27/2020
 
-    if LIKELIHOOD_TYPE == "SS"
-        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_SS(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
-    elseif LIKELIHOOD_TYPE == "LL"
-        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
-    elseif LIKELIHOOD_TYPE == "SSpen"
-        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_SSpen(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
+    if LIKELIHOOD_TYPE == "LLpen_scaled"
+        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LLpen_scaled(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
+    elseif LIKELIHOOD_TYPE == "SSpen_scaled"
+        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_SSpen_scaled(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
     else
         print("ERROR: No Likelihood Specified")
     end
@@ -65,7 +63,7 @@ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIH
         [res1,chain1,s2chain1] = mcmcrun(model,data,params,options,res1);
     end
 
-    RES_OUT = {res1, chain1, s2chain1};
+    RES_OUT = {{res1, chain1, s2chain1}};
     
     parfor iter=1:N_CHAINS
         params = {
@@ -88,6 +86,6 @@ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIH
     res = RES_OUT;
     
     %% Save results
-    save(strcat("OUTPUT/2020-09-15_MCMCRun_", REGION, "_", PARAMETER_SET, "_", LIKELIHOOD_TYPE,".mat"))
+    save(strcat("OUTPUT/2020-09-23_MCMCRun_", REGION, "_", PARAMETER_SET, "_", LIKELIHOOD_TYPE,".mat"))
 
 end

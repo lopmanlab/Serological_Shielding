@@ -22,8 +22,12 @@ function sumsq = SEIR_model_shields_SS(times, dYdt_target, Theta, Pars, PLOT_RES
     % R0 penalty
     R0_expected = 3;
     
+    Error = (sum((xs-lambdas).^2));
+    R0Pen = (R0_expected - Calc_R0(pars_in))^2;
+    SeroPen = 1;
+    
     % In the main call, this will be multiplied by -2. 
-    sumsq = -(sum((xs-lambdas).^2)) - (R0_expected - Calc_R0(pars_in))^2; % for sum of squares, low
+    sumsq = - Error - R0Pen; % for sum of squares, low
     %error is good. 
 end
 

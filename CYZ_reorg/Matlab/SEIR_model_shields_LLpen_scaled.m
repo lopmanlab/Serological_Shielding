@@ -1,4 +1,4 @@
-function sumsq = SEIR_model_shields_SS(times, dYdt_target, Theta, Pars, PLOT_RES)
+function loglike = SEIR_model_shields_LLpen_scaled(times, dYdt_target, Theta, Pars, PLOT_RES)
     [t, y, pars_in] = SEIR_model_shields_ThetaSweep(Theta, times, Pars);
     
     %% Calculate New Deaths per Week
@@ -24,14 +24,24 @@ function sumsq = SEIR_model_shields_SS(times, dYdt_target, Theta, Pars, PLOT_RES
     
     % Sero Penalty
     sero_exp = pars_in.N*pars_in.sero/100;
+    sero_low = pars_in.N*pars_in.sero_min/100; % data entered as percentages, hence /100
+    sero_high = pars_in.N*pars_in.sero_max/100;
+
     sero_model = (pars_in.N - sum(y(pars_in.tSero,pars_in.S_ids),2));
 
-    Error = (sum((xs-lambdas).^2));
-    R0Pen = (R0_expected - Calc_R0(pars_in))^2;
-    SeroPen = (sero_exp-sero_model)^2;
+    % find zeros in data
+    b_zeros = find(xs~=0);
+    xs = xs(b_zeros);
+    lambdas = lambdas(b_zeros);
+
+    Error = logpoispdf(lambdas, xs);
+    R0Pen = logpoispdf(100*Calc_R0(pars_in), 100*R0_expected);
+    SeroPen = [logpoispdf(sero_model/1000, sero_low/1000), logpoispdf(sero_model/1000, sero_exp/1000), logpoispdf(sero_model/1000, sero_high/1000)];
     
     % In the main call, this will be multiplied by -2. 
-    sumsq = - Error - R0Pen - SeroPen; % for sum of squares, low
+    loglike = 10*mean(Error) + R0Pen + mean(SeroPen);
+    
+    
     
     %error is good. 
 end
