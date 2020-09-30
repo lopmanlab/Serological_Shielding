@@ -1,15 +1,15 @@
 clear
 
 %% Set Pars
-CHAIN_LENGTH = 5000;
-CHAIN_REP = 9;
-N_CHAINS = 10;
+CHAIN_LENGTH = 3000;
+CHAIN_REP = 4;
+N_CHAINS = 5;
             
 
 %% RUN
-for PARAMETER_SET = ["LANCET"]%"PNAS", "LANCET"]    
-    for REGION = ["nyc"]%"sflor", "nyc", "wash"]        
-        for LIKELIHOOD_TYPE = ["SSpen_scaled", "LLpen_scaled"]
+for PARAMETER_SET = ["LANCET", "PNAS"]    
+    for REGION = ["wash", "sflor"] %"nyc"]       
+        for LIKELIHOOD_TYPE = ["LLpen_scaled", "SSpen_scaled"]
             MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS);
         end
     end

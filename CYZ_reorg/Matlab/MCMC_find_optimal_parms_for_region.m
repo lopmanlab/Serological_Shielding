@@ -1,4 +1,4 @@
-function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS)
+ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS)
     %% Load Data
     if REGION == "sflor"
         input_sflor
@@ -39,7 +39,7 @@ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIH
 
     %% Set up MCMC
     params = {
-        {'q', tmin(1), 0, Inf}
+        {'q', tmin(1), 0, .1}
         {'c', tmin(2), 0, 1}
         {'p_{sym}', tmin(3), 0, 1}
         {'sd_{red}', tmin(4), 0, 1}
@@ -65,17 +65,18 @@ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIH
 
     RES_OUT = {{res1, chain1, s2chain1}};
     
-    parfor iter=1:N_CHAINS
+    for iter=1:N_CHAINS
         params = {
-        {'q', 2*tmin(1)*rand(1), 0, Inf}
+        {'q', .1*rand(1), 0, 0.1}
         {'c', rand(1), 0, 1}
         {'p_{sym}', rand(1), 0, 1}
         {'sd_{red}', rand(1), 0, 1}
-        {'p_{red}', rand(1), 0, 1}
-        {'t_{targ}', 30*rand(1), 0, 30}
-        {'init_{scale}', 100*rand(1), 0, Inf}
+        {'p_{red}', rand(1), 0, 1}  
+        {'t_{targ}', rand(1), 0, 30}
+        {'init_{scale}', rand(1), 0, Inf}
         };
         [res_i,chain_i,s2chain_i] = mcmcrun(model,data,params,options);
+        
         for i = 1:CHAIN_REP
             [res_i,chain_i,s2chain_i] = mcmcrun(model,data,params,options,res_i);
         end
@@ -86,6 +87,6 @@ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIH
     res = RES_OUT;
     
     %% Save results
-    save(strcat("OUTPUT/2020-09-23_MCMCRun_", REGION, "_", PARAMETER_SET, "_", LIKELIHOOD_TYPE,".mat"))
+    save(strcat("OUTPUT/2020-09-30_MCMCRun_", REGION, "_", PARAMETER_SET, "_", LIKELIHOOD_TYPE,".mat"))
 
 end

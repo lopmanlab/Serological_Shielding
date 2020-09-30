@@ -36,10 +36,10 @@ function loglike = SEIR_model_shields_LLpen_scaled(times, dYdt_target, Theta, Pa
 
     Error = logpoispdf(lambdas, xs);
     R0Pen = logpoispdf(100*Calc_R0(pars_in), 100*R0_expected);
-    SeroPen = [logpoispdf(sero_model/1000, sero_low/1000), logpoispdf(sero_model/1000, sero_exp/1000), logpoispdf(sero_model/1000, sero_high/1000)];
+    SeroPen = logpoispdf(sero_model/100, sero_exp/100);
     
     % In the main call, this will be multiplied by -2. 
-    loglike = 10*mean(Error) + R0Pen + mean(SeroPen);
+    loglike = sum(Error) + R0Pen + SeroPen;
     
     
     

@@ -36,10 +36,10 @@ function sumsq = SEIR_model_shields_SSpen_scaled(times, dYdt_target, Theta, Pars
 
     Error = log((lambdas./xs - 1).^2);
     R0Pen = log((Calc_R0(pars_in)/R0_expected-1)^2);
-    SeroPen = [log((sero_model/sero_low - 1)^2), log((sero_model/sero_exp - 1)^2), log((sero_model/sero_high - 1)^2)];
+    SeroPen = log((sero_model/sero_exp - 1)^2);
     
     % In the main call, this will be multiplied by -2. 
-    sumsq = - (10*mean(Error) + R0Pen + mean(SeroPen));
+    sumsq = sum(Error) + R0Pen + SeroPen;
 end
 
 %SEIR_model_shields_LL(pars_nyc.times,  pars_nyc.target, [0.1; 0.25; 0.25; 0.25; 100], pars_nyc, true)

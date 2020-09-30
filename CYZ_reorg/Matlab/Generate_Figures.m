@@ -1,9 +1,9 @@
 clear
-for PARAMETER_SET = ["LANCET"]%["LANCET", "PNAS"]    
-    for REGION = ["nyc"]%"sflor", "nyc", "wash"]        
-        for LIKELIHOOD_TYPE = ["SSpen_scaled", "LLpen_scaled"]
+for PARAMETER_SET = ["LANCET", "PNAS"]    
+    for REGION = ["wash", "sflor"]%, "nyc"]        
+        for LIKELIHOOD_TYPE = ["LLpen_scaled", "SSpen_scaled"], 
 
-        load(strcat('OUTPUT/2020-09-21_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))    
+        load(strcat('OUTPUT/2020-09-23_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))    
 
         t2 = figure(2); clf;
         mcmcplot(chain1,[],res1,'chainpanel');
