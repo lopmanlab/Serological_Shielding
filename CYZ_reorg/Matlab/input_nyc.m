@@ -11,6 +11,7 @@ dydt = temp_y(2:l_temp) - temp_y(1:(l_temp-1));
 
 % Set the target as the rate of new deaths.
 pars_nyc.target = dydt;
+pars_nyc.cumulative = temp_y;
 
 % Other NY Data
 pars_nyc.N = 2208909 + 5944919 + 1283369;

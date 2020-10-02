@@ -31,11 +31,10 @@ function loglike = SEIR_model_shields_LLpen_scaled(times, dYdt_target, Theta, Pa
     
     % Final Deaths
     final_deaths = sum(y(1+days(pars_in.tf - pars_in.t0),pars_in.D_ids),2);
-    final_xs = sum(xs);
     
     % Mid Deaths - day 77, week 11
-    mid_deaths = sum(y(78,pars_in.D_ids),2);
-    mid_xs  = sum(xs(1:12));
+    final_deaths = sum(y(1+days(pars_in.tf - pars_in.t0),pars_in.D_ids),2);
+
     
     % find zeros in data
     b_zeros = find(xs~=0);
@@ -50,8 +49,7 @@ function loglike = SEIR_model_shields_LLpen_scaled(times, dYdt_target, Theta, Pa
     %loglike = sum(Error) + R0Pen + SeroPen;
     
     loglike = sum(logpoispdf(lambdas, xs)) + ...
-        logpoispdf(10*final_deaths, 10*final_xs) + ...
-        logpoispdf(10*mid_deaths, 10*mid_xs) + ...
+        logpoispdf(10*final_deaths, 10*sum(xs)) + ...
         logpoispdf(100*Calc_R0(pars_in), 100*R0_expected) + ...
         logpoispdf(sero_model_S/100, sero_exp/100) + ...
         logpoispdf(sero_model_R/100, sero_exp/100);

@@ -11,6 +11,7 @@ dydt = temp_y(2:l_temp) - temp_y(1:(l_temp-1));
 
 % Set the target as the rate of new deaths.
 pars_sflor.target = dydt;
+pars_sflor.cumulative = temp_y;
 
 % Other SFLOR Data
 pars_sflor.N = 1398572 + 3679331 + 1090711;

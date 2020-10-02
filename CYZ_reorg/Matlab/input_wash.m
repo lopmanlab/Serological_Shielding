@@ -11,6 +11,7 @@ dydt = temp_y(2:l_temp) - temp_y(1:(l_temp-1));
 
 % Set the target as the rate of new deaths.
 pars_wash.target = dydt;
+pars_wash.cumulative = temp_y;
 
 % Other WASH Data
 pars_wash.N = 974924 + 2563244 + 526665;

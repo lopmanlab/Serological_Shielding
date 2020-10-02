@@ -1,4 +1,4 @@
- function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS)
+ function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS, DATE)
     %% Load Data
     if REGION == "sflor"
         input_sflor
@@ -87,6 +87,6 @@
     res = RES_OUT;
     
     %% Save results
-    save(strcat("OUTPUT/2020-09-30_MCMCRun_", REGION, "_", PARAMETER_SET, "_", LIKELIHOOD_TYPE,".mat"))
+    save(strcat("OUTPUT/", DATE,"_MCMCRun_", REGION, "_", PARAMETER_SET, "_", LIKELIHOOD_TYPE,".mat"))
 
 end

@@ -24,10 +24,12 @@ function sumsq = SEIR_model_shields_SSpen_scaled(times, dYdt_target, Theta, Pars
     
     % Sero Penalty
     sero_exp = pars_in.N*pars_in.sero/100;
-    sero_low = pars_in.N*pars_in.sero_min/100; % data entered as percentages, hence /100
-    sero_high = pars_in.N*pars_in.sero_max/100;
+        %sero_low = pars_in.N*pars_in.sero_min/100; % data entered as percentages, hence /100
+        %sero_high = pars_in.N*pars_in.sero_max/100;
 
-    sero_model = (pars_in.N - sum(y(pars_in.tSero,pars_in.S_ids),2));
+        %sero_model = (pars_in.N - sum(y(pars_in.tSero,pars_in.S_ids),2));
+    pars_in.tf - pars_in.t0
+    sero_model = sum(y(pars_in.tf - pars_in.t0, pars_in.R_ids),2)
     
     % find zeros in data
     b_zeros = find(xs~=0);
