@@ -1,27 +1,21 @@
 clear
-DATE = "2020-10-02";
+DATE = "2020-10-02b";
 
 %% Set Pars
-CHAIN_LENGTH = 5000;
+CHAIN_LENGTH = 1000;
 CHAIN_REP = 9;
 N_CHAINS = 10;
             
 
 %% RUN
-for PARAMETER_SET = ["PNAS"]%, "LANCET"]  
-    for REGION = ["wash", "sflor"]%, "nyc"]       
+for PARAMETER_SET = ["PNAS", "LANCET"]  
+    for REGION = ["wash", "sflor", "nyc"]       
         for LIKELIHOOD_TYPE = ["LLpen_scaled"]%, "SSpen_scaled"]
             MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS, DATE);
         end
     end
 end
 
-%% one addon
-PARAMETER_SET = "LANCET";
-REGION = "nyc";
-LIKELIHOOD_TYPE = "LLpen_scaled";
-
-MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS, DATE);
 
 %% Evaluate MCMC
 %load OUTPUT/2020-09-19_MCMCRun_nyc_LANCET_SS.mat

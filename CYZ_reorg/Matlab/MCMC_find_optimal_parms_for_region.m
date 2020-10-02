@@ -44,8 +44,7 @@
         {'p_{sym}', tmin(3), 0, 1}
         {'sd_{red}', tmin(4), 0, 1}
         {'p_{red}', tmin(5), 0, 1}
-        {'t_{targ}', tmin(6), 0, 30}
-        {'init_{scale}', tmin(7), 0, Inf}
+        {'init_{scale}', tmin(6), 0, Inf}
         };
 
     model.ssfun  = ssfun;
@@ -72,7 +71,6 @@
         {'p_{sym}', rand(1), 0, 1}
         {'sd_{red}', rand(1), 0, 1}
         {'p_{red}', rand(1), 0, 1}  
-        {'t_{targ}', rand(1), 0, 30}
         {'init_{scale}', rand(1), 0, Inf}
         };
         [res_i,chain_i,s2chain_i] = mcmcrun(model,data,params,options);

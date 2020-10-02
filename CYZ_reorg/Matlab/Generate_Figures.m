@@ -1,5 +1,5 @@
 clear
-DATE = "2020-10-02";
+DATE = "2020-10-02b";
 
 for PARAMETER_SET = ["PNAS", "LANCET"]     
     for REGION = ["wash", "sflor", "nyc"]        

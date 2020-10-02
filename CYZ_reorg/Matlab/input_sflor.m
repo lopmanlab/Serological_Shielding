@@ -29,7 +29,7 @@ pars_sflor.date_dist_end = datetime(2020,05,20);
 pars_sflor.daily_tests = 0;
 pars_sflor.tStart_distancing = 1+days(pars_sflor.date_dist_start - pars_sflor.t0);
 pars_sflor.tStart_test = 500;
-pars_sflor.tStart_target = 1+days(pars_sflor.date_dist_start - pars_sflor.t0);
+pars_sflor.tStart_target = 500; % 2020.10.02 - TARGET was originally for sd lift + testing. 
 pars_sflor.tStart_school = 500;
 pars_sflor.tStart_reopen = 1+days(pars_sflor.date_dist_end - pars_sflor.t0);
 

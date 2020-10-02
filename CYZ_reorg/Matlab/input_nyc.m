@@ -29,9 +29,9 @@ pars_nyc.date_dist_end = datetime(2020,06,08);
 pars_nyc.daily_tests = 0;
 pars_nyc.tStart_distancing = 1+days(pars_nyc.date_dist_start - pars_nyc.t0);
 pars_nyc.tStart_test = 500;
-pars_nyc.tStart_target = 1+days(pars_nyc.date_dist_start - pars_nyc.t0);
+pars_nyc.tStart_target = 500; % 2020.10.02 - TARGET was originally for sd lift + testing. 
 pars_nyc.tStart_school = 500;
-pars_nyc.tStart_reopen = 1+days(pars_nyc.date_dist_end - pars_nyc.t0);
+pars_nyc.tStart_reopen = 1+days(pars_nyc.date_dist_end - pars_nyc.t0); % REOPEN means SAH is lifted.
 
 % Back-calculate initial conditions from X0_target
 pars_nyc.X0_target = round(Calc_Init_Conds(pars_nyc));

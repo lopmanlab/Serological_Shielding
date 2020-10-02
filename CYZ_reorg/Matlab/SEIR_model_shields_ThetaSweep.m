@@ -9,15 +9,12 @@ function [t, Y, pars_out] = SEIR_model_shields_ThetaSweep(Theta, times, Pars)
     
     pars_in.socialDistancing_other = Theta(4);
     pars_in.p_reduced = Theta(5);
-
-    % Fit target date
-    pars_in.tStart_target=pars_in.tStart_distancing+Theta(6);
     
     % Fit to Initial Conditions
     X0 = pars_in.X0_target;
     
     % Only E, Iasym, and Isym will be changed. Ratios are constant. XXX 09.07.2020 - initial cond hotfix
-    Theta_Scale = (1+Theta(7));
+    Theta_Scale = (1+Theta(6));
     Temp_Tot = X0(pars_in.E_ids) + ...
         X0(pars_in.Iasym_ids) + ...
         X0(pars_in.Isym_ids);
@@ -26,7 +23,7 @@ function [t, Y, pars_out] = SEIR_model_shields_ThetaSweep(Theta, times, Pars)
     X0(pars_in.Iasym_ids) = Theta_Scale*pars_in.X0_target(pars_in.Iasym_ids);
     X0(pars_in.Isym_ids) = Theta_Scale*pars_in.X0_target(pars_in.Isym_ids);
 
-    X0(pars_in.S_ids) = pars_in.X0_target(pars_in.S_ids) - Temp_Tot*Theta(7);
+    X0(pars_in.S_ids) = pars_in.X0_target(pars_in.S_ids) - Temp_Tot*Theta(6);
     
             
     %% Run ODEs

@@ -29,7 +29,7 @@ pars_wash.date_dist_end = datetime(2020,05,31);
 pars_wash.daily_tests = 0;
 pars_wash.tStart_distancing = 1+days(pars_wash.date_dist_start - pars_wash.t0);
 pars_wash.tStart_test = 500;
-pars_wash.tStart_target = 1+days(pars_wash.date_dist_start - pars_wash.t0);
+pars_wash.tStart_target = 500; % 2020.10.02 - TARGET was originally for sd lift + testing. 
 pars_wash.tStart_school = 500;
 pars_wash.tStart_reopen = 1+days(pars_wash.date_dist_end - pars_wash.t0);
 
