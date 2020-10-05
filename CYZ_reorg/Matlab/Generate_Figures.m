@@ -1,8 +1,8 @@
 clear
-DATE = "2020-10-03";
+DATE = "2020-10-05";
 
-for PARAMETER_SET = ["PNAS", "LANCET"]     
-    for REGION = ["nyc"]%["wash", "sflor", "nyc"]        
+for PARAMETER_SET = ["LANCET"] %PNAS     
+    for REGION = ["wash", "sflor", "nyc"]        
         for LIKELIHOOD_TYPE = ["LLpen_scaled"]%, "SSpen_scaled"]
 
             if isfile(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))

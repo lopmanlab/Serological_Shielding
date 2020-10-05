@@ -1,5 +1,5 @@
 clear
-DATE = "2020-10-03";
+DATE = "2020-10-05b";
 
 %% Set Pars
 CHAIN_LENGTH = 5000;
@@ -9,7 +9,7 @@ N_CHAINS = 10;
 
 %% RUN
 for PARAMETER_SET = ["LANCET"]%"PNAS", 
-    for REGION = ["nyc"]%["wash", "sflor", "nyc"]       
+    for REGION = ["wash", "sflor", "nyc"]       
         for LIKELIHOOD_TYPE = ["LLpen_scaled"]%, "SSpen_scaled"]
             MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS, DATE);
         end
