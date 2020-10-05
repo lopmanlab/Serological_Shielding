@@ -36,9 +36,9 @@ function loglike = SEIR_model_shields_LLpen_scaled(times, dYdt_target, Theta, Pa
     % In the main call, this will be multiplied by -2.    
     loglike = sum(logpoispdf(lambdas, xs)) + ... % death rates
         logpoispdf(final_deaths, final_xs) + ... % deaths @ end
-        logpoispdf(mid_deaths, mid_xs) + ... % deaths @ 77 days
-        logpoispdf(Calc_R0(pars_in), R0_expected) + ... % R0
-        logpoispdf(sero_model_R, sero_exp); % delayed sero
+        logpoispdf(mid_deaths, 10mid_xs) + ... % deaths @ 77 days
+        logpoispdf(Calc_R0(pars_in), 100*R0_expected) + ... % R0
+        logpoispdf(sero_model_R/100, sero_exp/100); % delayed sero
     
         %loglike = sum(logpoispdf(lambdas, xs)) + ... % death rates
             %logpoispdf(10*final_deaths, 10*final_xs) + ... % deaths @ end
