@@ -21,6 +21,10 @@
         ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LLpen_scaled(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
     elseif LIKELIHOOD_TYPE == "SSpen_scaled"
         ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_SSpen_scaled(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
+    elseif LIKELIHOOD_TYPE == "LL"
+        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
+    elseif LIKELIHOOD_TYPE == "LLpen_rescaled"
+        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LLpen_rescaled(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
     else
         print("ERROR: No Likelihood Specified")
     end
@@ -64,7 +68,7 @@
 
     RES_OUT = {{res1, chain1, s2chain1}};
     
-    parfor iter=1:N_CHAINS
+    for iter=1:N_CHAINS
         params = {
         {'q', .1*rand(1), 0, 0.1}
         {'c', rand(1), 0, 1}

@@ -1,9 +1,9 @@
 clear
-DATE = "2020-10-05";
+DATE = "2020-10-07";
 
 for PARAMETER_SET = ["LANCET"] %PNAS     
     for REGION = ["wash", "sflor", "nyc"]        
-        for LIKELIHOOD_TYPE = ["LLpen_scaled"]%, "SSpen_scaled"]
+        for LIKELIHOOD_TYPE = ["LL"]%, "SSpen_scaled"]
 
             if isfile(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))
                 load(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))    
@@ -23,7 +23,7 @@ for PARAMETER_SET = ["LANCET"] %PNAS
                 temp_res = res;%(2:6);
                 Chains = cellfun(@(x) x{2}, temp_res, 'un', 0);
                 Ress = cellfun(@(x) x{1}, temp_res, 'un', 0);
-                t5 = plot_MCMC_res(50, Chains, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, Ress);
+                t5 = plot_MCMC_res_temp(50, Chains, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, Ress);
                 saveas(t5, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_fits.png'));
             end
         

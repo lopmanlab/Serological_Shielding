@@ -1,4 +1,4 @@
-function loglike = SEIR_model_shields_LLpen_scaled(times, dYdt_target, Theta, Pars, PLOT_RES)
+function loglike = SEIR_model_shields_LLpen_rescaled(times, dYdt_target, Theta, Pars, PLOT_RES)
     [t, y, pars_in] = SEIR_model_shields_ThetaSweep(Theta, times, Pars);
     
     %% Calculate New Deaths per Week
@@ -35,17 +35,9 @@ function loglike = SEIR_model_shields_LLpen_scaled(times, dYdt_target, Theta, Pa
     
     % In the main call, this will be multiplied by -2.    
     loglike = sum(logpoispdf(lambdas, xs)) + ... % death rates
-        logpoispdf(final_deaths, final_xs) + ... % deaths @ end
-        logpoispdf(mid_deaths, 10mid_xs) + ... % deaths @ 77 days
-        logpoispdf(Calc_R0(pars_in), 100*R0_expected) + ... % R0
+        logpoispdf(final_deaths/10, final_xs/10) + ... % deaths @ end
+        logpoispdf(mid_deaths/10, mid_xs/10) + ... % deaths @ 77 days
+        logpoispdf(1000*Calc_R0(pars_in), 1000*R0_expected) + ... % R0
         logpoispdf(sero_model_R/100, sero_exp/100); % delayed sero
-    
-        %loglike = sum(logpoispdf(lambdas, xs)) + ... % death rates
-            %logpoispdf(10*final_deaths, 10*final_xs) + ... % deaths @ end
-            %logpoispdf(10*mid_deaths, 10*mid_xs) + ... % deaths @ 77 days
-            %logpoispdf(100*Calc_R0(pars_in), 100*R0_expected) + ... % R0
-            %logpoispdf(sero_model_R/100, sero_exp/100); % delayed sero
-            %logpoispdf(sero_model_S/100, sero_exp/100) + ... % instant sero
 
-    %error is good. 
 end

@@ -1,39 +1,43 @@
-mailfunction loglikelihood = SEIR_model_shields_LL(times, dYdt_target, Theta, Pars, PLOT_RES)
+function loglike = SEIR_model_shields_LLpen(times, dYdt_target, Theta, Pars, PLOT_RES)
     [t, y, pars_in] = SEIR_model_shields_ThetaSweep(Theta, times, Pars);
     
     %% Calculate New Deaths per Week
-    dYdt_target_week = dYdt_target'; % sum(reshape(dYdt_target, [7,17]),1);    
+    dYdt_target_week = dYdt_target';
     dYdt_model_deaths_byWeek = Calc_dD_dt_byWeek(y, pars_in);
     
     %% Calculate Log Likelihood
     xs = dYdt_target_week;
     lambdas = dYdt_model_deaths_byWeek;
-    
-    if PLOT_RES
-        figure(1); clf
-        hold on
-        plot(1:pars_in.nWeeks, xs, 'Markerface', [0, 0.4470, 0.7410])
-        plot(1:pars_in.nWeeks, xs, 's', 'Markerface', [0, 0.4470, 0.7410])
-        plot(1:pars_in.nWeeks, lambdas, 'Markerface', [0.8500, 0.3250, 0.0980])
-        plot(1:pars_in.nWeeks, lambdas, 's' , 'Markerface', [0.8500, 0.3250, 0.0980])
-    end
-    
-    
-    %[xs; lambdas]
-    loglikelihoods = logpoispdf(xs(4:pars_in.nWeeks), lambdas(4:pars_in.nWeeks));
-    
+   
     % R0 penalty
-    FACTOR = 10;
     R0_expected = 3;
     
-    logpenalty = logpoispdf(FACTOR*Calc_R0(pars_in), FACTOR*R0_expected);
-    loglikelihood = sum(loglikelihoods) + FACTOR*logpenalty;
-    
-    %round([Calc_R0(pars_in)*FACTOR; loglikelihood; FACTOR*logpenalty])
-    
-    % for log likelihood, high likelihood is good
-    %loglikelihood = -log(sum((xs-lambdas).^2)); % for sum of squares, low
-    %error is good. 
-end
+    % Sero Penalty
+    sero_exp = pars_in.N*pars_in.sero/100; % data entered as percentages, hence /100
+        %sero_low = pars_in.N*pars_in.sero_min/100; 
+        %sero_high = pars_in.N*pars_in.sero_max/100;
 
-%SEIR_model_shields_LL(pars_nyc.times,  pars_nyc.target, [0.1; 0.25; 0.25; 0.25; 100], pars_nyc, true)
+    sero_model_S = (pars_in.N - sum(y(pars_in.tSero,pars_in.S_ids),2));
+    sero_model_R = sum(y(pars_in.tSero, pars_in.R_ids),2);
+    
+    % Final Deaths
+    final_deaths = sum(y(1+days(pars_in.tf - pars_in.t0),pars_in.D_ids),2);
+    final_xs = sum(xs);
+    
+    % Mid Deaths - day 77, week 11
+    mid_deaths = sum(y(78,pars_in.D_ids),2);
+    mid_xs  = sum(xs(1:12));
+    
+    % find zeros in data
+    b_zeros = find(xs~=0);
+    xs = xs(b_zeros);
+    lambdas = lambdas(b_zeros);
+    
+    % In the main call, this will be multiplied by -2.    
+    loglike = sum(logpoispdf(lambdas, xs)) + ... % death rates
+        logpoispdf(final_deaths, final_xs) + ... % deaths @ end
+        logpoispdf(mid_deaths, mid_xs) + ... % deaths @ 77 days
+        logpoispdf(Calc_R0(pars_in), R0_expected) + ... % R0
+        logpoispdf(sero_model_R, sero_exp); % delayed sero
+
+end

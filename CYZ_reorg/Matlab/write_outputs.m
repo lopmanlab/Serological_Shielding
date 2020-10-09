@@ -1,11 +1,11 @@
-load OUTPUT/2020-10-03_MCMCRun_wash_LANCET_LLpen_scaled.mat
+load OUTPUT/2020-10-05c_MCMCRun_nyc_LANCET_LLpen_scaled.mat
 
 cHeader = {'q' 'c' 'symptomatic_fraction' 'socialDistancing_other' 'p_reduced' 'Initial_Condition_Scale' 'i_chain'}; %dummy header
 commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
 commaHeader = commaHeader(:)';
 textHeader = cell2mat(commaHeader); %cHeader in text with commas
 %write header to file
-fid = fopen('OUTPUT/wash_chains.csv','w'); 
+fid = fopen('OUTPUT/nyc_chains.csv','w'); 
 fprintf(fid,'%s\n',textHeader);
 fclose(fid);
 
@@ -23,7 +23,7 @@ cHeader = {'q' 'q_sd' ...
 commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
 commaHeader = commaHeader(:)';
 textHeader = cell2mat(commaHeader); %cHeader in text with commas
-fid2 = fopen('OUTPUT/wash_chains_summary.csv','w'); 
+fid2 = fopen('OUTPUT/nyc_chains_summary.csv','w'); 
 fprintf(fid2,'%s\n',textHeader);
 fclose(fid2);
 
@@ -33,7 +33,7 @@ for i=1:11
     test = RES_OUT{i}{2};
     test(:,6)=test(:,6)+1;
     test(:,7)=i;
-    dlmwrite('OUTPUT/wash_chains.csv',test,'-append');
+    dlmwrite('OUTPUT/nyc_chains.csv',test,'-append');
     
     test_summary = [mle(test(:,1)) ...
         mle(test(:,2)) ...
@@ -44,6 +44,6 @@ for i=1:11
         i ...
         reshape(sum(temp(:,[1 5 6 7 8]), 2), 1, 5) ...
         pars_in.X0_target([pars_in.E_ids pars_in.Isym_ids pars_in. Iasym_ids])];
-    dlmwrite('OUTPUT/wash_chains_summary.csv',test_summary,'-append');
+    dlmwrite('OUTPUT/nyc_chains_summary.csv',test_summary,'-append');
 
 end
