@@ -1,9 +1,9 @@
 clear
-DATE = "2020-10-09";
+DATE = "2020-10-12";
 
 %% Set Pars
 CHAIN_LENGTH = 5000;
-CHAIN_REP = 9;
+CHAIN_REP = 19;
 N_CHAINS = 10;
             
 
