@@ -1,9 +1,9 @@
 clear
-DATE = "2020-10-07";
+DATE = "2020-10-12";
 
 for PARAMETER_SET = ["LANCET"] %PNAS     
     for REGION = ["wash", "sflor", "nyc"]        
-        for LIKELIHOOD_TYPE = ["LL"]%, "SSpen_scaled"]
+        for LIKELIHOOD_TYPE = ["LLpen_rescaled"]%, "SSpen_scaled"]
 
             if isfile(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))
                 load(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))    
