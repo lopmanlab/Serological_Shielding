@@ -24,7 +24,6 @@ function [t, Y, pars_out] = SEIR_model_shields_ThetaSweep(Theta, times, Pars)
     X0(pars_in.Isym_ids) = Theta_Scale*pars_in.X0_target(pars_in.Isym_ids);
 
     X0(pars_in.S_ids) = pars_in.X0_target(pars_in.S_ids) - Temp_Tot*Theta(6);
-    
             
     %% Run ODEs
     opts = odeset(); % options

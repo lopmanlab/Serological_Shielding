@@ -4,8 +4,8 @@ require(reshape2)
 require(ggplot2)
 
 # map
-v.map = c('unwt', 'unwt (long)', 'wtd')
-names(v.map) = c('2020-10-05c', '2020-10-07', '2020-10-09')
+v.map = c('unwt', 'unwt (long)', 'wtd', 'wtd (long)')
+names(v.map) = c('2020-10-05c', '2020-10-07', '2020-10-09', '2020-10-12')
 
 # get csv dirs
 v.dirs = list.files(path = 'OUTPUT', pattern = 'summary.csv')
@@ -37,6 +37,7 @@ melt.pars = melt(df.pars[,1:14], colnames(df.dirs))
 # plot
 ggplot(melt.pars, aes(x = region, y = value, fill = date)) + 
   geom_bar(stat = 'identity', color = 'black', position = 'dodge') + 
-  facet_wrap("variable", scales = 'free_y')
+  facet_wrap("variable", scales = 'free_y') +
+  scale_fill_brewer(palette = 'Paired')
 
 write.csv(df.pars, "Summary_OUT.csv")
