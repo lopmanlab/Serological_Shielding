@@ -24,7 +24,7 @@ for REGION=["nyc", "sflor", "wash"]
     
     load(strcat("OUTPUT/", DATE, "_MCMCRun_", REGION, "_LANCET_LL.mat"))
     
-    cHeader = {'q' 'c' 'symptomatic_fraction' 'socialDistancing_other' 'p_reduced' 'Initial_Condition_Scale' 'R0' 'i_chain'}; %dummy header
+    cHeader = {'q' 'c' 'symptomatic_fraction' 'socialDistancing_other' 'p_reduced' 'Initial_Condition_Scale' 'LogLikelihood' 'R0' 'i_chain'}; %dummy header
     commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
     commaHeader = commaHeader(:)';
     textHeader = cell2mat(commaHeader); %cHeader in text with commas
@@ -63,19 +63,22 @@ for REGION=["nyc", "sflor", "wash"]
     for i=1:11
         % Load chains
         test = RES_OUT{i}{2};
-
-        test(:,7) = 0;
-        % Calculate R0's
+        
+        % Add Likelihoods to column 7
+        test = adhoc_append(test, pars_in);
+        
+        % Calculate R0's on column 8
+        test(:,8) = 0;
         for j=1:size(test,1)
-            test(j,7) = Calc_R0_Theta(test(:,1:6), pars_in);
+            test(j,8) = Calc_R0_Theta(test(:,1:6), pars_in);
         end
 
-        % Fix the multiplicative initial condition factor
+        % Fix the multiplicative initial condition factor on column 6
         test_initMult=test(:,6);
         mle_initMult = mle(test_initMult);
         
-        % Keep track of which chain
-        test(:,8)=i;
+        % Keep track of which chain on column 9
+        test(:,9)=i;
 
         % Write
         dlmwrite(strcat("OUTPUT/", DATE, "_", REGION, "_chains.csv"),test,'-append', 'precision', 9);
@@ -85,7 +88,7 @@ for REGION=["nyc", "sflor", "wash"]
             mle(test(:,4)) ...
             mle(test(:,5)) ...
             mle_initMult ...
-            mle(test(:,7)) ...
+            mle(test(:,8)) ...
             i ...
             reshape(pars_in.X0_target([pars_in.S_ids])' - mle_initMult(1) * sum(temp(:,[2 3 4]),2), 1, 5) ... % Init susceptible
             (1+mle_initMult(1)) * pars_in.X0_target([pars_in.E_ids pars_in.Isym_ids pars_in.Iasym_ids]) ...
