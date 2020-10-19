@@ -70,7 +70,7 @@ for REGION=["nyc", "sflor", "wash"]
         % Calculate R0's on column 8
         test(:,8) = 0;
         for j=1:size(test,1)
-            test(j,8) = Calc_R0_Theta(test(:,1:6), pars_in);
+            test(j,8) = Calc_R0_Theta(test(j,1:6), pars_in);
         end
 
         % Fix the multiplicative initial condition factor on column 6
