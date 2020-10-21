@@ -12,6 +12,8 @@ v.chains = grep(value = T, list.files(path = 'OUTPUT/', pattern = '2020-10-07')
                 , pattern='chains.csv')
 
 ls.chains = sapply(v.chains, function(x){
+  REGION = strsplit(x, '_')[[1]][2]
+  
   # Read in csv 
   res = read.csv(paste("OUTPUT/", x, sep='', collapse = ''))
   
@@ -24,15 +26,28 @@ ls.chains = sapply(v.chains, function(x){
   # Add positions
   res$idx = 1:(table(res$i_chain)[1])
   
+  # add region
+  res$region = REGION
+  
   # melt
-  res = melt(res, c('idx', 'i_chain', 'LogLikelihood'))
-
+  res = melt(res, c('idx', 'i_chain', 'LogLikelihood', 'region'))
+  
+  # renaming
+  # v.map = paste(colnames(df.prsf), round(df.prsf[REGION,],3), sep='=')
+  # names(v.map) = levels(res$variable)
+  # res$variable = v.map[as.character(res$variable)]
+  
   # Return  
   list(res)
 })
 
 
-test = ls.chains[[3]]
+test = do.call('rbind', ls.chains)
+test = test[!(test$region == 'wash' & test$i_chain == 4),]
 ggplot(test, aes(x = idx, y = value, color = factor(i_chain))) + 
-  geom_line(alpha = 0.25) + 
-  facet_wrap("variable", ncol = 2, scales = 'free')
+  geom_line(alpha = 0.2, aes()) + 
+  facet_grid(variable~region, scales='free')
+
+# ggplot(test, aes(x = idx, y = value, color = factor(i_chain))) + 
+#   geom_line(alpha = 0.4, aes()) + 
+#   facet_wrap('variable', ncol=3, scales='free')
