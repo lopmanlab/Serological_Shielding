@@ -2,6 +2,7 @@ rm(list=ls())
 require(readxl)
 require(reshape2)
 require(ggplot2)
+require(factoextra)
 
 # Read in Gelman-Rubin RHat results
 df.prsf = data.frame(read_xlsx('2020-10-19_MCMCSTATmprsf_Diagnostics.xlsx')
@@ -11,6 +12,7 @@ df.prsf = data.frame(read_xlsx('2020-10-19_MCMCSTATmprsf_Diagnostics.xlsx')
 v.chains = grep(value = T, list.files(path = 'OUTPUT/', pattern = '2020-10-07')
                 , pattern='chains.csv')
 
+# Read in chains
 ls.chains = sapply(v.chains, function(x){
   REGION = strsplit(x, '_')[[1]][2]
   
@@ -29,25 +31,37 @@ ls.chains = sapply(v.chains, function(x){
   # add region
   res$region = REGION
   
-  # melt
-  res = melt(res, c('idx', 'i_chain', 'LogLikelihood', 'region'))
-  
-  # renaming
-  # v.map = paste(colnames(df.prsf), round(df.prsf[REGION,],3), sep='=')
-  # names(v.map) = levels(res$variable)
-  # res$variable = v.map[as.character(res$variable)]
-  
   # Return  
   list(res)
 })
+names(ls.chains) = sapply(names(ls.chains)
+                          , function(x) strsplit(x, '_')[[1]][2])
 
+# Summarize chains
+ls.summary = lapply(ls.chains, function(x){
+  
+})
 
-test = do.call('rbind', ls.chains)
-test = test[!(test$region == 'wash' & test$i_chain == 4),]
-ggplot(test, aes(x = idx, y = value, color = factor(i_chain))) + 
+# Plot PAs
+region = 'wash'
+test = t(do.call('cbind', split(ls.chains[[region]][,1:6], ls.chains[[region]]$i_chain)))
+v.hab = sapply(rownames(test), function(x){strsplit(x, '\\.')[[1]][2]})
+
+df.pcs = prcomp(test)
+fviz_pca_ind(df.pcs, geom.ind = 'point', habillage = v.hab, addEllipses = T)
+
+# (1) Traceplots ----------------------------------------------------------
+
+df.chains = do.call('rbind',lapply(ls.chains, function(x){
+  return(melt(x, c('idx', 'i_chain', 'LogLikelihood', 'region')))
+}))
+df.chains = df.chains[!(df.chains$region == 'wash' & df.chains$i_chain == 4),]
+p.traces = ggplot(df.chains, aes(x = idx, y = value, color = factor(i_chain))) + 
   geom_line(alpha = 0.2, aes()) + 
   facet_grid(variable~region, scales='free')
 
-# ggplot(test, aes(x = idx, y = value, color = factor(i_chain))) + 
-#   geom_line(alpha = 0.4, aes()) + 
-#   facet_wrap('variable', ncol=3, scales='free')
+
+
+# (2) Pairplots -----------------------------------------------------------
+
+
