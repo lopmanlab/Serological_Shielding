@@ -50,6 +50,26 @@ v.hab = sapply(rownames(test), function(x){strsplit(x, '\\.')[[1]][2]})
 df.pcs = prcomp(test)
 fviz_pca_ind(df.pcs, geom.ind = 'point', habillage = v.hab, addEllipses = T)
 
+# Contours
+for(region in c('wash', 'sflor', 'nyc')){
+  for(i in 2:11){
+    test = ls.chains[[region]]
+    # if(region == 'wash'){
+    #   test = test[test$i_chain != 4,]
+    # }
+    test = test[test$i_chain == i,]
+    p_pairs= ggpairs(test[,1:6], lower = list(continuous = "density"))
+    
+    ggsave(paste(region, '_countour_', i, '.png', sep='', collapse='')
+           , p_pairs
+           , 'png'
+           , width = 12
+           , height = 12)
+  }
+}
+
+
+
 # (1) Traceplots ----------------------------------------------------------
 
 df.chains = do.call('rbind',lapply(ls.chains, function(x){
