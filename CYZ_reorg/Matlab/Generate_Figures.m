@@ -8,17 +8,17 @@ for PARAMETER_SET = ["LANCET"] %PNAS
             if isfile(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))
                 load(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))    
 
-                t2 = figure(2); clf;
-                mcmcplot(chain1,[],res1,'chainpanel');
-                saveas(t2, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_chainpanel.png'));
+                %t2 = figure(2); clf;
+                %mcmcplot(chain1,[],res1,'chainpanel');
+                %saveas(t2, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_chainpanel.png'));
 
-                t3 = figure(3); clf;
-                mcmcplot(chain1,[],res1,'pairs');
-                saveas(t3, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_pairs.png'));
+                %t3 = figure(3); clf;
+                %mcmcplot(chain1,[],res1,'pairs');
+                %saveas(t3, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_pairs.png'));
 
-                t4 = figure(4); clf;
-                mcmcplot(chain1,[],res1,'denspanel',2);
-                saveas(t4, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_denspanel.png'));
+                %t4 = figure(4); clf;
+                %mcmcplot(chain1,[],res1,'denspanel',2);
+                %saveas(t4, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_denspanel.png'));
 
                 temp_res = res;%(2:6);
                 Chains = cellfun(@(x) x{2}, temp_res, 'un', 0);
