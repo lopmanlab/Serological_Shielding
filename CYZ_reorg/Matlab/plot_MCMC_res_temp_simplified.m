@@ -35,7 +35,7 @@ for j = 1:length(Comps)
     
     % Subplot based on the # of components
     subplot(length(Comps), 1, j)
-    %suptitle(region_name);
+    suptitle(region_name);
     set(gca,'linewidth',1);
     set(gcf, 'position', [x0,y0,width,height])
     hold on
