@@ -16,7 +16,7 @@ Chain = Chains{k};
 Res = Ress{k};
 
 % Take second half of chain XXX thisis sus,
-burnIn = floor(length(Chain)/2);
+burnIn = 1;% floor(length(Chain)/2);
 burnOut = burnIn:length(Chain);
 chain_out = Chain(burnOut,:);
 
