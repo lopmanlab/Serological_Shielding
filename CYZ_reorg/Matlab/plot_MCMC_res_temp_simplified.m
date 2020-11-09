@@ -95,7 +95,7 @@ for j = 1:length(Comps)
     elseif j_comp == "R"        % If we're plotting R, include sero
         plot(Pars.tSero+Pars.t0, Pars.sero/100*Pars.N, 's', 'Color', [.6 0 0], ...
             'MarkerFaceColor',[1 0 0], 'DisplayName', 'Serology data from Havers et al')
-        ylabel('Cumulative immune individuals','fontweight','bold')
+        ylabel('Number of recovered individuals','fontweight','bold')
         legend({'Serology data from Havers et al'},'Location','southeast')
         legend boxoff
 
