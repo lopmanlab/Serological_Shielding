@@ -26,7 +26,7 @@ for PARAMETER_SET = ["LANCET"] %PNAS
                 % Forward simulate to February 01 2021
                     %temp_tf = datetime(2021,04,01);
                     %pars_in.times = 1:365; %days(temp_tf - pars_in.t0);
-                t5 = plot_MCMC_res_temp_simplified(100, Chains, ["Hcri", "R", "D"], pars_in, Ress);
+                t5 = plot_MCMC_res_temp_simplified(100, Chains, ["Hcri", "R", "D"], pars_in, Ress, REGION);
                     %t5 = plot_MCMC_res_temp(100, Chains, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, Ress);
                 saveas(t5, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_fits.png'));
             end

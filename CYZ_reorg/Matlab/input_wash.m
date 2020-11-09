@@ -2,6 +2,7 @@ input_defaults
 
 %% Set to default
 pars_wash = pars_default;
+pars_wash.loc = "Washington Puget Sound";
 
 %% Read WASH Data
 wash_data = csvread('wash.csv',1,2); % don't read text columns

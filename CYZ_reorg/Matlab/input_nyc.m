@@ -2,6 +2,7 @@ input_defaults
 
 %% Set to default
 pars_nyc = pars_default;
+pars_nyc.loc = "New York City";
 
 %% Read NY Data
 ny_data = csvread('nyc.csv',1,2); % don't read text columns

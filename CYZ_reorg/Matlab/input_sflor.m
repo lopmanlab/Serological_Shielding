@@ -2,6 +2,7 @@ input_defaults
 
 %% Set to default
 pars_sflor = pars_default;
+pars_sflor.loc = "South Florida";
 
 %% Read SFLOR Data
 sflor_data = csvread('sflor.csv',1,2); % don't read text columns

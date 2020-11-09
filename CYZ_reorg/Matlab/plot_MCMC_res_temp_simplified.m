@@ -1,20 +1,27 @@
-function out = plot_MCMC_res_temp_simplified(NSamples, Chains, Comps, Pars, Ress)
+function out = plot_MCMC_res_temp_simplified(NSamples, Chains, Comps, Pars, Ress, REGION)
 %% Predictions from MCMC
+
+if REGION == 'nyc'
+    region_name = 'New York City';
+elseif REGION == 'sflor'
+    region_name = 'South Florida';
+elseif REGION == 'wash'
+    region_name = 'Washington Puget Sound';
+end
 
 % For all Chains
 out = figure('Name', 'Res', 'Position', [5 5 500 600]); clf    
-COUNTER = 1;
 k = 2;
 Chain = Chains{k};
 Res = Ress{k};
 
-% Take second half of chain
+% Take second half of chain XXX thisis sus,
 burnIn = floor(length(Chain)/2);
 burnOut = burnIn:length(Chain);
 
 chain_out = Chain(burnOut,:);
-i_samp = randi([1, length(burnOut)], 1,NSamples);
 
+i_samp = randi([1, length(burnOut)], 1,NSamples);
 chain_samp = chain_out(i_samp,:);
 
 % Plot by component.
@@ -23,6 +30,8 @@ for j = 1:length(Comps)
     
     % Subplot based on the # of components
     subplot(length(Comps), 1, j)
+    suptitle(region_name);
+    set(gca,'linewidth',1)
     hold on
 
     % Plot the mean chain
@@ -35,6 +44,7 @@ for j = 1:length(Comps)
     
     % x values
     ts = 1:size(sampled_fits,2); % I can only do this b/c I set days as the unit
+    ts = ts+Pars.t0;
     
     % y values
     mean_sampled_fits = mean(sampled_fits);
@@ -46,24 +56,54 @@ for j = 1:length(Comps)
     % plots
     fill([ts, fliplr(ts)], ...
         [ci_higher_sampled_fits, fliplr(ci_lower_sampled_fits)], ...
-        [0.7, 0.7, 0.7],'LineStyle','none')
+        [0.7, 0.7, 0.7],'LineStyle','none','HandleVisibility','off')
     
-    plot(ts, ci_higher_sampled_fits, '-.', 'LineWidth', 1, 'Color', [0.3, 0.3, 0.3]);
-    plot(ts, ci_lower_sampled_fits, '-.', 'LineWidth', 1, 'Color', [0.3, 0.3, 0.3]);
-    plot(ts, mean_sampled_fits, 'LineWidth', 2);
+    plot(ts, ci_higher_sampled_fits, '-.', 'LineWidth', 1, 'Color', [0.3, 0.3, 0.3], ...
+        'HandleVisibility','off');
+    plot(ts, ci_lower_sampled_fits, '-.', 'LineWidth', 1, 'Color', [0.3, 0.3, 0.3], ...
+        'HandleVisibility','off');
+    plot(ts, mean_sampled_fits, 'LineWidth', 2, 'Color', [0 0 0], ...
+        'HandleVisibility','off');
     
- 
     % For certain components, add additional information to the plot.
     if j_comp == "S"            % If we're plotting S, include sero
-        plot(Pars.tSero, (1-Pars.sero/100)*Pars.N, 's', 'Color', [0.1, 0.1, 0.9], ...
-            'MarkerFaceColor',[1 .6 .6])
+        plot(Pars.tSero+Pars.t0, (1-Pars.sero/100)*Pars.N, 's', 'Color', [1 0 0], ...
+            'MarkerFaceColor',[1 0 0], 'DisplayName', 'S')
+        ylabel('Cumulative susceptible')
+        
+    elseif j_comp == "E"        % Exposed
+        ylabel('Exposed individuals')
+        
+    elseif j_comp == "Iasym"    % Asymptomatics
+        ylabel('Asymptomatic infectees')
+        
+    elseif j_comp == "Isym"     % Symptomatics
+        ylabel('Symptomatic individuals')
+        
+    elseif j_comp == "Hsub"     % Subcritical Hospitalizations
+        ylabel('Subcritical Hospitalizations')
+        
+    elseif j_comp == "Hcri"     % Critical Care Cases
+        ylabel('Critical care cases')
+        
     elseif j_comp == "R"        % If we're plotting R, include sero
-        plot(Pars.tSero, Pars.sero/100*Pars.N, 's', 'Color', [0.1, 0.1, 0.9], ...
-            'MarkerFaceColor',[1 .6 .6])
-    elseif j_comp == "D"        % If deaths, include data
-        plot(7*(1:Pars.nWeeks), cumsum(Pars.target), 's', 'Color', [0.1, 0.1, 0.9])
-    end
+        plot(Pars.tSero+Pars.t0, Pars.sero/100*Pars.N, 's', 'Color', [.6 0 0], ...
+            'MarkerFaceColor',[1 0 0], 'DisplayName', 'Serology data from Havers et al')
+        ylabel('Cumulative immune individuals')
+        legend({'Serology data from Havers et al'},'Location','southeast')
+        legend boxoff
 
+    elseif j_comp == "D"        % If deaths, include data
+        plot(7*(1:Pars.nWeeks)+Pars.t0, cumsum(Pars.target), 's', 'Color', [0.2, 0.3, 0.6], ...
+            'MarkerFaceColor', [0.3, 0.5, 0.9], 'DisplayName', 'Death data from USAFacts.org')
+        ylabel('Cumulative deaths')
+        legend({'Death data from USAFacts.org'},'Location','southeast')
+        legend boxoff
+        
+    end
     ylim([0, Inf])
-    title(j_comp)
+    xlim([Pars.t0, Pars.tf])
+   
+    box on
 end
+
