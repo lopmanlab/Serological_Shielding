@@ -18,11 +18,16 @@ Res = Ress{k};
 % Take second half of chain XXX thisis sus,
 burnIn = floor(length(Chain)/2);
 burnOut = burnIn:length(Chain);
-
 chain_out = Chain(burnOut,:);
 
 i_samp = randi([1, length(burnOut)], 1,NSamples);
 chain_samp = chain_out(i_samp,:);
+
+% Change plot position
+x0 = 5;
+y0 = 5;
+width = 400;
+height = 1000;
 
 % Plot by component.
 for j = 1:length(Comps)
@@ -30,8 +35,9 @@ for j = 1:length(Comps)
     
     % Subplot based on the # of components
     subplot(length(Comps), 1, j)
-    suptitle(region_name);
-    set(gca,'linewidth',1)
+    %suptitle(region_name);
+    set(gca,'linewidth',1);
+    set(gcf, 'position', [x0,y0,width,height])
     hold on
 
     % Plot the mean chain
@@ -69,34 +75,34 @@ for j = 1:length(Comps)
     if j_comp == "S"            % If we're plotting S, include sero
         plot(Pars.tSero+Pars.t0, (1-Pars.sero/100)*Pars.N, 's', 'Color', [1 0 0], ...
             'MarkerFaceColor',[1 0 0], 'DisplayName', 'S')
-        ylabel('Cumulative susceptible')
+        ylabel('Cumulative susceptible','fontweight','bold')
         
     elseif j_comp == "E"        % Exposed
-        ylabel('Exposed individuals')
+        ylabel('Exposed individuals','fontweight','bold')
         
     elseif j_comp == "Iasym"    % Asymptomatics
-        ylabel('Asymptomatic infectees')
+        ylabel('Asymptomatic infectees','fontweight','bold')
         
     elseif j_comp == "Isym"     % Symptomatics
-        ylabel('Symptomatic individuals')
+        ylabel('Symptomatic individuals','fontweight','bold')
         
     elseif j_comp == "Hsub"     % Subcritical Hospitalizations
-        ylabel('Subcritical Hospitalizations')
+        ylabel('Subcritical Hospitalizations','fontweight','bold')
         
     elseif j_comp == "Hcri"     % Critical Care Cases
-        ylabel('Critical care cases')
+        ylabel('Critical care cases','fontweight','bold')
         
     elseif j_comp == "R"        % If we're plotting R, include sero
         plot(Pars.tSero+Pars.t0, Pars.sero/100*Pars.N, 's', 'Color', [.6 0 0], ...
             'MarkerFaceColor',[1 0 0], 'DisplayName', 'Serology data from Havers et al')
-        ylabel('Cumulative immune individuals')
+        ylabel('Cumulative immune individuals','fontweight','bold')
         legend({'Serology data from Havers et al'},'Location','southeast')
         legend boxoff
 
     elseif j_comp == "D"        % If deaths, include data
         plot(7*(1:Pars.nWeeks)+Pars.t0, cumsum(Pars.target), 's', 'Color', [0.2, 0.3, 0.6], ...
             'MarkerFaceColor', [0.3, 0.5, 0.9], 'DisplayName', 'Death data from USAFacts.org')
-        ylabel('Cumulative deaths')
+        ylabel('Cumulative deaths','fontweight','bold')
         legend({'Death data from USAFacts.org'},'Location','southeast')
         legend boxoff
         
