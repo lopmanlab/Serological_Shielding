@@ -35,7 +35,7 @@ for j = 1:length(Comps)
     
     % Subplot based on the # of components
     subplot(length(Comps), 1, j)
-    sgtitle(region_name, 'FontWeight', 'bold', 'FontSize', 18);
+    sgtitle(region_name, 'fontweight', );
     set(gca,'linewidth',1, 'fontsize', 14);
     set(gcf, 'position', [x0,y0,width,height])
     hold on
