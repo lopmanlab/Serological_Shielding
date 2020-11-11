@@ -26,7 +26,7 @@ chain_samp = chain_out(i_samp,:);
 % Change plot position
 x0 = 10;
 y0 = 10;
-width = 600;
+width = 700;
 height = 1200;
 
 % Plot by component.
@@ -93,14 +93,14 @@ for j = 1:length(Comps)
         ylabel('Critical care cases','fontweight','bold', 'fontsize', 16)
         
     elseif j_comp == "R"        % If we're plotting R, include sero
-        plot(Pars.tSero+Pars.t0, Pars.sero/100*Pars.N, 's', 'Color', [.6 0 0], ...
+        plot(Pars.tSero+Pars.t0, Pars.sero/100*Pars.N, 's', 'Color', [.6 0 0], 'MarkerSize', 15, ...
             'MarkerFaceColor',[1 0 0], 'DisplayName', 'Serology data from Havers et al')
         ylabel('Number of recovered individuals','fontweight','bold',  'fontsize', 14)
         legend({'Serology data from Havers et al'},'Location','southeast', 'fontsize', 12)
         legend boxoff
 
     elseif j_comp == "D"        % If deaths, include data
-        plot(7*(1:Pars.nWeeks)+Pars.t0, cumsum(Pars.target), 's', 'Color', [0.2, 0.3, 0.6], ...
+        plot(7*(1:Pars.nWeeks)+Pars.t0, cumsum(Pars.target), 's', 'Color', [0.2, 0.3, 0.6], 'MarkerSize', 15, ...
             'MarkerFaceColor', [0.3, 0.5, 0.9], 'DisplayName', 'Death data from USAFacts.org')
         ylabel('Cumulative deaths','fontweight','bold',  'fontsize', 16)
         legend({'Death data from USAFacts.org'},'Location','southeast',  'fontsize', 12)
