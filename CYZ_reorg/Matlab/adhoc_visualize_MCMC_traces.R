@@ -117,11 +117,21 @@ df.chains = df.chains[!(df.chains$region == 'wash' & df.chains$i_chain == 4),]
 # Remove Chain 1; only use chains 2-11
 df.chains = df.chains[df.chains$i_chain != 1,]
 
-p.traces = ggplot(df.chains, aes(x = idx, y = value, color = i_chain)) + 
-  geom_line(alpha = 0.2) + 
-  facet_grid(variable~region)
+for(REGION in c('nyc', 'sflor', 'wash')){
+  temp.chains = df.chains[df.chains$region == REGION,]
+  temp.chains$i_chain = factor(temp.chains$i_chain-1)
+  
+  p.traces = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain)) + 
+    theme_grey(base_size=14) + 
+    geom_line(alpha = 0.2) + 
+    facet_wrap('variable', scales = 'free') +
+    xlab('iterations')
+  
+  ggsave(paste('OUTPUT/MCMC Figures/2020-11-12_', REGION, '_TracePlots.png', sep='', collapse='')
+         , p.traces, height = 6, width = 11)
+  
+}
 
-ggsave('2020-10-22_TracePlots.png', p.traces, height = 11, width = 9)
 
 
 
@@ -138,6 +148,6 @@ p.rhats = ggplot(melt.prsf, aes(x = variable, y = value, color = region)) +
   theme_minimal(base_size = 12) + 
   coord_flip() + 
   ylab('RHat') + 
-  xlab('')
+  xlab('chain iteration')
   
-ggsave('2020-10-22_GMBConvergenceRhats.png', p.rhats, height = 2, width = 8)
+ggsave('2020-11-12_GMBConvergenceRhats.png', p.rhats, height = 2, width = 8)
