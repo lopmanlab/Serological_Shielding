@@ -1,3 +1,6 @@
+% This calculate convergences for each chain.
+% The output is saved in adhoc.csv
+
 adhoc_mat = zeros(3,7);
 load OUTPUT/2020-10-07_MCMCRun_wash_LANCET_LL.mat
 for i=1:6

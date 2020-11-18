@@ -13,7 +13,7 @@ function [t, Y, pars_out] = SEIR_model_shields_ThetaSweep(Theta, times, Pars)
     % Fit to Initial Conditions
     X0 = pars_in.X0_target;
     
-    % Only E, Iasym, and Isym will be changed. Ratios are constant. XXX 09.07.2020 - initial cond hotfix
+    % Only E, Iasym, and Isym will be changed. Ratios are constant.
     Theta_Scale = (1+Theta(6));
     Temp_Tot = X0(pars_in.E_ids) + ...
         X0(pars_in.Iasym_ids) + ...
