@@ -1,0 +1,3 @@
+This folder contains code files used to simulate the model at the MLE for each location (SFloridaOpening_SamplePlots_ak.R, WashingtonOpening_SamplePlots_ak.R, 
+NYCOpening_SamplePlots_ak.R).  When run, these three code files generate Rdata sets, that are used as an input to make plots that 
+combine the files from all three locations (comb_figs_nov2020_ak.R). 
