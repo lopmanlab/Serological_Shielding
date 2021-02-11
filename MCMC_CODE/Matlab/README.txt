@@ -14,7 +14,7 @@ This folder contains our MCMC pipeline files:
 	[Data]	SAH orders by location.xlsx 		:: Stay-At-Home orders for 6 different locales.
 	[Data]	AgeStructure_byLocation.xlsx 		:: Census of age structure for florida, washington, and nyc
 
-	[Main]	MCMC_find_optimal_parms_for_region.m	:: Main model-fitting script. Results saved to /OUTPUT/<region>/...
+	[Main]	MCMC_find_optimal_parms_for_region.m	:: Main model-fitting function. Results saved to /OUTPUT/<region>/...
 	[Main]	MCMC_Generate_Figures.m			:: Generates MCMC-related figures
 	[Main]  Visualize_MCMC_traces.R			:: Visualizes MCMC chains. Example *_chains.csv files used are in /OUTPUT
 							:: Plots are in /OUTPUT/MCMC Figures
