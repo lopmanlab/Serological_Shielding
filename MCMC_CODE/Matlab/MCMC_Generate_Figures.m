@@ -1,5 +1,6 @@
 clear
 DATE = "2021-02-13";
+addpath(genpath(pwd))
 
 for PARAMETER_SET = ["LANCET"] 
     for REGION = ["nyc", "sflor", "wash"]        

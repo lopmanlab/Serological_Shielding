@@ -33,11 +33,11 @@ function [t, Y, pars_out] = SEIR_model_shields_ThetaSweep(Theta, times, Pars)
     pars_in.asymp_red = Theta(7);
     
     % 8. [0,1]      gamma_e:                Fit latent period.
-    pars_in.gamma_e = Theta(8);
+    pars_in.gamma_e = 1/Theta(8);
     
     % 9. [0,1]      gamma_hs, gamma_hc:     Fit hospital length of stay.
-    pars_in.gamma_hs = Theta(9);
-    pars_in.gamma_hc = Theta(9);
+    pars_in.gamma_hs = 1/Theta(9);
+    pars_in.gamma_hc = 1/Theta(9);
     
     %% Run ODEs
     opts = odeset();
