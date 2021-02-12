@@ -7,8 +7,6 @@
 
 cd /storage/home/hcoda1/1/czhao98/scratch/Sero_MCMC
 ml matlab/r2019a
-
 cd Serological_Shielding/MCMC_CODE/Matlab
 matlab -nodisplay -nosplash -nodesktop -r "run('sweep_region_parameters_sflor.m');exit;"
-
 done
