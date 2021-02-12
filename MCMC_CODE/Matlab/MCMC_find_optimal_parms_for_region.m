@@ -68,7 +68,7 @@
 
     RES_OUT = {{res1, chain1, s2chain1}};
     
-    for iter=1:N_CHAINS
+    parfor iter=1:N_CHAINS
         params = {
         {'q', .1*rand(1), 0, 0.1}
         {'c', rand(1), 0, 1}
