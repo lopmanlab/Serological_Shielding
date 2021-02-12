@@ -1,14 +1,15 @@
 clear
-DATE = "2020-11-17";
+DATE = "2021-02-12";
+addpath(genpath(pwd))
 
 %% Set Pars
-CHAIN_LENGTH = 5;
+CHAIN_LENGTH = 5000;
 CHAIN_REP = 19;
 N_CHAINS = 10;
             
 
 %% RUN
-for PARAMETER_SET = ["LANCET"]%"PNAS", 
+for PARAMETER_SET = ["LANCET"] 
     for REGION = ["nyc", "wash", "sflor"]     
         for LIKELIHOOD_TYPE = ["LL"]
             MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS, DATE);
