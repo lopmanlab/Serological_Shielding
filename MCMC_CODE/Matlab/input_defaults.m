@@ -3,7 +3,7 @@ model_pars_reduced = [];
 
 % Population
 model_pars_reduced.N = 323*10^6;
-model_pars_reduced.agefrac_0 = [0.12,0.13,0.13,0.13,0.13,0.13,0.11,0.06,0.04,0.02]; % ref (49)
+model_pars_reduced.agefrac_0 = [0.12,0.13,0.13,0.13,0.13,0.13,0.11,0.06,0.04,0.02];
 model_pars_reduced.agestruc = [sum(model_pars_reduced.agefrac_0(1:2)), sum([model_pars_reduced.agefrac_0(3:6), 0.5*model_pars_reduced.agefrac_0(7)]), sum([0.5*model_pars_reduced.agefrac_0(7), model_pars_reduced.agefrac_0(8:10)])];
 
 % Timeline
@@ -25,19 +25,13 @@ Nc = model_pars_reduced.nCompartments;
 model_pars_reduced.varNames = Get_Var_Names(model_pars_reduced.compartments, model_pars_reduced.subgroups);
 
 temp_idxNames = 1:(N*Nc);
-    %names(temp_idxNames) = model_pars_reduced.varNames; % Matlab doesn't
-    %name variables.
 model_pars_reduced.idxNames = temp_idxNames;
 
 % Variables in Matrix Format
 temp_varMat = reshape(model_pars_reduced.varNames, N, Nc);
-    %colnames(temp_varMat) = model_pars_reduced.compartments;
-    %rownames(temp_varMat) = model_pars_reduced.subgroups;
 model_pars_reduced.varMat = temp_varMat; %columns are compartments, rows are population subclasses
 
 temp_idxMat = reshape(model_pars_reduced.idxNames, N, Nc);
-    %colnames(temp_idxMat) = model_pars_reduced.compartments;
-    %rownames(temp_idxMat) = model_pars_reduced.subgroups;
 model_pars_reduced.idxMat = temp_idxMat; %columns are compartments, rows are population subclasses
 
 % Base Compartment Indices
@@ -99,11 +93,11 @@ intervention_pars_reduced.tStart_target = days(datetime(2020,05,09)-datetime(202
 intervention_pars_reduced.tStart_school = days(datetime(2020,09,01)-intervention_pars_reduced.t0)+1;
 intervention_pars_reduced.tStart_reopen = 500;
 
-intervention_pars_reduced.socialDistancing_other = 0.25; % fraction of contacts reduced to when social distancing
-intervention_pars_reduced.p_reduced = 0.1;      % proportion of contacts reduced to
-intervention_pars_reduced.p_full = 1;           % proportion of contacts reduced to for full contact adults
+intervention_pars_reduced.socialDistancing_other = 0.25;    % fraction of contacts reduced to when social distancing
+intervention_pars_reduced.p_reduced = 0.1;                  % proportion of contacts reduced to
+intervention_pars_reduced.p_full = 1;                       % proportion of contacts reduced to for full contact adults
 
-intervention_pars_reduced.alpha = 1;            % shielding. Note this is not alpha_JSW, but (alpha_JSW+1)
+intervention_pars_reduced.alpha = 1;                        % shielding. Note this is not alpha_JSW, but (alpha_JSW+1)
 intervention_pars_reduced.c = 1;
 
 intervention_pars_reduced.socialDistancing_other_c = 0.25;
@@ -128,8 +122,8 @@ pnas_pars_reduced.hosp_crit = [0.001, 0.0048, 0.099];     % Of the symptomatic c
 lancet_pars_reduced = [];
 lancet_pars_reduced.R0 = 2.9;                 % Note on R0: with base structure 63.28q
 lancet_pars_reduced.q = 0.0451;               % Probability of transmission from children
-lancet_pars_reduced.gamma_hs = 1/15;          % LOS for subcritical cases (medrxiv paper)
-lancet_pars_reduced.gamma_hc = 1/15;          % LOS for critical cases (medrxiv paper)
+lancet_pars_reduced.gamma_hs = 1/15;          % Length of stay for subcritical cases (medrxiv paper)
+lancet_pars_reduced.gamma_hc = 1/15;          % Length of stay for critical cases (medrxiv paper)
 
 lancet_pars_reduced.p_symptomatic = .14;      % Fraction "Symptomatic/documented" (Shaman"s paper)
 

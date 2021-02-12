@@ -1,10 +1,10 @@
 clear
-DATE = "2021-02-12";
+DATE = "2021-02-13";
 addpath(genpath(pwd))
 
 %% Set Pars
-CHAIN_LENGTH = 5000;
-CHAIN_REP = 19;
+CHAIN_LENGTH = 500;
+CHAIN_REP = 5;
 N_CHAINS = 10;
             
 
@@ -16,28 +16,3 @@ for PARAMETER_SET = ["LANCET"]
         end
     end
 end
-
-
-%% Evaluate MCMC
-%load OUTPUT/2020-09-19_MCMCRun_nyc_LANCET_SS.mat
-
-%res = res3;
-%chain = chain3;
-
-%figure(2); clf
-%mcmcplot(chain,[],res,'chainpanel');
-%figure(3); clf
-%mcmcplot(chain,[],res,'pairs');
-%figure(4); clf
-%mcmcplot(chain,[],res,'denspanel',2);
-
-% Did Model Converge?
-%chainstats(chain,res)
-
-% Predictions
-%test = res;
-%test{1} = test{2};
-%hains = cellfun(@(x) x{2}, test, 'un', 0);
-%Ress = cellfun(@(x) x{1}, test, 'un', 0);
-%plot_MCMC_res(25, Chains, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, Ress)
-%plot_MCMC_res(100, {chain1, chain2, chain3, chain4}, ["S", "E", "Isym", "Iasym", "R", "D"], pars_in, {res1, res2, res3, res4})

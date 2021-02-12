@@ -14,9 +14,6 @@ function loglike = SEIR_model_shields_LL(times, dYdt_target, Theta, Pars, PLOT_R
     
     % Sero Penalty
     sero_exp = pars_in.N*pars_in.sero/100; % data entered as percentages, hence /100
-        %sero_low = pars_in.N*pars_in.sero_min/100; 
-        %sero_high = pars_in.N*pars_in.sero_max/100;
-
     sero_model_S = (pars_in.N - sum(y(pars_in.tSero,pars_in.S_ids),2));
     sero_model_R = sum(y(pars_in.tSero, pars_in.R_ids),2);
     
