@@ -3,7 +3,7 @@ DATE = "2021-02-13b";
 addpath(genpath(pwd))
 
 %% Set Pars
-CHAIN_LENGTH = 1000;
+CHAIN_LENGTH = 10000;
 CHAIN_REP = 9;
 N_CHAINS = 10;
             
