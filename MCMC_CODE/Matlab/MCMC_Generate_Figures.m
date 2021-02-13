@@ -3,21 +3,23 @@ DATE = "2021-02-13";
 addpath(genpath(pwd))
 
 for PARAMETER_SET = ["LANCET"] 
-    for REGION = ["wash"]%["nyc", "sflor", "wash"]        
+    for REGION = ["nyc", "sflor", "wash"]        
         for LIKELIHOOD_TYPE = ["LL"]
             if isfile(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))
                 load(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))    
                 
+                PLOT_CHAIN_NUM = 2;
+                
                 t2 = figure(2); clf;
-                mcmcplot(chain1,[],res1,'chainpanel'); % mcmcplot(res{1}{2},[],res{1}{1},'chainpanel');
+                mcmcplot(res{PLOT_CHAIN_NUM}{2},[],res{PLOT_CHAIN_NUM}{1},'chainpanel');
                 saveas(t2, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_chainpanel.png'));
 
                 t3 = figure(3); clf;
-                mcmcplot(chain1,[],res1,'pairs');
+                mcmcplot(res{PLOT_CHAIN_NUM}{2},[],res{PLOT_CHAIN_NUM}{1},'pairs');
                 saveas(t3, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_pairs.png'));
 
                 t4 = figure(4); clf;
-                mcmcplot(chain1,[],res1,'denspanel',2);
+                mcmcplot(res{PLOT_CHAIN_NUM}{2},[],res{PLOT_CHAIN_NUM}{1},'denspanel',2);
                 saveas(t4, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_denspanel.png'));
 
                 temp_res = res;%(2:6);

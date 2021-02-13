@@ -5,6 +5,8 @@ require(ggplot2)
 require(GGally)
 require(factoextra)
 
+DATE = "2021-02-13" #"2020-10-07"
+
 # Read in Gelman-Rubin RHat results
 df.prsf = data.frame(read_xlsx('2020-10-19_MCMCSTATmprsf_Diagnostics.xlsx')
                      , stringsAsFactors = F, row.names = 1)
@@ -14,7 +16,7 @@ df.constraints = data.frame(read_xlsx('2020-10-19_MCMCSTAT_constraints.xlsx')
                             , stringsAsFactors = F, row.names = 1)
 
 # Read in chain summaries. Nested because I'm bad at regex 
-v.chains = grep(value = T, list.files(path = 'OUTPUT/', pattern = '2020-10-07')
+v.chains = grep(value = T, list.files(path = 'OUTPUT/', pattern = DATE)
                 , pattern='chains.csv')
 
 # Read in chains
@@ -42,31 +44,17 @@ ls.chains = sapply(v.chains, function(x){
 names(ls.chains) = sapply(names(ls.chains)
                           , function(x) strsplit(x, '_')[[1]][2])
 
-# Summarize chains
-ls.summary = lapply(ls.chains, function(x){
-  
-})
-
-# Side-note... maybe I can PCA this to see unidentifiability?
-region = 'wash'
-test = t(do.call('cbind', split(ls.chains[[region]][,1:6], ls.chains[[region]]$i_chain)))
-v.hab = sapply(rownames(test), function(x){strsplit(x, '\\.')[[1]][2]})
-
-df.pcs = prcomp(test)
-fviz_pca_ind(df.pcs, geom.ind = 'point', habillage = v.hab, addEllipses = T)
-
+v.col_headers = colnames(ls.chains[[1]])
+v.variables = v.col_headers[!v.col_headers %in% c('idx', 'i_chain', 'LogLikelihood', 'region')]
 
 # (1) Pairplots -----------------------------------------------------------
 
 # Contours
 if(F){
-  for(region in c('wash', 'sflor', 'nyc')){
-    for(i in 1:11){
-      test = ls.chains[[region]]
-      # if(region == 'wash'){
-      #   test = test[test$i_chain != 4,]
-      # }
-      test = test[test$i_chain == i,1:6]
+  for(REGION in c('nyc', 'sflor', 'wash')){
+    for(i in 2:11){
+      test = ls.chains[[REGION]]
+      test = test[test$i_chain == i,v.variables] # obtain variables
       
       p_pairs = ggpairs(test, lower = list(continuous = "density"))
       
@@ -90,7 +78,7 @@ if(F){
                                       , df.constraints[2,j]))
       }
       
-      ggsave(paste(region, '_countour_', i, '.png', sep='', collapse='')
+      ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', REGION, '_countour_', i, '.png', sep='', collapse='')
              , p_pairs
              , 'png'
              , width = 12
@@ -112,8 +100,6 @@ df.chains = do.call('rbind',lapply(ls.chains, function(x){
   return(melt(temp_df, c('idx', 'i_chain', 'LogLikelihood', 'region')))
 }))
 
-df.chains = df.chains[!(df.chains$region == 'wash' & df.chains$i_chain == 4),]
-
 # Remove Chain 1; only use chains 2-11
 df.chains = df.chains[df.chains$i_chain != 1,]
 
@@ -127,12 +113,10 @@ for(REGION in c('nyc', 'sflor', 'wash')){
     facet_wrap('variable', scales = 'free') +
     xlab('iterations')
   
-  ggsave(paste('OUTPUT/MCMC Figures/2020-11-12_', REGION, '_TracePlots.png', sep='', collapse='')
+  ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', REGION, '_TracePlots.png', sep='', collapse='')
          , p.traces, height = 6, width = 11)
   
 }
-
-
 
 
 
@@ -150,4 +134,4 @@ p.rhats = ggplot(melt.prsf, aes(x = variable, y = value, color = region)) +
   ylab('RHat') + 
   xlab('chain iteration')
   
-ggsave('2020-11-12_GMBConvergenceRhats.png', p.rhats, height = 2, width = 8)
+ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_GMBConvergenceRhats.png', sep='', collapse=''), p.rhats, height = 2, width = 8)

@@ -33,9 +33,7 @@
     ssminfun = @(Theta_in) ssfun(Theta_in, data);
 
     %% Find a good starting point.
-    [tmin,ssmin]=fminsearchbnd(ssminfun,[0.02;0.25;0.3;0.1;0.25;0;0;0.55;3;15], [0;0;0;0;0;0;0;0.5;2;11], [0.05;1;1;1;1;100;100;.6;7;28]);
-        %SEIR_model_shields_LL(data.xdata, data.ydata, tmin, pars_in,
-        %true) % Verification check
+    [tmin,ssmin]=fminsearchbnd(ssminfun,[0.02;0.25;0.3;0.1;0.25;0;0;0.55;3;15], [0;0;0;0;0;0;0;0.5;1;1], [0.05;1;1;1;1;100;100;.6;7;28]);
 
     n = length(data.xdata);
     p = 2;
