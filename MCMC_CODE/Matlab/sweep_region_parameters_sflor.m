@@ -1,10 +1,10 @@
 clear
-DATE = "2021-02-13";
+DATE = "2021-02-13b";
 addpath(genpath(pwd))
 
 %% Set Pars
-CHAIN_LENGTH = 5000;
-CHAIN_REP = 19;
+CHAIN_LENGTH = 1000;
+CHAIN_REP = 9;
 N_CHAINS = 10;
             
 

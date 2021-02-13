@@ -33,7 +33,7 @@
     ssminfun = @(Theta_in) ssfun(Theta_in, data);
 
     %% Find a good starting point.
-    [tmin,ssmin]=fminsearchbnd(ssminfun,[0.02;0.25;0.3;0.1;0.25;0;0;0.55;3;15], [0;0;0;0;0;0;0;0;0;0], [0.05;1;1;1;1;100;100;1;14;30]);
+    [tmin,ssmin]=fminsearchbnd(ssminfun,[0.02;0.25;0.3;0.1;0.25;0;0;0.55;3;15], [0;0;0;0;0;0;0;0.5;2;11], [0.05;1;1;1;1;100;100;.6;7;28]);
         %SEIR_model_shields_LL(data.xdata, data.ydata, tmin, pars_in,
         %true) % Verification check
 
@@ -49,9 +49,9 @@
         {'sd_{red}', tmin(4), 0, 1}
         {'p_{red}', tmin(5), 0, 1}
         {'init_{scale}', tmin(6), 0, Inf}        
-        {'asymp_{red}', tmin(7), 0, 1}  
-        {'gamma_{e}^{-1}', tmin(8), 0, 14}  
-        {'gamma_{h}^{-1}', tmin(9), 0, 30}  
+        {'asymp_{red}', tmin(7), 0.4, 0.6}  
+        {'gamma_{e}^{-1}', tmin(8), 1, 7}  
+        {'gamma_{h}^{-1}', tmin(9), 1, 28}  
         };
 
     model.ssfun  = ssfun;
@@ -79,9 +79,9 @@
         {'sd_{red}', rand(1), 0, 1}
         {'p_{red}', rand(1), 0, 1}  
         {'init_{scale}', rand(1), 0, Inf}
-        {'asymp_{red}', rand(1), 0, 1}  
-        {'gamma_{e}^{-1}', rand(1), 0, 14}  
-        {'gamma_{h}^{-1}', rand(1), 0, 30}  
+        {'asymp_{red}', 0.4+rand(1)*0.2, 0.4, 0.6}  
+        {'gamma_{e}^{-1}', 1+rand(1)*6, 1, 7}  
+        {'gamma_{h}^{-1}', 1+rand(1)*27, 1, 28}  
         };
         [res_i,chain_i,s2chain_i] = mcmcrun(model,data,params,options);
         
