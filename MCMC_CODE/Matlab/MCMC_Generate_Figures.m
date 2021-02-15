@@ -12,10 +12,12 @@ for PARAMETER_SET = ["LANCET"]
                 
                 t2 = figure(2); clf;
                 mcmcplot(res{PLOT_CHAIN_NUM}{2},[],res{PLOT_CHAIN_NUM}{1},'chainpanel');
+                set(gcf,'Position',[100 100 2000 1000])
                 saveas(t2, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_chainpanel.png'));
 
                 t3 = figure(3); clf;
                 mcmcplot(res{PLOT_CHAIN_NUM}{2},[],res{PLOT_CHAIN_NUM}{1},'pairs');
+                set(gcf,'Position',[100 100 1500 1200])
                 saveas(t3, strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LIKELIHOOD_TYPE, '_pairs.png'));
 
                 t4 = figure(4); clf;
