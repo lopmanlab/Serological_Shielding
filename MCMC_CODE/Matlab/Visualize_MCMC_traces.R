@@ -8,11 +8,11 @@ require(factoextra)
 DATE = "2021-02-13" #"2020-10-07"
 
 # Read in Gelman-Rubin RHat results
-df.prsf = data.frame(read_xlsx('2020-10-19_MCMCSTATmprsf_Diagnostics.xlsx')
+df.prsf = data.frame(read_xlsx('2021-02-13_MCMCSTATmprsf_Diagnostics.xlsx')
                      , stringsAsFactors = F, row.names = 1)
 
 # Constraints
-df.constraints = data.frame(read_xlsx('2020-10-19_MCMCSTAT_constraints.xlsx')
+df.constraints = data.frame(read_xlsx('2021-02-13_MCMCSTAT_constraints.xlsx')
                             , stringsAsFactors = F, row.names = 1)
 
 # Read in chain summaries. Nested because I'm bad at regex 

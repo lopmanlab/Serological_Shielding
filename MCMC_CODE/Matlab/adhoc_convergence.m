@@ -1,6 +1,6 @@
 % This calculate convergences for each chain.
 % The output is saved in adhoc.csv
-DATE = "2021-02-13b";
+DATE = "2021-02-13";
 
 REGION_LIST = ["nyc", "sflor", "wash"];
 adhoc_mat = zeros(3,10);
