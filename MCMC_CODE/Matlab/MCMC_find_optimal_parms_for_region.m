@@ -33,8 +33,8 @@
     ssminfun = @(Theta_in) ssfun(Theta_in, data);
 
     %% Find a good starting point
-    [tmin,ssmin]=fminsearchbnd(ssminfun,[0.02; 0.25; 0.3; 0.1; 0.25; 0; 0.55; 3; 15], [0; 0; 0; 0; 0; 0; 0.5; 1; 1], [0.05; 1; 1; 1; 1; 100; .6; 7; 28]);
-    
+    [tmin,ssmin]=fminsearchbnd(ssminfun,[0.02; 0.25; 0.3; 0.1; 0.25; 0; 0.55; 3; 15], [0; 0; 0; 0; 0; 0; 0.2; 1; 1], [0.05; 1; 1; 1; 1; 100; 1; 7; 28]);
+
     n = length(data.xdata);
     p = 2;
     mse = ssmin/(n-p); % estimate for the error variance
@@ -58,9 +58,9 @@
         {'sd_{red}', rand(1), 0, 1}
         {'p_{red}', rand(1), 0, 1}  
         {'init_{scale}', rand(1), 0, Inf}
-        {'asymp_{red}', rand(1), 0, 1}  
-        {'gamma_{e}^{-1}', 1+rand(1)*6, 1, 7}  
-        {'gamma_{h}^{-1}', 1+rand(1)*27, 1, 28}  
+        {'asymp_{red}', 0.45+0.2*rand(1), .2, 1} % Start off between 0.45 and 0.65 
+        {'gamma_{e}^{-1}', 2+2*rand(1), 1, 7}   % Start off between 2 and 4
+        {'gamma_{h}^{-1}', 13+4*rand(1), 1, 28} % Start off between 13 and 17
         };
     model.ssfun  = ssfun;
     model.sigma2 = mse; % (initial) error variance from residuals of the lsq fit
