@@ -68,6 +68,15 @@
     options.nsimu = CHAIN_LENGTH;
 
     %% Run MCMC /w 2x burn-in
+
+    % 1
+%     [res1,chain1,s2chain1] = mcmcrun(model,data,params_fminsearch,options);
+%     for i = 1:CHAIN_REP
+%         [res1,chain1,s2chain1] = mcmcrun(model,data,params_fminsearch,options,res1);
+%     end
+% 
+%     RES_OUT = {{res1, chain1, s2chain1}};
+%     
     parfor iter=1:(N_CHAINS+1)
         if iter==1  % First iteration uses fminsearch
             params = params_fminsearch;

@@ -2,7 +2,7 @@ clear
 DATE = "2021-02-15_TEST";
 addpath(genpath(pwd))
 
-for PARAMETER_SET = ["LANCET"] 
+for PARAMETER_SET = ["MMWR"] 
     for REGION = ["nyc", "sflor", "wash"]        
         for LIKELIHOOD_TYPE = ["LL"]
             if isfile(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET, '_', LIKELIHOOD_TYPE, '.mat'))

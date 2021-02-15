@@ -106,37 +106,37 @@ intervention_pars_reduced.p_reduced_c = 0.1;
 
 % (4) Epi Pars ------------------------------------------------------------
 
-% PNAS
-pnas_pars_reduced = [];
-pnas_pars_reduced.R0 = 3.1;                 % Note on R0: with base structure 63.28q
-pnas_pars_reduced.q = 0.039;                % Probability of transmission from children
-pnas_pars_reduced.gamma_hs = 1/5;           % LOS for subcritical cases (medrxiv paper)
-pnas_pars_reduced.gamma_hc = 1/7;           % LOS for critical cases (medrxiv paper)
+% Verity2020
+Verity2020_pars_reduced = [];
+Verity2020_pars_reduced.R0 = 3.1;                 % Note on R0: with base structure 63.28q
+Verity2020_pars_reduced.q = 0.039;                % Probability of transmission from children
+Verity2020_pars_reduced.gamma_hs = 1/5;           % LOS for subcritical cases (medrxiv paper)
+Verity2020_pars_reduced.gamma_hc = 1/7;           % LOS for critical cases (medrxiv paper)
 
-pnas_pars_reduced.p_symptomatic = 0.5;      % Fraction "Symptomatic/documented" (Shaman"s paper)
+Verity2020_pars_reduced.p_symptomatic = 0.5;      % Fraction "Symptomatic/documented" (Shaman"s paper)
 
-pnas_pars_reduced.hosp_frac = [0.002, 0.056, 0.224];      % Of the symptomatic cases, how many are hospitalized?
-pnas_pars_reduced.hosp_crit = [0.001, 0.0048, 0.099];     % Of the symptomatic cases, how many are critically hospitalized?
+Verity2020_pars_reduced.hosp_frac = [0.002, 0.056, 0.224];      % Of the symptomatic cases, how many are hospitalized?
+Verity2020_pars_reduced.hosp_crit = [0.001, 0.0048, 0.099];     % Of the symptomatic cases, how many are critically hospitalized?
 
-% Lancet
-lancet_pars_reduced = [];
-lancet_pars_reduced.R0 = 2.9;                 % Note on R0: with base structure 63.28q
-lancet_pars_reduced.q = 0.0451;               % Probability of transmission from children
-lancet_pars_reduced.gamma_hs = 1/15;          % Length of stay for subcritical cases (medrxiv paper)
-lancet_pars_reduced.gamma_hc = 1/15;          % Length of stay for critical cases (medrxiv paper)
+% MMWR
+MMWR_pars_reduced = [];
+MMWR_pars_reduced.R0 = 2.9;                 % Note on R0: with base structure 63.28q
+MMWR_pars_reduced.q = 0.0451;               % Probability of transmission from children
+MMWR_pars_reduced.gamma_hs = 1/15;          % Length of stay for subcritical cases (medrxiv paper)
+MMWR_pars_reduced.gamma_hc = 1/15;          % Length of stay for critical cases (medrxiv paper)
 
-lancet_pars_reduced.p_symptomatic = .14;      % Fraction "Symptomatic/documented" (Shaman"s paper)
+MMWR_pars_reduced.p_symptomatic = .14;      % Fraction "Symptomatic/documented" (Shaman"s paper)
 
-lancet_pars_reduced.hosp_frac = [0.061, 0.182, 0.417];      % Of the symptomatic cases, how many are hospitalized?
-lancet_pars_reduced.hosp_crit = [0.002, 0.056, 0.22];       % Of the symptomatic cases, how many are critically hospitalized?
+MMWR_pars_reduced.hosp_frac = [0.061, 0.182, 0.417];      % Of the symptomatic cases, how many are hospitalized?
+MMWR_pars_reduced.hosp_crit = [0.000, 0.063, 0.173];      % Of the symptomatic cases, how many are critically hospitalized?
 
-% LIFE OF PNAS // Which one // Which one?
-if PARAMETER_SET == "PNAS"
-    "Using PNAS parameter set"
-    epi_pars_reduced = pnas_pars_reduced;
-elseif PARAMETER_SET == "LANCET"
-    "Using LANCET parameter set"
-    epi_pars_reduced = lancet_pars_reduced;
+% Read in which parameter set to load
+if PARAMETER_SET == "Verity2020"
+    "Using Verity2020 parameter set"
+    epi_pars_reduced = Verity2020_pars_reduced;
+elseif PARAMETER_SET == "MMWR"
+    "Using MMWR parameter set"
+    epi_pars_reduced = MMWR_pars_reduced;
 else
     "ERROR: Unable to specify parameter set"
 end
