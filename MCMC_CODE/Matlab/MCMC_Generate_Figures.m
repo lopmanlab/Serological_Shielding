@@ -1,9 +1,9 @@
 clear
-DATE = "2021-02-15";
+DATE = "2021-02-15c";
 addpath(genpath(pwd))
 
 for PARAMETER_SET_IN = ["MMWR"] 
-    for REGION = ["wash"]%["nyc", "sflor", "wash"]        
+    for REGION = ["nyc", "sflor", "wash"]        
         for LIKELIHOOD_TYPE = ["LL"]
             if isfile(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET_IN, '_', LIKELIHOOD_TYPE, '.mat'))
                 load(strcat('OUTPUT/', DATE, '_MCMCRun_', REGION, '_', PARAMETER_SET_IN, '_', LIKELIHOOD_TYPE, '.mat'))    

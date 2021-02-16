@@ -1,6 +1,6 @@
 clear
 addpath(genpath(pwd))
-DATE = "2021-02-15";
+DATE = "2021-02-15c";
 
 cHeader = {'region (NEED TO MANUAL APPEND)'...
     'S_c' 'S_a' 'S_rc' 'S_fc' 'S_e' ...
@@ -24,7 +24,7 @@ fclose(fid);
 for REGION=["nyc", "sflor", "wash"]
     REGION
     
-    load(strcat("OUTPUT/", DATE, "_MCMCRun_", REGION, "_LANCET_LL.mat"))
+    load(strcat("OUTPUT/", DATE, "_MCMCRun_", REGION, "_MMWR_LL.mat"))
     
     cHeader = {'q' 'c' 'symptomatic_fraction' 'socialDistancing_other' 'p_reduced' 'Initial_Condition_Scale' 'asymp_red' 'latent_period' 'hosp_length' 'LogLikelihood' 'R0' 'i_chain'}; %dummy header
     commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
