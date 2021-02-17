@@ -1,126 +1,86 @@
 clear
 addpath(genpath(pwd))
-DATE = "2021-02-15";
+DATE = "2021-02-15_TEST";
+REGION = "wash";
 
-cHeader = {'region (NEED TO MANUAL APPEND)'...
-    'S_c' 'S_a' 'S_rc' 'S_fc' 'S_e' ...
-    'E_c' 'E_a' 'E_rc' 'E_fc' 'E_e' ...
-    'Isym_c' 'Isym_a' 'Isym_rc' 'Isym_fc' 'Isym_e' ...
-    'Iasym_c' 'Iasym_a' 'Iasym_rc' 'Iasym_fc' 'Iasym_e' ...
-    'Hsub_c' 'Hsub_a' 'Hsub_rc' 'Hsub_fc' 'Hsub_e' ...
-    'Hcri_c' 'Hcri_a' 'Hcri_rc' 'Hcri_fc' 'Hcri_e' ...
-    'D_c' 'D_a' 'D_rc' 'D_fc' 'D_e' ...
-    'R_c' 'R_a' 'R_rc' 'R_fc' 'R_e' ...
-    }; %dummy header
-commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
-commaHeader = commaHeader(:)';
-textHeader = cell2mat(commaHeader); %cHeader in text with commas
-%write header to file
-fid = fopen(strcat("OUTPUT/", DATE, "_targetInits.csv"),'w'); 
-fprintf(fid,'%s\n',textHeader);
-fclose(fid);
-% 
+% Setup Outputs
+fileName_targetInits = strcat("OUTPUT/", DATE, "_targetInits.csv");
+header_targetInits = ["region"...
+    "S_c" "S_a" "S_rc" "S_fc" "S_e" ...
+    "E_c" "E_a" "E_rc" "E_fc" "E_e" ...
+    "Isym_c" "Isym_a" "Isym_rc" "Isym_fc" "Isym_e" ...
+    "Iasym_c" "Iasym_a" "Iasym_rc" "Iasym_fc" "Iasym_e" ...
+    "Hsub_c" "Hsub_a" "Hsub_rc" "Hsub_fc" "Hsub_e" ...
+    "Hcri_c" "Hcri_a" "Hcri_rc" "Hcri_fc" "Hcri_e" ...
+    "D_c" "D_a" "D_rc" "D_fc" "D_e" ...
+    "R_c" "R_a" "R_rc" "R_fc" "R_e" ...
+    ];
+fullHeader_chains = ["q" "c" "symptomatic_fraction" "socialDistancing_other" "p_reduced" "Initial_Condition_Scale"...
+    "asymp_red" "latent_period"...
+    "symptomat recovery_rate" "asymptomatic_recovery_rate"...
+    "hosp_subcrit_length" "hosp_crit_length"...
+    "LogLikelihood" "R0" "i_chain"];
 
-for REGION=["nyc", "sflor", "wash"]
-    REGION
-    
-    % Load Data Mat
-    load(strcat("OUTPUT/", DATE, "_MCMCRun_", REGION, "_MMWR_LL.mat"))
-    temp_pars = pars_in; %setup for parfor later
-
-    cHeader = {'q' 'c' 'symptomatic_fraction' 'socialDistancing_other' 'p_reduced' 'Initial_Condition_Scale' 'asymp_red' 'latent_period' 'hosp_length' 'LogLikelihood' 'R0' 'i_chain'}; %dummy header
-    commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
-    commaHeader = commaHeader(:)';
-    textHeader = cell2mat(commaHeader); %cHeader in text with commas
-    %write header to file
-    fid = fopen(strcat("OUTPUT/", DATE, "_", REGION, "_chains.csv"),'w'); 
-    fprintf(fid,'%s\n',textHeader);
-    fclose(fid);
-
-    cHeader = {'q' 'q_sd' ...
-        'c' 'c_sd' ...
-        'symptomatic_fraction' 'symptomatic_fraction_sd' ...
-        'socialDistancing_other' 'socialDistancing_other_sd' ...
-        'p_reduced' 'p_reduced_sd' ...
-        'Initial_Condition_Scale' 'Initial_Condition_Scale_sd' ...
-        'asymp_red' 'asymp_red_sd' ... 
-        'latent_period' 'latent_period_sd' ...
-        'hosp_length' 'hosp_length_sd' ...
-        'LogLikelihood'  'LogLikelihood_sd' ...
-        'R0' 'R0_sd' ...
-        'chain' ...
-        'S_c' 'S_a' 'S_rc' 'S_fc' 'S_e' ...
-        'E_c' 'E_a' 'E_rc' 'E_fc' 'E_e' ...
-        'Isym_c' 'Isym_a' 'Isym_rc' 'Isym_fc' 'Isym_e' ...
-        'Iasym_c' 'Iasym_a' 'Iasym_rc' 'Iasym_fc' 'Iasym_e' ...
-        'Hsub_c' 'Hsub_a' 'Hsub_rc' 'Hsub_fc' 'Hsub_e' ...
-        'Hcri_c' 'Hcri_a' 'Hcri_rc' 'Hcri_fc' 'Hcri_e' ...
-        'D_c' 'D_a' 'D_rc' 'D_fc' 'D_e' ...
-        'R_c' 'R_a' 'R_rc' 'R_fc' 'R_e' ...
-        }; %dummy header
-    commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
-    commaHeader = commaHeader(:)';
-    textHeader = cell2mat(commaHeader); %cHeader in text with commas
-    fid2 = fopen(strcat("OUTPUT/", DATE, "_", REGION, "_chains_summary.csv"),'w'); 
-    fprintf(fid2,'%s\n',textHeader);
-    fclose(fid2);
-
-    % X0s
-    temp = reshape(pars_in.X0_target, 5, 8);
-
-    for i=1:(N_CHAINS+1) % +1 to include the fminsearch chain
-        % Load chains
-        df_Results = RES_OUT{i}{2};
-
-        % Fix the multiplicative initial condition factor on column 6
-        df_Results_initMult = df_Results(:,6);
-        mle_initMult = mle(df_Results_initMult);
-        
-        % Append Likelihoods
-        temp_Theta_Mat_in = df_Results;
-        temp_LL_Vec_out = zeros([N_CHAINS 1]);
-        temp_times = pars_in.times';
-        temp_target = pars_in.target;
-        parfor i_llChain=1:CHAIN_LENGTH
-            temp_LL_Vec_out(i_llChain) = SEIR_model_shields_LL(temp_times, temp_target, temp_Theta_Mat_in(i_llChain, :), temp_pars, false);
-        end
-        df_Results = [df_Results temp_LL_Vec_out];
-        
-        % Append R0's
-        temp_df_Results_in = df_Results(:,1:6);
-        temp_R0_out = zeros([CHAIN_LENGTH 1]);
-        parfor j=1:CHAIN_LENGTH
-            temp_R0_out(j,1) = Calc_R0_Theta(temp_df_Results_in, temp_pars);
-        end
-        df_Results = [df_Results temp_R0_out];
-        
-        % Append Chain #
-        i_chain_column = size(df_Results,2)+1;
-        df_Results(:,i_chain_column)=i;
-        
-        
-        % Write
-        dlmwrite(strcat("OUTPUT/", DATE, "_", REGION, "_chains.csv"),df_Results,'-append', 'precision', 9);
-        df_Results_summary = [mle(df_Results(:,1)) ...
-            mle(df_Results(:,2)) ...
-            mle(df_Results(:,3)) ...
-            mle(df_Results(:,4)) ...
-            mle(df_Results(:,5)) ...
-            mle_initMult ...
-            mle(df_Results(:,7)) ...
-            mle(df_Results(:,8)) ...
-            mle(df_Results(:,9)) ...
-            mle(df_Results(:,10)) ... % Likelihoods
-            mle(df_Results(:,11)) ... % R0s
-            i ...
-            reshape(pars_in.X0_target([pars_in.S_ids])' - mle_initMult(1) * sum(temp(:,[2 3 4]),2), 1, 5) ... % Init susceptible
-            (1+mle_initMult(1)) * pars_in.X0_target([pars_in.E_ids pars_in.Isym_ids pars_in.Iasym_ids]) ...
-            pars_in.X0_target([pars_in.Hsub_ids pars_in.Hcri_ids pars_in.D_ids pars_in.R_ids])]; % Init Exposed, Sym, ASym
-        dlmwrite(strcat("OUTPUT/", DATE, "_", REGION, "_chains_summary.csv"),df_Results_summary,'-append', 'precision', 9);
-
-    end
-
-    dlmwrite(strcat("OUTPUT/", DATE, "_targetInits.csv"), round(pars_in.X0_target),'-append', 'precision', 9);
-
-    
+% Set up csv for initial conditions
+if ~isfile(strcat("OUTPUT/", DATE, "_targetInits.csv"))
+    % If file doesn't exist, create targetInits.
+    % Code will append new row
+    write_csv_header(header_targetInits, fileName_targetInits);
 end
+
+% Load Data Mat
+load(strcat("OUTPUT/", DATE, "_MCMCRun_", REGION, "_MMWR_LL.mat"))
+temp_pars = pars_in; %setup for parfor later
+
+% X0s
+temp = reshape(pars_in.X0_target, 5, 8);
+
+% Append Results and Print
+for i=1:N_CHAINS
+    % Load chains
+    df_Results = RES_OUT{i}{2}(1:100,:);
+    
+    N_VARS = size(df_Results, 2);
+    
+    % Fix the multiplicative initial condition factor on column 6
+    df_Results_initMult = df_Results(:,6);
+    mle_initMult = mle(df_Results_initMult);
+
+    % Append Likelihoods
+    temp_Theta_Mat_in = df_Results;
+    temp_LL_Vec_out = zeros([N_CHAINS 1]);
+    temp_times = pars_in.times';
+    temp_target = pars_in.target;
+    
+    parfor i_llChain=1:CHAIN_LENGTH
+        temp_LL_Vec_out(i_llChain) = SEIR_model_shields_LL(temp_times, temp_target, temp_Theta_Mat_in(i_llChain, :), temp_pars, false);
+    end
+    df_Results = [df_Results temp_LL_Vec_out];
+
+    % Append R0's
+    temp_df_Results_in = df_Results(:,1:6);
+    temp_R0_out = zeros([CHAIN_LENGTH 1]);
+    
+    parfor j=1:CHAIN_LENGTH
+        temp_R0_out(j,1) = Calc_R0_Theta(temp_df_Results_in, temp_pars);
+    end
+    df_Results = [df_Results temp_R0_out];
+
+    % Append Chain #
+    i_chain_column = size(df_Results,2)+1;
+    df_Results(:,i_chain_column)=i;
+
+    % Write
+    % Print Header
+    partialHeader_chains = [fullHeader_chains(1:N_VARS) fullHeader_chains(end-2:end)];
+    fileName_chains = strcat("OUTPUT/", DATE, "_", REGION, "_chain", int2str(i), ".csv");
+    fid = fopen(fileName_chains, 'w');
+    fprintf(fid, [repmat('%s,',1,size(partialHeader_chains, 2)) '\n'], partialHeader_chains);
+    fprintf(fid, [repmat('%f,',1,size(df_Results,2)) '\n'], df_Results');
+    fclose(fid);
+end
+
+temp_targetInits_outputRow = [REGION arrayfun(@(a)num2str(a),pars_in.X0_target,'uni',0)];
+fid_targetInits = fopen(fileName_targetInits, 'a');
+fprintf(fid_targetInits, [repmat('%s,',1,size(temp_targetInits_outputRow, 2)) '\n'], temp_targetInits_outputRow);
+fclose(fid_targetInits);

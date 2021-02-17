@@ -106,24 +106,20 @@ intervention_pars_reduced.p_reduced_c = 0.1;
 
 % (4) Epi Pars ------------------------------------------------------------
 
-% Verity2020
-Verity2020_pars_reduced = [];
-Verity2020_pars_reduced.R0 = 3.1;                 % Note on R0: with base structure 63.28q
-Verity2020_pars_reduced.q = 0.039;                % Probability of transmission from children
-Verity2020_pars_reduced.gamma_hs = 1/5;           % LOS for subcritical cases (medrxiv paper)
-Verity2020_pars_reduced.gamma_hc = 1/7;           % LOS for critical cases (medrxiv paper)
+% LowHospSet
+LowHospSet_pars_reduced = [];
+LowHospSet_pars_reduced.R0 = 3.1;                 % Note on R0: with base structure 63.28q
+LowHospSet_pars_reduced.q = 0.039;                % Probability of transmission from children
 
-Verity2020_pars_reduced.p_symptomatic = 0.5;      % Fraction "Symptomatic/documented" (Shaman"s paper)
+LowHospSet_pars_reduced.p_symptomatic = 0.5;      % Fraction "Symptomatic/documented" (Shaman"s paper)
 
-Verity2020_pars_reduced.hosp_frac = [0.002, 0.056, 0.224];      % Of the symptomatic cases, how many are hospitalized?
-Verity2020_pars_reduced.hosp_crit = [0.001, 0.0048, 0.099];     % Of the symptomatic cases, how many are critically hospitalized?
+LowHospSet_pars_reduced.hosp_frac = [0.002, 0.056, 0.224];      % Of the symptomatic cases, how many are hospitalized?
+LowHospSet_pars_reduced.hosp_crit = [0.001, 0.0048, 0.099];     % Of the symptomatic cases, how many are critically hospitalized?
 
 % MMWR
 MMWR_pars_reduced = [];
 MMWR_pars_reduced.R0 = 2.9;                 % Note on R0: with base structure 63.28q
 MMWR_pars_reduced.q = 0.0451;               % Probability of transmission from children
-MMWR_pars_reduced.gamma_hs = 1/5;          % Length of stay for subcritical cases (medrxiv paper)
-MMWR_pars_reduced.gamma_hc = 1/7;          % Length of stay for critical cases (medrxiv paper)
 
 MMWR_pars_reduced.p_symptomatic = .14;      % Fraction "Symptomatic/documented" (Shaman"s paper)
 
@@ -131,9 +127,9 @@ MMWR_pars_reduced.hosp_frac = [0.061, 0.182, 0.417];      % Of the symptomatic c
 MMWR_pars_reduced.hosp_crit = [0.000, 0.063, 0.173];      % Of the symptomatic cases, how many are critically hospitalized?
 
 % Read in which parameter set to load
-if PARAMETER_SET == "Verity2020"
-    "Using Verity2020 parameter set"
-    epi_pars_reduced = Verity2020_pars_reduced;
+if PARAMETER_SET == "LowHospSet"
+    "Using LowHospSet parameter set"
+    epi_pars_reduced = LowHospSet_pars_reduced;
 elseif PARAMETER_SET == "MMWR"
     "Using MMWR parameter set"
     epi_pars_reduced = MMWR_pars_reduced;
@@ -147,7 +143,8 @@ epi_pars_reduced.asymp_red = 0.55;          % Relative infectiousness of asympto
 epi_pars_reduced.gamma_e = 1/3;             % Latent period (He et al)
 epi_pars_reduced.gamma_a = 1/7;             % Recovery rate, undocumented (Kissler et al)
 epi_pars_reduced.gamma_s = 1/7;             % Recovery rate, undocumented (Kissler et al)
-
+epi_pars_reduced.gamma_hs = 1/5;            % LOS for subcritical cases (medrxiv paper)
+epi_pars_reduced.gamma_hc = 1/7;            % LOS for critical cases (medrxiv paper)
 epi_pars_reduced.crit_die = [0, 0.5, 0.5];              % Obtained from initial fitting
 
 epi_pars_reduced.hosp_frac_5 = epi_pars_reduced.hosp_frac([1,2,2,2,3]);

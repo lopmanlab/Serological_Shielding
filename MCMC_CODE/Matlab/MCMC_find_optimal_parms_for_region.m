@@ -1,12 +1,15 @@
- function res = MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS, DATE)
+ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_SET_IN, LIKELIHOOD_TYPE_IN, N_VARS_IN, CHAIN_LENGTH, CHAIN_REP, N_CHAINS)
     %% Load Data
-    if REGION == "sflor"
+    REGION = REGION_IN;
+    PARAMETER_SET = PARAMETER_SET_IN;
+    LIKELIHOOD_TYPE = LIKELIHOOD_TYPE_IN;
+    if REGION_IN == "sflor"
         input_sflor
         pars_in = pars_sflor;
-    elseif REGION == "nyc"
+    elseif REGION_IN == "nyc"
         input_nyc
         pars_in = pars_nyc;
-    elseif REGION == "wash"
+    elseif REGION_IN == "wash"
         input_wash
         pars_in = pars_wash;
     else 
@@ -16,75 +19,59 @@
     %% Setup
     data.xdata = pars_in.times';
     data.ydata = pars_in.target; % new deaths reported that day, t=1 == 2/27/2020
-
-    if LIKELIHOOD_TYPE == "LLpen_scaled"
-        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LLpen_scaled(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
-    elseif LIKELIHOOD_TYPE == "SSpen_scaled"
-        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_SSpen_scaled(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
-    elseif LIKELIHOOD_TYPE == "LL"
-        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
-    elseif LIKELIHOOD_TYPE == "LLpen_rescaled"
-        ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LLpen_rescaled(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
-    else
-        print("ERROR: No Likelihood Specified")
-    end
+    ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
 
     % Likelihood min function (wrapper)
     ssminfun = @(Theta_in) ssfun(Theta_in, data);
 
     %% Find a good starting point
-    [tmin,ssmin]=fminsearchbnd(ssminfun,[0.02; 0.25; 0.3; 0.1; 0.25; 0; 0.55; 3; 15], [0; 0; 0; 0; 0; 0; 0.2; 1; 1], [0.05; 1; 1; 1; 1; 100; 1; 7; 28]);
+    ParBounds = [[0.0222, 0.1, 0.51, 0.2, 0.8, 0.005, 0.55, 3, 7, 7, 5, 7];
+        [0, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0];
+        [0.0444, 0.2, 1, 0.4, 1, 0.01, 1, 6, 14, 14, 10, 14]];
+    temp_x0 = ParBounds(1,:);
+    temp_A = eye(size(ParBounds,2));
+    temp_b = ParBounds(3,:);
+        %[tmin,ssmin]=fmincon(ssminfun, temp_x0, temp_A, temp_b);
+    [tmin,ssmin]=fminsearchbnd(ssminfun,ParBounds(1,:)', ParBounds(2,:)', ParBounds(3,:)');
 
     n = length(data.xdata);
     p = 2;
     mse = ssmin/(n-p); % estimate for the error variance
 
     %% Set up MCMC
-    params_fminsearch = {
-        {'q', tmin(1), 0, .1}
-        {'c', tmin(2), 0, 1}
-        {'p_{sym}', tmin(3), 0, 1}
-        {'sd_{red}', tmin(4), 0, 1}
-        {'p_{red}', tmin(5), 0, 1}
-        {'init_{scale}', tmin(6), 0, Inf}        
-        {'asymp_{red}', tmin(7), 0, 1}  
-        {'gamma_{e}^{-1}', tmin(8), 1, 7}  
-        {'gamma_{h}^{-1}', tmin(9), 1, 28}  
-        };
-    params_randInit = {
-        {'q', .1*rand(1), 0, 0.1}
-        {'c', rand(1), 0, 1}
-        {'p_{sym}', rand(1), 0, 1}
-        {'sd_{red}', rand(1), 0, 1}
-        {'p_{red}', rand(1), 0, 1}  
-        {'init_{scale}', rand(1), 0, Inf}
-        {'asymp_{red}', 0.45+0.2*rand(1), .2, 1} % Start off between 0.45 and 0.65 
-        {'gamma_{e}^{-1}', 2+2*rand(1), 1, 7}   % Start off between 2 and 4
-        {'gamma_{h}^{-1}', 13+4*rand(1), 1, 28} % Start off between 13 and 17
+    params = {
+        {'q', .0222+(2-rand(1))*(0.0002), 0, 0.1}
+        {'c', 0.1+(2-rand(1))*(0.1), 0, 1}
+        {'p_{sym}', 0.51+(2-rand(1))*(0.1), 0, 1}
+        {'sd_{red}', 0.2+(2-rand(1))*(0.0001), 0, 1}
+        {'p_{red}', 0.8+(2-rand(1))*(0.2), 0, 1}  
+        {'init_{scale}', 0.005+(2-rand(1))*(0.005), 0, Inf}
+        {'asymp_{red}', 0.55, .2, 1}
+        {'gamma_{e}^{-1}',3, 0, 7}  
+        {'gamma_{a}^{-1}', 7, 0, 14}  
+        {'gamma_{s}^{-1}', 7, 0, 14}  
+        {'gamma_{hs}^{-1}', 5, 0, 14}  
+        {'gamma_{hc}^{-1}', 7, 0, 14}  
         };
     model.ssfun  = ssfun;
     model.sigma2 = mse; % (initial) error variance from residuals of the lsq fit
     model.N = length(data.ydata);  % total number of observations
     options.nsimu = CHAIN_LENGTH;
 
+    % Var Subset
+    params = params(1:N_VARS_IN);
+    
     %% Run MCMC /w 2x burn-in
-    parfor iter=1:(N_CHAINS+1)
-        if iter==1  % First iteration uses fminsearch
-            params = params_fminsearch;
-        else        % Subsequent ones don't. 
-            params = params_randInit;
-        end
-        
+    parfor iter=1:N_CHAINS
         [res_i,chain_i,s2chain_i] = mcmcrun(model,data,params,options);
         for i = 1:CHAIN_REP
             [res_i,chain_i,s2chain_i] = mcmcrun(model,data,params,options,res_i);
         end
         RES_OUT{iter} = {res_i, chain_i, s2chain_i};
     end
-    
     res = RES_OUT;
     
     %% Save results
-    save(strcat("OUTPUT/", DATE,"_MCMCRun_", REGION, "_", PARAMETER_SET, "_", LIKELIHOOD_TYPE,".mat"))
+    save(strcat("OUTPUT/", DATE_IN,"_MCMCRun_", REGION_IN, "_", PARAMETER_SET_IN, "_", LIKELIHOOD_TYPE_IN, "_NVarsFit", int2str(N_VARS_IN), ".mat"))
 
 end

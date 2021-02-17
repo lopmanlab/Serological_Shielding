@@ -29,16 +29,27 @@ function [t, Y, pars_out] = SEIR_model_shields_ThetaSweep(Theta, times, Pars)
 
     X0(pars_in.S_ids) = pars_in.X0_target(pars_in.S_ids) - Temp_Tot*Theta(6);
             
-    % 7. [0,1]      asymp_red:              Fit relative infectiousness of asymptomatics.
-    pars_in.asymp_red = Theta(7);
+    if length(Theta)>6
+        % 7. [0,1]      asymp_red:              Fit relative infectiousness of asymptomatics.
+        % 8. [0,7]      gamma_e:                Fit latent period.
+        pars_in.asymp_red = Theta(7);
+        pars_in.gamma_e = 1/Theta(8);
+    end
     
-    % 8. [0,1]      gamma_e:                Fit latent period.
-    pars_in.gamma_e = 1/Theta(8);
+    if length(Theta)>8
+        % 9. [0,14]     1/gamma_a:              Fit asymptomatic recovery
+        % 10. [0,14]    1/gamma_s:              Fit symptomatic recovery
+        pars_in.gamma_a = 1/Theta(9);
+        pars_in.gamma_s = 1/Theta(10);
+    end
     
-    % 9. [0,1]      gamma_hs, gamma_hc:     Fit hospital length of stay.
-    pars_in.gamma_hs = 1/Theta(9);
-    pars_in.gamma_hc = 1/Theta(9);
-    
+    if length(Theta)>10
+        % 11. [0,14]    asymp_red:              Fit subcrit length of stay
+        % 12. [0,14]    gamma_e:                Fit crit length of stay
+        pars_in.gamma_hs = 1/Theta(11);
+        pars_in.gamma_hc = 1/Theta(12);
+    end
+   
     %% Run ODEs
     opts = odeset();
     [t,Y]=ode45(@SEIR_model_shields_full, times, X0, opts, pars_in); % model calc
