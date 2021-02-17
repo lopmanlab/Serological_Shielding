@@ -38,7 +38,7 @@ temp = reshape(pars_in.X0_target, 5, 8);
 % Append Results and Print
 for i=1:N_CHAINS
     % Load chains
-    df_Results = RES_OUT{i}{2}(1:100,:);
+    df_Results = RES_OUT{i}{2};
     
     N_VARS = size(df_Results, 2);
     

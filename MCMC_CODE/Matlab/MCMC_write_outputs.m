@@ -34,7 +34,7 @@ function outputs = MCMC_write_outputs(DATE_IN, REGION_IN, PARAMETER_SET_IN, LIKE
     % Append Results and Print
     for i=1:N_CHAINS % +1 to include the fminsearch chain
         % Load chains
-        df_Results = RES_OUT{i}{2}(1:100,:);
+        df_Results = RES_OUT{i}{2};
 
         % Fix the multiplicative initial condition factor on column 6
         df_Results_initMult = df_Results(:,6);
