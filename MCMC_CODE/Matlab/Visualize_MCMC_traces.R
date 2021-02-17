@@ -5,7 +5,7 @@ require(ggplot2)
 require(GGally)
 require(factoextra)
 
-DATE = "2021-02-15c" #"2021-02-13" #"2020-10-07"
+DATE = "2021-02-15" #"2021-02-13" #"2020-10-07"
 
 # Read in Gelman-Rubin RHat results
 df.prsf = data.frame(read_xlsx(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))

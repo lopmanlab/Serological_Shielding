@@ -1,10 +1,12 @@
 clear
-DATE = "2021-02-15b";
+% For running on PACE
+
+DATE = "2021-02-16";
 addpath(genpath(pwd))
 
 %% Set Pars
-CHAIN_LENGTH = 10000;
-CHAIN_REP = 9;
+CHAIN_LENGTH = 5000;
+CHAIN_REP = 19;
 N_CHAINS = 10;
             
 
@@ -13,6 +15,8 @@ for PARAMETER_SET = ["MMWR"]
     for REGION = ["nyc"]     
         for LIKELIHOOD_TYPE = ["LL"]
             MCMC_find_optimal_parms_for_region(PARAMETER_SET, REGION, LIKELIHOOD_TYPE, CHAIN_LENGTH, CHAIN_REP, N_CHAINS, DATE);
+            MCMC_Generate_Figures(DATE, PARAMETER_SET, REGION, LIKELIHOOD_TYPE, 2);
+            MCMC_write_outputs(DATE, REGION);
         end
     end
 end

@@ -1,6 +1,6 @@
 clear
 addpath(genpath(pwd))
-DATE = "2021-02-15c";
+DATE = "2021-02-15";
 
 cHeader = {'region (NEED TO MANUAL APPEND)'...
     'S_c' 'S_a' 'S_rc' 'S_fc' 'S_e' ...
@@ -24,8 +24,10 @@ fclose(fid);
 for REGION=["nyc", "sflor", "wash"]
     REGION
     
+    % Load Data Mat
     load(strcat("OUTPUT/", DATE, "_MCMCRun_", REGION, "_MMWR_LL.mat"))
-    
+    temp_pars = pars_in; %setup for parfor later
+
     cHeader = {'q' 'c' 'symptomatic_fraction' 'socialDistancing_other' 'p_reduced' 'Initial_Condition_Scale' 'asymp_red' 'latent_period' 'hosp_length' 'LogLikelihood' 'R0' 'i_chain'}; %dummy header
     commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
     commaHeader = commaHeader(:)';
@@ -66,46 +68,55 @@ for REGION=["nyc", "sflor", "wash"]
     % X0s
     temp = reshape(pars_in.X0_target, 5, 8);
 
-    for i=1:11
+    for i=1:(N_CHAINS+1) % +1 to include the fminsearch chain
         % Load chains
-        test = RES_OUT{i}{2};
+        df_Results = RES_OUT{i}{2};
 
         % Fix the multiplicative initial condition factor on column 6
-        test_initMult = test(:,6);
-        mle_initMult = mle(test_initMult);
+        df_Results_initMult = df_Results(:,6);
+        mle_initMult = mle(df_Results_initMult);
         
         % Append Likelihoods
-        test = adhoc_append(test, pars_in);
+        temp_Theta_Mat_in = df_Results;
+        temp_LL_Vec_out = zeros([N_CHAINS 1]);
+        temp_times = pars_in.times';
+        temp_target = pars_in.target;
+        parfor i_llChain=1:CHAIN_LENGTH
+            temp_LL_Vec_out(i_llChain) = SEIR_model_shields_LL(temp_times, temp_target, temp_Theta_Mat_in(i_llChain, :), temp_pars, false);
+        end
+        df_Results = [df_Results temp_LL_Vec_out];
         
         % Append R0's
-        i_R0_column = size(test,2)+1;
-        test(:,i_R0_column) = 0;
-        for j=1:size(test,1)
-            test(j,i_R0_column) = Calc_R0_Theta(test(j,1:6), pars_in);
+        temp_df_Results_in = df_Results(:,1:6);
+        temp_R0_out = zeros([CHAIN_LENGTH 1]);
+        parfor j=1:CHAIN_LENGTH
+            temp_R0_out(j,1) = Calc_R0_Theta(temp_df_Results_in, temp_pars);
         end
+        df_Results = [df_Results temp_R0_out];
         
         % Append Chain #
-        i_chain_column = size(test,2)+1;
-        test(:,i_chain_column)=i;
-
+        i_chain_column = size(df_Results,2)+1;
+        df_Results(:,i_chain_column)=i;
+        
+        
         % Write
-        dlmwrite(strcat("OUTPUT/", DATE, "_", REGION, "_chains.csv"),test,'-append', 'precision', 9);
-        test_summary = [mle(test(:,1)) ...
-            mle(test(:,2)) ...
-            mle(test(:,3)) ...
-            mle(test(:,4)) ...
-            mle(test(:,5)) ...
+        dlmwrite(strcat("OUTPUT/", DATE, "_", REGION, "_chains.csv"),df_Results,'-append', 'precision', 9);
+        df_Results_summary = [mle(df_Results(:,1)) ...
+            mle(df_Results(:,2)) ...
+            mle(df_Results(:,3)) ...
+            mle(df_Results(:,4)) ...
+            mle(df_Results(:,5)) ...
             mle_initMult ...
-            mle(test(:,7)) ...
-            mle(test(:,8)) ...
-            mle(test(:,9)) ...
-            mle(test(:,10)) ... % Likelihoods
-            mle(test(:,11)) ... % R0s
+            mle(df_Results(:,7)) ...
+            mle(df_Results(:,8)) ...
+            mle(df_Results(:,9)) ...
+            mle(df_Results(:,10)) ... % Likelihoods
+            mle(df_Results(:,11)) ... % R0s
             i ...
             reshape(pars_in.X0_target([pars_in.S_ids])' - mle_initMult(1) * sum(temp(:,[2 3 4]),2), 1, 5) ... % Init susceptible
             (1+mle_initMult(1)) * pars_in.X0_target([pars_in.E_ids pars_in.Isym_ids pars_in.Iasym_ids]) ...
             pars_in.X0_target([pars_in.Hsub_ids pars_in.Hcri_ids pars_in.D_ids pars_in.R_ids])]; % Init Exposed, Sym, ASym
-        dlmwrite(strcat("OUTPUT/", DATE, "_", REGION, "_chains_summary.csv"),test_summary,'-append', 'precision', 9);
+        dlmwrite(strcat("OUTPUT/", DATE, "_", REGION, "_chains_summary.csv"),df_Results_summary,'-append', 'precision', 9);
 
     end
 
