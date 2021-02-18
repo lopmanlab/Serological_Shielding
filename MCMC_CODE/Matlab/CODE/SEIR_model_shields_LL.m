@@ -25,10 +25,11 @@ function loglike = SEIR_model_shields_LL(times, dYdt_target, Theta, Pars, PLOT_R
     mid_deaths = sum(y(78,pars_in.D_ids),2);
     mid_xs  = sum(xs(1:12));
     
-    % find zeros in data
-    b_zeros = find(xs~=0);
-    xs = xs(b_zeros);
-    lambdas = lambdas(b_zeros);
+    % find nonzeros in data
+    b_nonzeros = find(xs~=0);
+    xs = xs(b_nonzeros);
+    lambdas = lambdas(b_nonzeros);
+    lambdas = max(lambdas, 0); % enforce rounding error
     
     % In the main call, this will be multiplied by -2.    
     loglike = sum(logpoispdf(lambdas, xs)) + ... % death rates

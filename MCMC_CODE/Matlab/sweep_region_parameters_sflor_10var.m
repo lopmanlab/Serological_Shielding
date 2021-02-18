@@ -5,10 +5,10 @@ addpath(genpath(pwd))
 
 %% Set Pars
 CHAIN_LENGTH = 5000;
-CHAIN_REP = 1;
-N_CHAINS = 5;
+CHAIN_REP = 19;
+N_CHAINS = 10;
 
-DATE = "2021-02-17";
+DATE = "2021-02-18";
 REGION = "sflor";
 PARAMETER_SET = "MMWR";
 LIKELIHOOD_TYPE = "LL";
