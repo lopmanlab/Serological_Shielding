@@ -5,13 +5,17 @@ require(ggplot2)
 require(GGally)
 require(factoextra)
 
-DATE = "2021-02-16" #"2021-02-13" #"2020-10-07"
+DATE = "2021-02-18" #"2021-02-13" #"2020-10-07"
 
 # Read in Gelman-Rubin RHat results
-df.prsf = data.frame(read_xlsx(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))
-                     , stringsAsFactors = F, row.names = 1)
-  # df.prsf = data.frame(read.csv(paste(DATE, '_MCMCSTATmprsf_Diagnostics.csv', sep='', collapse=''))
-  #                      , stringsAsFactors = F)
+if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
+  df.prsf = data.frame(read_xlsx(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))
+                       , stringsAsFactors = F, row.names = 1)
+}else{
+  df.prsf = data.frame(read.csv(paste(DATE, '_MCMCSTATmprsf_Diagnostics.csv', sep='', collapse=''))
+                       , stringsAsFactors = F)
+}
+
 
 # Constraints
 df.constraints = data.frame(read_xlsx(paste(DATE, '_MCMCSTAT_constraints.xlsx', sep='', collapse=''))
@@ -19,7 +23,7 @@ df.constraints = data.frame(read_xlsx(paste(DATE, '_MCMCSTAT_constraints.xlsx', 
 
 # Read in chain summaries. Nested because I'm bad at regex 
 v.chains = grep(value = T, list.files(path = 'OUTPUT/', pattern = DATE)
-                , pattern='chains.csv')
+                , pattern='chain')
 
 # Read in chains
 ls.chains = sapply(v.chains, function(x){
@@ -31,7 +35,7 @@ ls.chains = sapply(v.chains, function(x){
   # Data-frame
   res = as.data.frame(res) 
   
-  # Remove last column of NA's since I'm also bad at writing matlab outputs
+  # Remove last column since I still can't write matlab outputs
   res = res[,-ncol(res)]
   
   # Add positions
@@ -40,14 +44,28 @@ ls.chains = sapply(v.chains, function(x){
   # add region
   res$region = REGION
   
+  # add nVars
+  res$nVars = strsplit(strsplit(x, 'NVarsFit')[[1]][2], '_')[[1]][1]
+  
   # Return  
   list(res)
 })
 names(ls.chains) = sapply(names(ls.chains)
-                          , function(x) strsplit(x, '_')[[1]][2])
+                          , function(x) paste(strsplit(x, '_')[[1]][2]
+                                              , strsplit(strsplit(x, 'NVarsFit')[[1]][2], '_')[[1]][1]
+                                              , sep=''
+                                              , collapse=''))
+# combine by name
+temp.names = unique(names(ls.chains))
+temp.chains = sapply(temp.names, function(x){
+  temp.in = ls.chains[names(ls.chains)==x]
+  res = do.call('rbind', temp.in)
+  return(res)
+})
+ls.chainComb = temp.chains
 
-v.col_headers = colnames(ls.chains[[1]])
-v.variables = v.col_headers[!v.col_headers %in% c('idx', 'i_chain', 'LogLikelihood', 'region')]
+v.col_headers = colnames(df.constraints)
+v.variables = v.col_headers[!v.col_headers %in% c('idx', 'i_chain', 'LogLikelihood', 'region', 'nVars')]
 
 # (1) Pairplots -----------------------------------------------------------
 
@@ -93,47 +111,76 @@ if(F){
 
 # (2) Traceplots ----------------------------------------------------------
 
-df.chains = do.call('rbind',lapply(ls.chains, function(x){
+ls.plotChains = lapply(ls.chainComb, function(x){
   n_rows = nrow(x)
+  n_vars = unique(x$nVars)
+  
+  # Add constraints for plotting
   temp_df = x
-  temp_df[n_rows+(1:2),] = temp_df[n_rows,]
-  temp_df[n_rows+(1:2),colnames(df.constraints)] = df.constraints
+  temp_vars = colnames(x)[colnames(x) %in% colnames(df.constraints)]
   
-  return(melt(temp_df, c('idx', 'i_chain', 'LogLikelihood', 'region')))
-}))
+  temp_df[n_rows+(1:2),] = temp_df[n_rows,] # duplicate last rows instead of rbind
+  temp_df[n_rows+(1:2), temp_vars] = df.constraints[,temp_vars]
 
-# Remove Chain 1; only use chains 2-11
-df.chains = df.chains[df.chains$i_chain != 1,]
-
-for(REGION in c('nyc', 'sflor', 'wash')){
-  temp.chains = df.chains[df.chains$region == REGION,]
-  temp.chains$i_chain = factor(temp.chains$i_chain-1)
+  # melt
+  ret = melt(temp_df, c('idx', 'i_chain', 'LogLikelihood', 'region', 'nVars'))
+  ret$i_chain = as.character(ret$i_chain)
   
-  p.traces = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain)) + 
-    theme_grey(base_size=14) + 
-    geom_line(alpha = 0.2) + 
+  return(ret)
+})
+
+
+for(i_chain in names(ls.plotChains)){
+  temp.chains = ls.plotChains[[i_chain]]
+  p.traces = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain)) +
+    theme_grey(base_size=14) +
+    geom_line(alpha = 0.5) +
     facet_wrap('variable', scales = 'free') +
-    xlab('iterations')
-  
-  ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', REGION, '_TracePlots.png', sep='', collapse='')
-         , p.traces, height = 6, width = 11)
-  
+    xlab('iterations') + 
+    ggtitle(i_chain)
+  ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', i_chain, '_TracePlots.png', sep='', collapse='')
+         , p.traces, height = 8, width = 11)
 }
+
+
+# for(REGION in c('nyc', 'sflor', 'wash')){
+#   temp.chains = df.chains[df.chains$region == REGION,]
+#   temp.chains$i_chain = factor(temp.chains$i_chain-1)
+#   
+#   p.traces = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain)) + 
+#     theme_grey(base_size=14) + 
+#     geom_line(alpha = 0.2) + 
+#     facet_wrap('variable', scales = 'free') +
+#     xlab('iterations')
+#   
+#   ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', REGION, '_TracePlots.png', sep='', collapse='')
+#          , p.traces, height = 6, width = 11)
+#   
+# }
+
+
 
 
 
 # (3) RHats ---------------------------------------------------------------
 
 temp.prsf = df.prsf
-temp.prsf$region = rownames(temp.prsf)
-melt.prsf = melt(temp.prsf, 'region')
+temp.prsf[temp.prsf==0] = NA
+melt.prsf = melt(temp.prsf, c('region', 'n_vars', 'n_chains'))
+melt.prsf = na.omit(melt.prsf)
+melt.prsf$value = as.numeric(as.character(melt.prsf$value))
 
 p.rhats = ggplot(melt.prsf, aes(x = variable, y = value, color = region)) + 
   geom_point(size = 3) + 
+  scale_y_log10() + 
   geom_hline(color = 'red', yintercept = 1.01) + 
-  theme_minimal(base_size = 12) + 
+  geom_hline(color = 'blue', yintercept = 1.1) + 
+  theme_grey(base_size = 12) + 
   coord_flip() + 
   ylab('RHat') + 
-  xlab('chain iteration')
-  
-ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_GMBConvergenceRhats.png', sep='', collapse=''), p.rhats, height = 2, width = 8)
+  xlab('chain iteration') + 
+  facet_wrap('n_vars', scales = 'free')
+p.rhats
+
+ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_GMBConvergenceRhats.png', sep='', collapse='')
+       , p.rhats, height = 6, width = 12)

@@ -27,8 +27,17 @@
     %% Set up MCMC
     model.ssfun  = ssfun;
     model.N = length(data.ydata);  % total number of observations
-    options.nsimu = CHAIN_LENGTH;
-
+    base_options.nsimu = CHAIN_LENGTH;
+    base_options.waitbar = false;
+    
+    % Burn-in options
+    options_burnin = base_options;
+    options_burnin.nsimu = CHAIN_LENGTH*CHAIN_REP; % a chain rep of 19 means total length of 20 x chain length)
+    
+    % Sampling options
+    options_sample = base_options;
+    options_sample.nsimu = CHAIN_LENGTH;
+    
     % Default Parameters
     params = {
         {'q', 0.1*rand(1), 0, 0.1}
@@ -44,7 +53,7 @@
         {'gamma_{hs}^{-1}', 5, 0, 14}  
         {'gamma_{hc}^{-1}', 7, 0, 14}  
         };
-    %% Find a good starting point
+    % Find a good starting point
     ParBounds = [[0.0222, 0.1, 0.51, 0.2, 0.8, 0.005, 0.55, 3, 7, 7, 5, 7];
         [0, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0];
         [0.0444, 0.2, 1, 0.4, 1, 0.01, 1, 6, 14, 14, 10, 14]];
@@ -54,12 +63,12 @@
     LHS_ERROR = zeros(1,10000);
     parfor i=1:10000
         init_para = LHSamples(i,:);
-        LHS_LL(i) = ssminfun(init_para); % take the smallest values
+        LHS_LL(i) = ssminfun(init_para); 
     end
     [minLHS, i_minLHS] = mink(LHS_LL, N_CHAINS);
-    min_LHS_inits = LHSamples(i_minLHS,:);
+    min_LHS_inits = LHSamples(i_minLHS,:); % take the smallest values
     
-    % Setup Parameters
+    % Setup Parameter bounds with initial guess of LHS sample
     params_in = params(1:N_VARS_IN);
     for i_paramChainSetup = 1:N_CHAINS
         temp_params = params_in;
@@ -69,15 +78,21 @@
         params_LHS{i_paramChainSetup} = temp_params;
     end
         
-    %% Run MCMC /w 2x burn-in
+    %% Run MCMC
+    RES_OUT = cell(1,N_CHAINS); % pre-allocate for speed?
     parfor iter=1:N_CHAINS
         % Modify params_in to take the optimal LHC samples     
         iter_params = params_LHS{iter};
-        [res_i,chain_i,s2chain_i] = mcmcrun(model,data,iter_params,options);
-        for i = 1:CHAIN_REP
-            [res_i,chain_i,s2chain_i] = mcmcrun(model,data,iter_params,options,res_i);
-        end
-        RES_OUT{iter} = {res_i, chain_i, s2chain_i};
+        
+        [res_burnin,chain__burnin,s2chain__burnin] = mcmcrun(model,data,iter_params,options_burnin);
+        [res_sample,chain__sample,s2chain__sample] = mcmcrun(model,data,iter_params,options_sample, res_burnin);
+
+        RES_OUT{iter} = {res_sample,chain__sample,s2chain__sample}
+            %[res_i,chain_i,s2chain_i] = mcmcrun(model,data,iter_params,base_options);
+            %for i = 1:CHAIN_REP
+            %    [res_i,chain_i,s2chain_i] = mcmcrun(model,data,iter_params,base_options,res_i);
+            %end
+            %RES_OUT{iter} = {res_i, chain_i, s2chain_i};
     end
     res = RES_OUT;
     

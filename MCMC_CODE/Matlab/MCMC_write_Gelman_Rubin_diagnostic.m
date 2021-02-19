@@ -2,7 +2,7 @@
 % The output is saved in adhoc.csv
 addpath(genpath(pwd))
 
-DATE = "2021-02-17";
+DATE = "2021-02-18";
 REGION_LIST = ["nyc", "sflor", "wash"];
 N_VARS_LIST = [6 8 10 12];
 PARAMETER_SET = "MMWR";
@@ -19,7 +19,7 @@ fullHeader_Convergence = ["region" "n_vars" "n_chains"...
 fileName_Convergence = strcat(DATE, "_MCMCSTATmprsf_Diagnostics.csv");
 
 Convergence_Results_AllNVars = string(zeros(12,N_TOTAL_VARS+4));
-for i_N_NVARS=1:4     % Loop through regions and calculate convergence
+for i_N_NVARS=1:length(N_VARS_LIST)     % Loop through regions and calculate convergence
     Convergence_Results = zeros(3,N_TOTAL_VARS+1);
     N_VARS = N_VARS_LIST(i_N_NVARS);
     
