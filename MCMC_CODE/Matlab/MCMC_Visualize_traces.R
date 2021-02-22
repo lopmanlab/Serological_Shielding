@@ -5,7 +5,7 @@ require(ggplot2)
 require(GGally)
 require(factoextra)
 
-DATE = "2021-02-18" #"2021-02-13" #"2020-10-07"
+DATE = "2021-02-19" #"2021-02-13" #"2020-10-07"
 
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){

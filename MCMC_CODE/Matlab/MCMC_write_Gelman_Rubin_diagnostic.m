@@ -1,8 +1,8 @@
-% This calculate convergences for each chain.
+9% This calculate convergences for each chain.
 % The output is saved in adhoc.csv
 addpath(genpath(pwd))
 
-DATE = "2021-02-18";
+DATE = "2021-02-19";
 REGION_LIST = ["nyc", "sflor", "wash"];
 N_VARS_LIST = [6 8 10 12];
 PARAMETER_SET = "MMWR";

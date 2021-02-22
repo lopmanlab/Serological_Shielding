@@ -1,0 +1,233 @@
+---------------------------------------
+Begin PBS Prologue Fri Feb 19 14:35:38 EST 2021
+Job ID:     863775.sched-torque.pace.gatech.edu
+User ID:    czhao98
+Job name:   sero_mcmc_sflor6
+Queue:      inferno
+End PBS Prologue Fri Feb 19 14:35:38 EST 2021
+---------------------------------------
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2019 The MathWorks, Inc.
+                  R2019a (9.6.0.1072779) 64-bit (glnxa64)
+                               March 8, 2019
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+ans = 
+
+    "Using MMWR parameter set"
+
+[Warning: Table variable names were modified to make them valid MATLAB
+identifiers. The original names are saved in the VariableDescriptions property.] 
+Starting parallel pool (parpool) using the 'local' profile ...
+[Warning: The cluster reported an error while deleting an unavailable job.  This
+job may already have been deleted.] 
+[> In parallel.internal.cluster.CJSJobMethods.destroyOneJob (line 77)
+  In parallel.job.CJSConcurrentJob>@(job)CJSJobMethods.destroyOneJob(job.Parent,job,job.Support,job.SupportID) (line 52)
+  In parallel.job.CJSConcurrentJob/destroyJob (line 52)
+  In parallel.Job>iDeleteJobs (line 1513)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/delete (line 1303)
+  In parallel.Cluster/applyJobProperties (line 379)
+  In parallel.Cluster/createConcurrentJob (line 1145)
+  In parallel.internal.pool.InteractiveClient>iCreateCommunicatingJob (line 745)
+  In parallel.internal.pool.InteractiveClient/start (line 331)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_sflor_6var (line 15)
+  In run (line 91)] 
+
+Starting parallel pool (parpool) using the 'local' profile ...
+Connected to the parallel pool (number of workers: 10).
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0441669 [0,0.1] N(0,Inf)
+c: 0.07797 [0,1] N(0,Inf)
+p_{sym}: 0.26905 [0,1] N(0,Inf)
+sd_{red}: 0.09498 [0,1] N(0,Inf)
+p_{red}: 0.24945 [0,1] N(0,Inf)
+init_{scale}: 0.0009235 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0506008 [0,0.1] N(0,Inf)
+c: 0.569306 [0,1] N(0,Inf)
+p_{sym}: 0.126968 [0,1] N(0,Inf)
+sd_{red}: 0.000451114 [0,1] N(0,Inf)
+p_{red}: 0.539334 [0,1] N(0,Inf)
+init_{scale}: 1.45197e-06 [0,Inf] N(0,Inf)
+q: 0.0434698 [0,0.1] N(0,Inf)
+c: 0.03249 [0,1] N(0,Inf)
+p_{sym}: 0.31655 [0,1] N(0,Inf)
+sd_{red}: 0.0249 [0,1] N(0,Inf)
+p_{red}: 0.08075 [0,1] N(0,Inf)
+init_{scale}: 0.0097145 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0442202 [0,0.1] N(0,Inf)
+c: 0.14021 [0,1] N(0,Inf)
+p_{sym}: 0.27785 [0,1] N(0,Inf)
+sd_{red}: 0.0711 [0,1] N(0,Inf)
+p_{red}: 0.07265 [0,1] N(0,Inf)
+init_{scale}: 0.0044545 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0427372 [0,0.1] N(0,Inf)
+c: 0.13789 [0,1] N(0,Inf)
+p_{sym}: 0.30955 [0,1] N(0,Inf)
+sd_{red}: 0.11238 [0,1] N(0,Inf)
+p_{red}: 0.02115 [0,1] N(0,Inf)
+init_{scale}: 0.0096105 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0443623 [0,0.1] N(0,Inf)
+c: 0.10961 [0,1] N(0,Inf)
+p_{sym}: 0.25845 [0,1] N(0,Inf)
+sd_{red}: 0.03746 [0,1] N(0,Inf)
+p_{red}: 0.45795 [0,1] N(0,Inf)
+init_{scale}: 0.0074745 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.044158 [0,0.1] N(0,Inf)
+c: 0.17791 [0,1] N(0,Inf)
+p_{sym}: 0.10785 [0,1] N(0,Inf)
+sd_{red}: 0.35106 [0,1] N(0,Inf)
+p_{red}: 0.75555 [0,1] N(0,Inf)
+init_{scale}: 0.0055315 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0491487 [0,0.1] N(0,Inf)
+c: 0.9963 [0,1] N(0,Inf)
+p_{sym}: 0.143262 [0,1] N(0,Inf)
+sd_{red}: 0.324016 [0,1] N(0,Inf)
+p_{red}: 0.0247081 [0,1] N(0,Inf)
+init_{scale}: 0.00496014 [0,Inf] N(0,Inf)
+q: 0.0438295 [0,0.1] N(0,Inf)
+c: 0.10639 [0,1] N(0,Inf)
+p_{sym}: 0.23125 [0,1] N(0,Inf)
+sd_{red}: 0.1575 [0,1] N(0,Inf)
+p_{red}: 0.21435 [0,1] N(0,Inf)
+init_{scale}: 0.0018355 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0504059 [0,0.1] N(0,Inf)
+c: 0.479804 [0,1] N(0,Inf)
+p_{sym}: 0.0934719 [0,1] N(0,Inf)
+sd_{red}: 0.343425 [0,1] N(0,Inf)
+p_{red}: 0.000261198 [0,1] N(0,Inf)
+init_{scale}: 3.11228e-05 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0492995 [0,0.1] N(0,Inf)
+c: 0.995888 [0,1] N(0,Inf)
+p_{sym}: 0.147106 [0,1] N(0,Inf)
+sd_{red}: 0.219978 [0,1] N(0,Inf)
+p_{red}: 0.236361 [0,1] N(0,Inf)
+init_{scale}: 0.0122204 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0495606 [0,0.1] N(0,Inf)
+c: 0.993284 [0,1] N(0,Inf)
+p_{sym}: 0.142879 [0,1] N(0,Inf)
+sd_{red}: 0.0242647 [0,1] N(0,Inf)
+p_{red}: 0.681471 [0,1] N(0,Inf)
+init_{scale}: 0.00274737 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0497346 [0,0.1] N(0,Inf)
+c: 0.998344 [0,1] N(0,Inf)
+p_{sym}: 0.114764 [0,1] N(0,Inf)
+sd_{red}: 0.00195782 [0,1] N(0,Inf)
+p_{red}: 0.889742 [0,1] N(0,Inf)
+init_{scale}: 0.000652758 [0,Inf] N(0,Inf)
+q: 0.0440426 [0,0.1] N(0,Inf)
+c: 0.18551 [0,1] N(0,Inf)
+p_{sym}: 0.17425 [0,1] N(0,Inf)
+sd_{red}: 0.07946 [0,1] N(0,Inf)
+p_{red}: 0.81455 [0,1] N(0,Inf)
+init_{scale}: 0.0098575 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.049535 [0,0.1] N(0,Inf)
+c: 0.99312 [0,1] N(0,Inf)
+p_{sym}: 0.147667 [0,1] N(0,Inf)
+sd_{red}: 0.0498415 [0,1] N(0,Inf)
+p_{red}: 0.584635 [0,1] N(0,Inf)
+init_{scale}: 0.000169406 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.048865 [0,0.1] N(0,Inf)
+c: 0.993636 [0,1] N(0,Inf)
+p_{sym}: 0.138538 [0,1] N(0,Inf)
+sd_{red}: 0.0954851 [0,1] N(0,Inf)
+p_{red}: 0.565003 [0,1] N(0,Inf)
+init_{scale}: 0.0247325 [0,Inf] N(0,Inf)
+q: 0.0439538 [0,0.1] N(0,Inf)
+c: 0.03483 [0,1] N(0,Inf)
+p_{sym}: 0.24495 [0,1] N(0,Inf)
+sd_{red}: 0.13334 [0,1] N(0,Inf)
+p_{red}: 0.05725 [0,1] N(0,Inf)
+init_{scale}: 0.0037245 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0520402 [0,0.1] N(0,Inf)
+c: 0.164703 [0,1] N(0,Inf)
+p_{sym}: 0.0618871 [0,1] N(0,Inf)
+sd_{red}: 0.00110056 [0,1] N(0,Inf)
+p_{red}: 0.728582 [0,1] N(0,Inf)
+init_{scale}: 0.00334692 [0,Inf] N(0,Inf)
+q: 0.0437495 [0,0.1] N(0,Inf)
+c: 0.14339 [0,1] N(0,Inf)
+p_{sym}: 0.17015 [0,1] N(0,Inf)
+sd_{red}: 0.28366 [0,1] N(0,Inf)
+p_{red}: 0.25375 [0,1] N(0,Inf)
+init_{scale}: 0.0097515 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0497325 [0,0.1] N(0,Inf)
+c: 0.753187 [0,1] N(0,Inf)
+p_{sym}: 0.14086 [0,1] N(0,Inf)
+sd_{red}: 0.262373 [0,1] N(0,Inf)
+p_{red}: 0.000456374 [0,1] N(0,Inf)
+init_{scale}: 0.0032689 [0,Inf] N(0,Inf)
+---------------------------------------
+Begin PBS Epilogue Fri Feb 19 15:15:18 EST 2021
+Job ID:     863775.sched-torque.pace.gatech.edu
+User ID:    czhao98
+Job name:   sero_mcmc_sflor6
+Resources:  nodes=1:ppn=10,mem=16gb,walltime=24:00:00,neednodes=1:ppn=10
+Rsrc Used:  cput=03:47:54,vmem=81475288kb,walltime=00:39:40,mem=8486184kb,energy_used=0
+Queue:      inferno
+Nodes:     
+atl1-1-02-012-20-l.pace.gatech.edu
+End PBS Epilogue Fri Feb 19 15:15:18 EST 2021
+---------------------------------------

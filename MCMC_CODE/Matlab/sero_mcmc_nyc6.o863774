@@ -1,0 +1,444 @@
+---------------------------------------
+Begin PBS Prologue Fri Feb 19 14:35:38 EST 2021
+Job ID:     863774.sched-torque.pace.gatech.edu
+User ID:    czhao98
+Job name:   sero_mcmc_nyc6
+Queue:      inferno
+End PBS Prologue Fri Feb 19 14:35:38 EST 2021
+---------------------------------------
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2019 The MathWorks, Inc.
+                  R2019a (9.6.0.1072779) 64-bit (glnxa64)
+                               March 8, 2019
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+ans = 
+
+    "Using MMWR parameter set"
+
+[Warning: Table variable names were modified to make them valid MATLAB
+identifiers. The original names are saved in the VariableDescriptions property.] 
+Starting parallel pool (parpool) using the 'local' profile ...
+[Warning: The cluster failed to cancel the job execution. The error was: Unable
+to read file
+'/storage/home/hcoda1/1/czhao98/.matlab/local_cluster_jobs/R2019a/Job91.in.mat'.
+No such file or directory.] 
+[> In parallel.internal.cluster.CJSJobMethods.cancelOneJob (line 53)
+  In parallel.job.CJSConcurrentJob>@(job,ce)CJSJobMethods.cancelOneJob(job.Parent,job,job.Support,ce) (line 57)
+  In parallel.job.CJSConcurrentJob/cancelJob (line 57)
+  In parallel.Job>iCancelJobs (line 1538)
+  In parallel.Job>@(jobs)iCancelJobs(jobs,exceptionBuilder) (line 1351)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/cancel (line 1351)
+  In parallel.Cluster/hDeleteOneJob (line 1015)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+[Warning: The cluster reported an error while deleting an unavailable job.  This
+job may already have been deleted.] 
+[> In parallel.internal.cluster.CJSJobMethods.destroyOneJob (line 77)
+  In parallel.job.CJSConcurrentJob>@(job)CJSJobMethods.destroyOneJob(job.Parent,job,job.Support,job.SupportID) (line 52)
+  In parallel.job.CJSConcurrentJob/destroyJob (line 52)
+  In parallel.Job>iDeleteJobs (line 1513)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/delete (line 1303)
+  In parallel.Cluster/hDeleteOneJob (line 1031)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+[Warning: The cluster failed to cancel the job execution. The error was: Unable
+to read file
+'/storage/home/hcoda1/1/czhao98/.matlab/local_cluster_jobs/R2019a/Job93.in.mat'.
+No such file or directory.] 
+[> In parallel.internal.cluster.CJSJobMethods.cancelOneJob (line 53)
+  In parallel.job.CJSConcurrentJob>@(job,ce)CJSJobMethods.cancelOneJob(job.Parent,job,job.Support,ce) (line 57)
+  In parallel.job.CJSConcurrentJob/cancelJob (line 57)
+  In parallel.Job>iCancelJobs (line 1538)
+  In parallel.Job>@(jobs)iCancelJobs(jobs,exceptionBuilder) (line 1351)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/cancel (line 1351)
+  In parallel.Cluster/hDeleteOneJob (line 1015)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+[Warning: The cluster reported an error while deleting an unavailable job.  This
+job may already have been deleted.] 
+[> In parallel.internal.cluster.CJSJobMethods.destroyOneJob (line 77)
+  In parallel.job.CJSConcurrentJob>@(job)CJSJobMethods.destroyOneJob(job.Parent,job,job.Support,job.SupportID) (line 52)
+  In parallel.job.CJSConcurrentJob/destroyJob (line 52)
+  In parallel.Job>iDeleteJobs (line 1513)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/delete (line 1303)
+  In parallel.Cluster/hDeleteOneJob (line 1031)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+[Warning: The cluster failed to cancel the job execution. The error was: Unable
+to read file
+'/storage/home/hcoda1/1/czhao98/.matlab/local_cluster_jobs/R2019a/Job94.in.mat'.
+No such file or directory.] 
+[> In parallel.internal.cluster.CJSJobMethods.cancelOneJob (line 53)
+  In parallel.job.CJSConcurrentJob>@(job,ce)CJSJobMethods.cancelOneJob(job.Parent,job,job.Support,ce) (line 57)
+  In parallel.job.CJSConcurrentJob/cancelJob (line 57)
+  In parallel.Job>iCancelJobs (line 1538)
+  In parallel.Job>@(jobs)iCancelJobs(jobs,exceptionBuilder) (line 1351)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/cancel (line 1351)
+  In parallel.Cluster/hDeleteOneJob (line 1015)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+[Warning: The cluster reported an error while deleting an unavailable job.  This
+job may already have been deleted.] 
+[> In parallel.internal.cluster.CJSJobMethods.destroyOneJob (line 77)
+  In parallel.job.CJSConcurrentJob>@(job)CJSJobMethods.destroyOneJob(job.Parent,job,job.Support,job.SupportID) (line 52)
+  In parallel.job.CJSConcurrentJob/destroyJob (line 52)
+  In parallel.Job>iDeleteJobs (line 1513)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/delete (line 1303)
+  In parallel.Cluster/hDeleteOneJob (line 1031)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+[Warning: The cluster failed to cancel the job execution. The error was: Unable
+to read file
+'/storage/home/hcoda1/1/czhao98/.matlab/local_cluster_jobs/R2019a/Job95.in.mat'.
+No such file or directory.] 
+[> In parallel.internal.cluster.CJSJobMethods.cancelOneJob (line 53)
+  In parallel.job.CJSConcurrentJob>@(job,ce)CJSJobMethods.cancelOneJob(job.Parent,job,job.Support,ce) (line 57)
+  In parallel.job.CJSConcurrentJob/cancelJob (line 57)
+  In parallel.Job>iCancelJobs (line 1538)
+  In parallel.Job>@(jobs)iCancelJobs(jobs,exceptionBuilder) (line 1351)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/cancel (line 1351)
+  In parallel.Cluster/hDeleteOneJob (line 1015)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+[Warning: The cluster reported an error while deleting an unavailable job.  This
+job may already have been deleted.] 
+[> In parallel.internal.cluster.CJSJobMethods.destroyOneJob (line 77)
+  In parallel.job.CJSConcurrentJob>@(job)CJSJobMethods.destroyOneJob(job.Parent,job,job.Support,job.SupportID) (line 52)
+  In parallel.job.CJSConcurrentJob/destroyJob (line 52)
+  In parallel.Job>iDeleteJobs (line 1513)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/delete (line 1303)
+  In parallel.Cluster/hDeleteOneJob (line 1031)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+[Warning: The cluster failed to cancel the job execution. The error was: Unable
+to read file
+'/storage/home/hcoda1/1/czhao98/.matlab/local_cluster_jobs/R2019a/Job96.in.mat'.
+No such file or directory.] 
+[> In parallel.internal.cluster.CJSJobMethods.cancelOneJob (line 53)
+  In parallel.job.CJSConcurrentJob>@(job,ce)CJSJobMethods.cancelOneJob(job.Parent,job,job.Support,ce) (line 57)
+  In parallel.job.CJSConcurrentJob/cancelJob (line 57)
+  In parallel.Job>iCancelJobs (line 1538)
+  In parallel.Job>@(jobs)iCancelJobs(jobs,exceptionBuilder) (line 1351)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/cancel (line 1351)
+  In parallel.Cluster/hDeleteOneJob (line 1015)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+[Warning: The cluster reported an error while deleting an unavailable job.  This
+job may already have been deleted.] 
+[> In parallel.internal.cluster.CJSJobMethods.destroyOneJob (line 77)
+  In parallel.job.CJSConcurrentJob>@(job)CJSJobMethods.destroyOneJob(job.Parent,job,job.Support,job.SupportID) (line 52)
+  In parallel.job.CJSConcurrentJob/destroyJob (line 52)
+  In parallel.Job>iDeleteJobs (line 1513)
+  In parallel.internal.cluster.hetfun (line 57)
+  In parallel.Job/delete (line 1303)
+  In parallel.Cluster/hDeleteOneJob (line 1031)
+  In parallel.internal.pool.InteractiveClient>iDeleteJobs (line 875)
+  In parallel.internal.pool.InteractiveClient/pRemoveOldJobs (line 483)
+  In parallel.internal.pool.InteractiveClient/start (line 317)
+  In parallel.Pool>iStartClient (line 796)
+  In parallel.Pool.hBuildPool (line 585)
+  In parallel.internal.pool.doParpool (line 18)
+  In parpool (line 98)
+  In parallel.internal.pool.PoolArrayManager.getOrAutoCreateWithCleanup (line 60)
+  In pctTryCreatePoolIfNecessary (line 23)
+  In parallel_function
+  In MCMC_find_optimal_parms_for_region (line 64)
+  In sweep_region_parameters_nyc_6var (line 15)
+  In run (line 91)] 
+Connected to the parallel pool (number of workers: 10).
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.040162 [0,0.1] N(0,Inf)
+c: 0.02701 [0,1] N(0,Inf)
+p_{sym}: 0.36185 [0,1] N(0,Inf)
+sd_{red}: 0.01762 [0,1] N(0,Inf)
+p_{red}: 0.64125 [0,1] N(0,Inf)
+init_{scale}: 0.0070385 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0405365 [0,0.1] N(0,Inf)
+c: 0.986741 [0,1] N(0,Inf)
+p_{sym}: 0.31842 [0,1] N(0,Inf)
+sd_{red}: 3.63158e-05 [0,1] N(0,Inf)
+p_{red}: 0.771456 [0,1] N(0,Inf)
+init_{scale}: 0.0666348 [0,Inf] N(0,Inf)
+q: 0.0405883 [0,0.1] N(0,Inf)
+c: 0.05655 [0,1] N(0,Inf)
+p_{sym}: 0.31925 [0,1] N(0,Inf)
+sd_{red}: 0.3327 [0,1] N(0,Inf)
+p_{red}: 0.03505 [0,1] N(0,Inf)
+init_{scale}: 0.0031905 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.042715 [0,0.1] N(0,Inf)
+c: 0.05433 [0,1] N(0,Inf)
+p_{sym}: 0.26395 [0,1] N(0,Inf)
+sd_{red}: 0.35874 [0,1] N(0,Inf)
+p_{red}: 0.15155 [0,1] N(0,Inf)
+init_{scale}: 0.0016055 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0405217 [0,0.1] N(0,Inf)
+c: 0.04483 [0,1] N(0,Inf)
+p_{sym}: 0.33675 [0,1] N(0,Inf)
+sd_{red}: 0.31882 [0,1] N(0,Inf)
+p_{red}: 0.07145 [0,1] N(0,Inf)
+init_{scale}: 0.0082815 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0412979 [0,0.1] N(0,Inf)
+c: 0.995846 [0,1] N(0,Inf)
+p_{sym}: 0.292679 [0,1] N(0,Inf)
+sd_{red}: 0.00129922 [0,1] N(0,Inf)
+p_{red}: 0.828297 [0,1] N(0,Inf)
+init_{scale}: 0.055186 [0,Inf] N(0,Inf)
+q: 0.0407703 [0,0.1] N(0,Inf)
+c: 0.17813 [0,1] N(0,Inf)
+p_{sym}: 0.30345 [0,1] N(0,Inf)
+sd_{red}: 0.15866 [0,1] N(0,Inf)
+p_{red}: 0.61955 [0,1] N(0,Inf)
+init_{scale}: 0.0092475 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0411853 [0,0.1] N(0,Inf)
+c: 0.94868 [0,1] N(0,Inf)
+p_{sym}: 0.31585 [0,1] N(0,Inf)
+sd_{red}: 0.00285997 [0,1] N(0,Inf)
+p_{red}: 0.742922 [0,1] N(0,Inf)
+init_{scale}: 0.0152839 [0,Inf] N(0,Inf)
+q: 0.0411211 [0,0.1] N(0,Inf)
+c: 0.16817 [0,1] N(0,Inf)
+p_{sym}: 0.31265 [0,1] N(0,Inf)
+sd_{red}: 0.30478 [0,1] N(0,Inf)
+p_{red}: 0.19165 [0,1] N(0,Inf)
+init_{scale}: 0.0079235 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0413653 [0,0.1] N(0,Inf)
+c: 0.03967 [0,1] N(0,Inf)
+p_{sym}: 0.30585 [0,1] N(0,Inf)
+sd_{red}: 0.31886 [0,1] N(0,Inf)
+p_{red}: 0.15225 [0,1] N(0,Inf)
+init_{scale}: 0.0099515 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0416983 [0,0.1] N(0,Inf)
+c: 0.17595 [0,1] N(0,Inf)
+p_{sym}: 0.26925 [0,1] N(0,Inf)
+sd_{red}: 0.17758 [0,1] N(0,Inf)
+p_{red}: 0.54915 [0,1] N(0,Inf)
+init_{scale}: 0.0033425 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0414024 [0,0.1] N(0,Inf)
+c: 0.974271 [0,1] N(0,Inf)
+p_{sym}: 0.30864 [0,1] N(0,Inf)
+sd_{red}: 0.00226256 [0,1] N(0,Inf)
+p_{red}: 0.769003 [0,1] N(0,Inf)
+init_{scale}: 0.00539087 [0,Inf] N(0,Inf)
+q: 0.0393584 [0,0.1] N(0,Inf)
+c: 0.05817 [0,1] N(0,Inf)
+p_{sym}: 0.42445 [0,1] N(0,Inf)
+sd_{red}: 0.07454 [0,1] N(0,Inf)
+p_{red}: 0.35425 [0,1] N(0,Inf)
+init_{scale}: 0.0003665 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0411107 [0,0.1] N(0,Inf)
+c: 0.271667 [0,1] N(0,Inf)
+p_{sym}: 0.324538 [0,1] N(0,Inf)
+sd_{red}: 0.000217799 [0,1] N(0,Inf)
+p_{red}: 0.674661 [0,1] N(0,Inf)
+init_{scale}: 0.0170029 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0411551 [0,0.1] N(0,Inf)
+c: 0.199393 [0,1] N(0,Inf)
+p_{sym}: 0.313841 [0,1] N(0,Inf)
+sd_{red}: 0.000216618 [0,1] N(0,Inf)
+p_{red}: 0.710263 [0,1] N(0,Inf)
+init_{scale}: 0.0359983 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0412909 [0,0.1] N(0,Inf)
+c: 0.367346 [0,1] N(0,Inf)
+p_{sym}: 0.286517 [0,1] N(0,Inf)
+sd_{red}: 0.00202251 [0,1] N(0,Inf)
+p_{red}: 0.846116 [0,1] N(0,Inf)
+init_{scale}: 0.0709307 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0416665 [0,0.1] N(0,Inf)
+c: 0.522453 [0,1] N(0,Inf)
+p_{sym}: 0.294388 [0,1] N(0,Inf)
+sd_{red}: 1.99078e-05 [0,1] N(0,Inf)
+p_{red}: 0.796618 [0,1] N(0,Inf)
+init_{scale}: 0.0074672 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0405393 [0,0.1] N(0,Inf)
+c: 0.942549 [0,1] N(0,Inf)
+p_{sym}: 0.316369 [0,1] N(0,Inf)
+sd_{red}: 0.00316657 [0,1] N(0,Inf)
+p_{red}: 0.780243 [0,1] N(0,Inf)
+init_{scale}: 0.069659 [0,Inf] N(0,Inf)
+q: 0.0415295 [0,0.1] N(0,Inf)
+c: 0.05695 [0,1] N(0,Inf)
+p_{sym}: 0.31965 [0,1] N(0,Inf)
+sd_{red}: 0.0823 [0,1] N(0,Inf)
+p_{red}: 0.26355 [0,1] N(0,Inf)
+init_{scale}: 0.0069365 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0413205 [0,0.1] N(0,Inf)
+c: 0.315653 [0,1] N(0,Inf)
+p_{sym}: 0.317635 [0,1] N(0,Inf)
+sd_{red}: 0.130807 [0,1] N(0,Inf)
+p_{red}: 0.418444 [0,1] N(0,Inf)
+init_{scale}: 0.000101307 [0,Inf] N(0,Inf)
+---------------------------------------
+Begin PBS Epilogue Fri Feb 19 15:09:00 EST 2021
+Job ID:     863774.sched-torque.pace.gatech.edu
+User ID:    czhao98
+Job name:   sero_mcmc_nyc6
+Resources:  nodes=1:ppn=10,mem=16gb,walltime=24:00:00,neednodes=1:ppn=10
+Rsrc Used:  cput=04:13:51,vmem=81634940kb,walltime=00:33:22,mem=8482084kb,energy_used=0
+Queue:      inferno
+Nodes:     
+atl1-1-02-012-19-r.pace.gatech.edu
+End PBS Epilogue Fri Feb 19 15:09:00 EST 2021
+---------------------------------------
