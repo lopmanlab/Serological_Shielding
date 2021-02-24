@@ -5,7 +5,7 @@ require(ggplot2)
 require(GGally)
 require(factoextra)
 
-DATE = "2021-02-19" #"2021-02-13" #"2020-10-07"
+DATE = "2021-02-23" #"2021-02-13" #"2020-10-07"
 
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
@@ -60,7 +60,7 @@ temp.names = unique(names(ls.chains))
 temp.chains = sapply(temp.names, function(x){
   temp.in = ls.chains[names(ls.chains)==x]
   res = do.call('rbind', temp.in)
-  return(res)
+  return(list(res))
 })
 ls.chainComb = temp.chains
 

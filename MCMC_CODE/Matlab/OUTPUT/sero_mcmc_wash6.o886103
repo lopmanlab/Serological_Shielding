@@ -1,0 +1,379 @@
+---------------------------------------
+Begin PBS Prologue Mon Feb 22 14:22:36 EST 2021
+Job ID:     886103.sched-torque.pace.gatech.edu
+User ID:    czhao98
+Job name:   sero_mcmc_wash6
+Queue:      inferno
+End PBS Prologue Mon Feb 22 14:22:36 EST 2021
+---------------------------------------
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2019 The MathWorks, Inc.
+                  R2019a (9.6.0.1072779) 64-bit (glnxa64)
+                               March 8, 2019
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+ans = 
+
+    "Using MMWR parameter set"
+
+[Warning: Table variable names were modified to make them valid MATLAB
+identifiers. The original names are saved in the VariableDescriptions property.] 
+Starting parallel pool (parpool) using the 'local' profile ...
+Connected to the parallel pool (number of workers: 12).
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0244133 [0,0.1] N(0,Inf)
+c: 0.04355 [0,1] N(0,Inf)
+p_{sym}: 0.52065 [0,1] N(0,Inf)
+sd_{red}: 0.05382 [0,1] N(0,Inf)
+p_{red}: 0.46235 [0,1] N(0,Inf)
+init_{scale}: 0.0095275 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0249461 [0,0.1] N(0,Inf)
+c: 0.15111 [0,1] N(0,Inf)
+p_{sym}: 0.44015 [0,1] N(0,Inf)
+sd_{red}: 0.33198 [0,1] N(0,Inf)
+p_{red}: 0.16535 [0,1] N(0,Inf)
+init_{scale}: 0.0088075 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0256033 [0,0.1] N(0,Inf)
+c: 0.15025 [0,1] N(0,Inf)
+p_{sym}: 0.42335 [0,1] N(0,Inf)
+sd_{red}: 0.3935 [0,1] N(0,Inf)
+p_{red}: 0.19185 [0,1] N(0,Inf)
+init_{scale}: 0.0055825 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0256743 [0,0.1] N(0,Inf)
+c: 0.17901 [0,1] N(0,Inf)
+p_{sym}: 0.44365 [0,1] N(0,Inf)
+sd_{red}: 0.13702 [0,1] N(0,Inf)
+p_{red}: 0.48865 [0,1] N(0,Inf)
+init_{scale}: 0.0083985 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0258919 [0,0.1] N(0,Inf)
+c: 0.08613 [0,1] N(0,Inf)
+p_{sym}: 0.40785 [0,1] N(0,Inf)
+sd_{red}: 0.27498 [0,1] N(0,Inf)
+p_{red}: 0.12315 [0,1] N(0,Inf)
+init_{scale}: 0.0097625 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0257853 [0,0.1] N(0,Inf)
+c: 0.10853 [0,1] N(0,Inf)
+p_{sym}: 0.38145 [0,1] N(0,Inf)
+sd_{red}: 0.15042 [0,1] N(0,Inf)
+p_{red}: 0.81345 [0,1] N(0,Inf)
+init_{scale}: 0.0066575 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0263758 [0,0.1] N(0,Inf)
+c: 0.07035 [0,1] N(0,Inf)
+p_{sym}: 0.36725 [0,1] N(0,Inf)
+sd_{red}: 0.3027 [0,1] N(0,Inf)
+p_{red}: 0.67285 [0,1] N(0,Inf)
+init_{scale}: 0.0016155 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0255233 [0,0.1] N(0,Inf)
+c: 0.19671 [0,1] N(0,Inf)
+p_{sym}: 0.42755 [0,1] N(0,Inf)
+sd_{red}: 0.16594 [0,1] N(0,Inf)
+p_{red}: 0.60015 [0,1] N(0,Inf)
+init_{scale}: 0.0003395 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0257453 [0,0.1] N(0,Inf)
+c: 0.16377 [0,1] N(0,Inf)
+p_{sym}: 0.41575 [0,1] N(0,Inf)
+sd_{red}: 0.06754 [0,1] N(0,Inf)
+p_{red}: 0.63265 [0,1] N(0,Inf)
+init_{scale}: 0.0067505 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0269841 [0,0.1] N(0,Inf)
+c: 0.13123 [0,1] N(0,Inf)
+p_{sym}: 0.33245 [0,1] N(0,Inf)
+sd_{red}: 0.2101 [0,1] N(0,Inf)
+p_{red}: 0.72005 [0,1] N(0,Inf)
+init_{scale}: 0.0033585 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.025066 [0,0.1] N(0,Inf)
+c: 0.16085 [0,1] N(0,Inf)
+p_{sym}: 0.46715 [0,1] N(0,Inf)
+sd_{red}: 0.23106 [0,1] N(0,Inf)
+p_{red}: 0.56265 [0,1] N(0,Inf)
+init_{scale}: 0.0099115 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0247418 [0,0.1] N(0,Inf)
+c: 0.538376 [0,1] N(0,Inf)
+p_{sym}: 0.380568 [0,1] N(0,Inf)
+sd_{red}: 0.467466 [0,1] N(0,Inf)
+p_{red}: 0.364127 [0,1] N(0,Inf)
+init_{scale}: 0.194636 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0253123 [0,0.1] N(0,Inf)
+c: 0.586197 [0,1] N(0,Inf)
+p_{sym}: 0.390777 [0,1] N(0,Inf)
+sd_{red}: 0.416376 [0,1] N(0,Inf)
+p_{red}: 0.321811 [0,1] N(0,Inf)
+init_{scale}: 0.081691 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0246847 [0,0.1] N(0,Inf)
+c: 0.935831 [0,1] N(0,Inf)
+p_{sym}: 0.38769 [0,1] N(0,Inf)
+sd_{red}: 0.402353 [0,1] N(0,Inf)
+p_{red}: 0.475596 [0,1] N(0,Inf)
+init_{scale}: 0.193094 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0244719 [0,0.1] N(0,Inf)
+c: 0.966597 [0,1] N(0,Inf)
+p_{sym}: 0.389282 [0,1] N(0,Inf)
+sd_{red}: 0.259607 [0,1] N(0,Inf)
+p_{red}: 0.792299 [0,1] N(0,Inf)
+init_{scale}: 0.22403 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0257963 [0,0.1] N(0,Inf)
+c: 0.933323 [0,1] N(0,Inf)
+p_{sym}: 0.367224 [0,1] N(0,Inf)
+sd_{red}: 0.38559 [0,1] N(0,Inf)
+p_{red}: 0.515269 [0,1] N(0,Inf)
+init_{scale}: 0.0469819 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0258336 [0,0.1] N(0,Inf)
+c: 0.941316 [0,1] N(0,Inf)
+p_{sym}: 0.350946 [0,1] N(0,Inf)
+sd_{red}: 0.175848 [0,1] N(0,Inf)
+p_{red}: 0.97251 [0,1] N(0,Inf)
+init_{scale}: 0.0915117 [0,Inf] N(0,Inf)
+q: 0.0262337 [0,0.1] N(0,Inf)
+c: 0.13101 [0,1] N(0,Inf)
+p_{sym}: 0.34565 [0,1] N(0,Inf)
+sd_{red}: 0.1593 [0,1] N(0,Inf)
+p_{red}: 0.83045 [0,1] N(0,Inf)
+init_{scale}: 0.0036205 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.025593 [0,0.1] N(0,Inf)
+c: 0.83956 [0,1] N(0,Inf)
+p_{sym}: 0.369206 [0,1] N(0,Inf)
+sd_{red}: 0.117611 [0,1] N(0,Inf)
+p_{red}: 0.989674 [0,1] N(0,Inf)
+init_{scale}: 0.0929015 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0260605 [0,0.1] N(0,Inf)
+c: 0.831204 [0,1] N(0,Inf)
+p_{sym}: 0.360723 [0,1] N(0,Inf)
+sd_{red}: 0.134444 [0,1] N(0,Inf)
+p_{red}: 0.963863 [0,1] N(0,Inf)
+init_{scale}: 0.0398332 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0257694 [0,0.1] N(0,Inf)
+c: 0.890935 [0,1] N(0,Inf)
+p_{sym}: 0.372154 [0,1] N(0,Inf)
+sd_{red}: 0.139041 [0,1] N(0,Inf)
+p_{red}: 0.948356 [0,1] N(0,Inf)
+init_{scale}: 0.0569889 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0256748 [0,0.1] N(0,Inf)
+c: 0.714513 [0,1] N(0,Inf)
+p_{sym}: 0.368639 [0,1] N(0,Inf)
+sd_{red}: 0.2372 [0,1] N(0,Inf)
+p_{red}: 0.787389 [0,1] N(0,Inf)
+init_{scale}: 0.0716123 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0257969 [0,0.1] N(0,Inf)
+c: 0.50151 [0,1] N(0,Inf)
+p_{sym}: 0.391107 [0,1] N(0,Inf)
+sd_{red}: 0.172957 [0,1] N(0,Inf)
+p_{red}: 0.769656 [0,1] N(0,Inf)
+init_{scale}: 0.0234435 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0256267 [0,0.1] N(0,Inf)
+c: 0.764154 [0,1] N(0,Inf)
+p_{sym}: 0.373229 [0,1] N(0,Inf)
+sd_{red}: 0.302621 [0,1] N(0,Inf)
+p_{red}: 0.634624 [0,1] N(0,Inf)
+init_{scale}: 0.0733019 [0,Inf] N(0,Inf)
+q: 0.0245465 [0,0.1] N(0,Inf)
+c: 0.04567 [0,1] N(0,Inf)
+p_{sym}: 0.48315 [0,1] N(0,Inf)
+sd_{red}: 0.32526 [0,1] N(0,Inf)
+p_{red}: 0.00325 [0,1] N(0,Inf)
+init_{scale}: 0.0004685 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0253724 [0,0.1] N(0,Inf)
+c: 0.00137 [0,1] N(0,Inf)
+p_{sym}: 0.43295 [0,1] N(0,Inf)
+sd_{red}: 0.21554 [0,1] N(0,Inf)
+p_{red}: 0.27905 [0,1] N(0,Inf)
+init_{scale}: 0.0078515 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0246398 [0,0.1] N(0,Inf)
+c: 0.18365 [0,1] N(0,Inf)
+p_{sym}: 0.48455 [0,1] N(0,Inf)
+sd_{red}: 0.09722 [0,1] N(0,Inf)
+p_{red}: 0.82355 [0,1] N(0,Inf)
+init_{scale}: 0.0006635 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0274192 [0,0.1] N(0,Inf)
+c: 0.03621 [0,1] N(0,Inf)
+p_{sym}: 0.30675 [0,1] N(0,Inf)
+sd_{red}: 0.31462 [0,1] N(0,Inf)
+p_{red}: 0.41765 [0,1] N(0,Inf)
+init_{scale}: 0.0044655 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0255719 [0,0.1] N(0,Inf)
+c: 0.956328 [0,1] N(0,Inf)
+p_{sym}: 0.381788 [0,1] N(0,Inf)
+sd_{red}: 0.477001 [0,1] N(0,Inf)
+p_{red}: 0.280115 [0,1] N(0,Inf)
+init_{scale}: 0.0530831 [0,Inf] N(0,Inf)
+q: 0.0250793 [0,0.1] N(0,Inf)
+c: 0.11565 [0,1] N(0,Inf)
+p_{sym}: 0.44555 [0,1] N(0,Inf)
+sd_{red}: 0.3737 [0,1] N(0,Inf)
+p_{red}: 0.29605 [0,1] N(0,Inf)
+init_{scale}: 0.0017365 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0260029 [0,0.1] N(0,Inf)
+c: 0.06671 [0,1] N(0,Inf)
+p_{sym}: 0.35795 [0,1] N(0,Inf)
+sd_{red}: 0.31134 [0,1] N(0,Inf)
+p_{red}: 0.65195 [0,1] N(0,Inf)
+init_{scale}: 0.0018195 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0259762 [0,0.1] N(0,Inf)
+c: 0.10667 [0,1] N(0,Inf)
+p_{sym}: 0.39335 [0,1] N(0,Inf)
+sd_{red}: 0.13934 [0,1] N(0,Inf)
+p_{red}: 0.41625 [0,1] N(0,Inf)
+init_{scale}: 0.0028875 [0,Inf] N(0,Inf)
+Using values from the previous run
+q: 0.0261139 [0,0.1] N(0,Inf)
+c: 0.18873 [0,1] N(0,Inf)
+p_{sym}: 0.34625 [0,1] N(0,Inf)
+sd_{red}: 0.1465 [0,1] N(0,Inf)
+p_{red}: 0.77255 [0,1] N(0,Inf)
+init_{scale}: 0.0072985 [0,Inf] N(0,Inf)
+Using values from the previous run
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0258029 [0,0.1] N(0,Inf)
+c: 0.482885 [0,1] N(0,Inf)
+p_{sym}: 0.39288 [0,1] N(0,Inf)
+sd_{red}: 0.166442 [0,1] N(0,Inf)
+p_{red}: 0.755107 [0,1] N(0,Inf)
+init_{scale}: 0.0193506 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0261992 [0,0.1] N(0,Inf)
+c: 0.935323 [0,1] N(0,Inf)
+p_{sym}: 0.353079 [0,1] N(0,Inf)
+sd_{red}: 0.328737 [0,1] N(0,Inf)
+p_{red}: 0.638284 [0,1] N(0,Inf)
+init_{scale}: 0.0164502 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0256727 [0,0.1] N(0,Inf)
+c: 0.446708 [0,1] N(0,Inf)
+p_{sym}: 0.387968 [0,1] N(0,Inf)
+sd_{red}: 0.403433 [0,1] N(0,Inf)
+p_{red}: 0.282553 [0,1] N(0,Inf)
+init_{scale}: 0.0360829 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0262561 [0,0.1] N(0,Inf)
+c: 0.822979 [0,1] N(0,Inf)
+p_{sym}: 0.358122 [0,1] N(0,Inf)
+sd_{red}: 0.39353 [0,1] N(0,Inf)
+p_{red}: 0.413405 [0,1] N(0,Inf)
+init_{scale}: 0.0146124 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0254792 [0,0.1] N(0,Inf)
+c: 0.717237 [0,1] N(0,Inf)
+p_{sym}: 0.346132 [0,1] N(0,Inf)
+sd_{red}: 0.201293 [0,1] N(0,Inf)
+p_{red}: 0.977066 [0,1] N(0,Inf)
+init_{scale}: 0.14445 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.0261945 [0,0.1] N(0,Inf)
+c: 0.91861 [0,1] N(0,Inf)
+p_{sym}: 0.368385 [0,1] N(0,Inf)
+sd_{red}: 0.211558 [0,1] N(0,Inf)
+p_{red}: 0.756945 [0,1] N(0,Inf)
+init_{scale}: 0.0136807 [0,Inf] N(0,Inf)
+Sampling these parameters:
+name   start [min,max] N(mu,s^2)
+q: 0.025781 [0,0.1] N(0,Inf)
+c: 0.778123 [0,1] N(0,Inf)
+p_{sym}: 0.36729 [0,1] N(0,Inf)
+sd_{red}: 0.208286 [0,1] N(0,Inf)
+p_{red}: 0.853162 [0,1] N(0,Inf)
+init_{scale}: 0.0527069 [0,Inf] N(0,Inf)
+---------------------------------------
+Begin PBS Epilogue Mon Feb 22 17:59:18 EST 2021
+Job ID:     886103.sched-torque.pace.gatech.edu
+User ID:    czhao98
+Job name:   sero_mcmc_wash6
+Resources:  nodes=1:ppn=20,mem=16gb,walltime=48:00:00,neednodes=1:ppn=20
+Rsrc Used:  cput=35:47:58,vmem=111923880kb,walltime=03:36:42,mem=10734048kb,energy_used=0
+Queue:      inferno
+Nodes:     
+atl1-1-02-011-7-r.pace.gatech.edu
+End PBS Epilogue Mon Feb 22 17:59:18 EST 2021
+---------------------------------------

@@ -75,7 +75,7 @@
         for i_param=1:N_VARS_IN
             temp_params{i_param}{2} = min_LHS_inits(i_paramChainSetup, i_param);
         end
-        params_LHS{i_paramChainSetup} = temp_params;
+        params_LHS{i_paramChainSetup} = temp_params;    
     end
         
     %% Run MCMC
