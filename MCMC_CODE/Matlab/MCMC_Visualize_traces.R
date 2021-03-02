@@ -5,7 +5,9 @@ require(ggplot2)
 require(GGally)
 require(factoextra)
 
-DATE = "2021-02-23" #"2021-02-13" #"2020-10-07"
+ADD_PLOT_CONSTRAINTS=F
+INCLUDE_LOG_SCALE_TRACE=T
+DATE = "2021-02-26" #"2021-02-13" #"2020-10-07"
 
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
@@ -37,6 +39,17 @@ ls.chains = sapply(v.chains, function(x){
   
   # Remove last column since I still can't write matlab outputs
   res = res[,-ncol(res)]
+  
+  # Remove the initial condition columns for ease
+  v.icCols = c("S_c", "S_a", "S_rc", "S_fc", "S_e"
+  ,"E_c", "E_a", "E_rc", "E_fc", "E_e"
+  ,"Isym_c", "Isym_a", "Isym_rc", "Isym_fc", "Isym_e"
+  ,"Iasym_c", "Iasym_a", "Iasym_rc", "Iasym_fc", "Iasym_e"
+  ,"Hsub_c", "Hsub_a", "Hsub_rc", "Hsub_fc", "Hsub_e"
+  ,"Hcri_c", "Hcri_a", "Hcri_rc", "Hcri_fc", "Hcri_e"
+  ,"D_c", "D_a", "D_rc", "D_fc", "D_e"
+  ,"R_c", "R_a", "R_rc", "R_fc", "R_e")
+  res = res[,!colnames(res) %in% v.icCols]
   
   # Add positions
   res$idx = 1:(table(res$i_chain)[1])
@@ -119,8 +132,10 @@ ls.plotChains = lapply(ls.chainComb, function(x){
   temp_df = x
   temp_vars = colnames(x)[colnames(x) %in% colnames(df.constraints)]
   
-  temp_df[n_rows+(1:2),] = temp_df[n_rows,] # duplicate last rows instead of rbind
-  temp_df[n_rows+(1:2), temp_vars] = df.constraints[,temp_vars]
+  if(ADD_PLOT_CONSTRAINTS){
+    temp_df[n_rows+(1:2),] = temp_df[n_rows,] # duplicate last rows instead of rbind
+    temp_df[n_rows+(1:2), temp_vars] = df.constraints[,temp_vars]
+  }
 
   # melt
   ret = melt(temp_df, c('idx', 'i_chain', 'LogLikelihood', 'region', 'nVars'))
@@ -140,6 +155,18 @@ for(i_chain in names(ls.plotChains)){
     ggtitle(i_chain)
   ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', i_chain, '_TracePlots.png', sep='', collapse='')
          , p.traces, height = 8, width = 11)
+  
+  if(INCLUDE_LOG_SCALE_TRACE){
+    p.traces_log = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain)) +
+      theme_grey(base_size=14) +
+      geom_line(alpha = 0.5) +
+      facet_wrap('variable', scales = 'free') +
+      xlab('iterations') + 
+      ggtitle(i_chain) + 
+      scale_y_log10()
+    ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', i_chain, '_TracePlots_log.png', sep='', collapse='')
+           , p.traces_log, height = 8, width = 11)
+  }
 }
 
 

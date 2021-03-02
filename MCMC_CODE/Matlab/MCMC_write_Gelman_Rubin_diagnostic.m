@@ -1,8 +1,8 @@
-9% This calculate convergences for each chain.
+% This calculate convergences for each chain.
 % The output is saved in adhoc.csv
 addpath(genpath(pwd))
 
-DATE = "2021-02-23";
+DATE = "2021-02-26";
 REGION_LIST = ["nyc", "sflor", "wash"];
 N_VARS_LIST = [6 8 10 12];
 PARAMETER_SET = "MMWR";
@@ -19,6 +19,10 @@ fullHeader_Convergence = ["region" "n_vars" "n_chains"...
 fileName_Convergence = strcat(DATE, "_MCMCSTATmprsf_Diagnostics.csv");
 
 Convergence_Results_AllNVars = string(zeros(12,N_TOTAL_VARS+4));
+CHAINS_LIST = 1:N_CHAINS;
+%CHAINS_LIST = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20];
+N_CHAINS_IN = length(CHAINS_LIST);
+
 for i_N_NVARS=1:length(N_VARS_LIST)     % Loop through regions and calculate convergence
     Convergence_Results = zeros(3,N_TOTAL_VARS+1);
     N_VARS = N_VARS_LIST(i_N_NVARS);
@@ -32,16 +36,18 @@ for i_N_NVARS=1:length(N_VARS_LIST)     % Loop through regions and calculate con
             for i_VAR=1:N_VARS
                 temp_Convergence_byVar = {0};
 
-                for i_CHAIN=1:N_CHAINS
-                    temp_Convergence_byVar{i_CHAIN} = RES_OUT{i_CHAIN}{2}(:,i_VAR); 
+                for i_CHAIN=1:N_CHAINS_IN
+                    i_CHAIN_in = CHAINS_LIST(i_CHAIN);
+                    temp_Convergence_byVar{i_CHAIN} = RES_OUT{i_CHAIN_in}{2}(:,i_VAR); 
                 end
 
                 Convergence_Results(j_region,i_VAR) = mpsrf(temp_Convergence_byVar);
             end
 
             temp_Convergence_full = {0};
-            for i_CHAIN=1:N_CHAINS
-                temp_Convergence_full{i_CHAIN} = RES_OUT{i_CHAIN}{2}; 
+            for i_CHAIN=1:N_CHAINS_IN
+                i_CHAIN_in = CHAINS_LIST(i_CHAIN);
+                temp_Convergence_full{i_CHAIN} = RES_OUT{i_CHAIN_in}{2}; 
             end
 
             Convergence_Results(j_region,N_VARS+1) = mpsrf(temp_Convergence_full);
@@ -52,10 +58,12 @@ for i_N_NVARS=1:length(N_VARS_LIST)     % Loop through regions and calculate con
         
     end
     
-    Convergence_Results_AllNVars((1+(i_N_NVARS-1)*3):(3+(i_N_NVARS-1)*3),:) = [REGION_LIST' [N_VARS; N_VARS; N_VARS] [N_CHAINS; N_CHAINS; N_CHAINS] string(Convergence_Results)];
+    Convergence_Results_AllNVars((1+(i_N_NVARS-1)*3):(3+(i_N_NVARS-1)*3),:) = [REGION_LIST' [N_VARS; N_VARS; N_VARS] [N_CHAINS_IN; N_CHAINS_IN; N_CHAINS_IN] string(Convergence_Results)];
 end
 
 fid_Convergence = fopen(fileName_Convergence, 'w');
 fprintf(fid_Convergence, [repmat('%s,',1,size(fullHeader_Convergence, 2)) '\n'], fullHeader_Convergence);
 fprintf(fid_Convergence, [repmat('%s,',1,size(Convergence_Results_AllNVars, 2)) '\n'], Convergence_Results_AllNVars');
 fclose(fid_Convergence);
+
+Convergence_Results_AllNVars

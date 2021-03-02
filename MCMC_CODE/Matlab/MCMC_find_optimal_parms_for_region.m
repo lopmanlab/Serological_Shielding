@@ -38,6 +38,7 @@
     options_sample = base_options;
     options_sample.nsimu = CHAIN_LENGTH;
     
+    
     % Default Parameters
     params = {
         {'q', 0.1*rand(1), 0, 0.1}
@@ -45,7 +46,6 @@
         {'p_{sym}', rand(1), 0, 1}
         {'sd_{red}', rand(1), 0, 1}
         {'p_{red}', rand(1), 0, 1}  
-        {'init_{scale}', rand(1), 0, Inf}
         {'asymp_{red}', 0.2+0.8*rand(1), .2, 1}
         {'gamma_{e}^{-1}', 3, 0, 7}  
         {'gamma_{a}^{-1}', 7, 0, 14}  
@@ -54,9 +54,29 @@
         {'gamma_{hc}^{-1}', 7, 0, 14}  
         };
     % Find a good starting point
-    ParBounds = [[0.0222, 0.1, 0.51, 0.2, 0.8, 0.005, 0.55, 3, 7, 7, 5, 7];
-        [0, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0];
-        [0.0444, 0.2, 1, 0.4, 1, 0.01, 1, 6, 14, 14, 10, 14]];
+    ParBounds = [[0.0222, 0.1, 0.51, 0.2, 0.8, 0.55, 3, 7, 7, 5, 7];
+        [0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0];
+        [0.0444, 0.2, 1, 0.4, 1, 1, 6, 14, 14, 10, 14]];
+    
+        %     % Default Parameters % with InitCond
+        %     params = {
+        %         {'q', 0.1*rand(1), 0, 0.1}
+        %         {'c', rand(1), 0, 1}
+        %         {'p_{sym}', rand(1), 0, 1}
+        %         {'sd_{red}', rand(1), 0, 1}
+        %         {'p_{red}', rand(1), 0, 1}  
+        %         {'init_{scale}', rand(1), 0, Inf}
+        %         {'asymp_{red}', 0.2+0.8*rand(1), .2, 1}
+        %         {'gamma_{e}^{-1}', 3, 0, 7}  
+        %         {'gamma_{a}^{-1}', 7, 0, 14}  
+        %         {'gamma_{s}^{-1}', 7, 0, 14}  
+        %         {'gamma_{hs}^{-1}', 5, 0, 14}  
+        %         {'gamma_{hc}^{-1}', 7, 0, 14}  
+        %         };
+        %     % Find a good starting point
+        %     ParBounds = [[0.0222, 0.1, 0.51, 0.2, 0.8, 0.005, 0.55, 3, 7, 7, 5, 7];
+        %         [0, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0];
+        %         [0.0444, 0.2, 1, 0.4, 1, 0.01, 1, 6, 14, 14, 10, 14]];
 
     % LHC Sampling
     LHSamples = LHSmid(10000, ParBounds(2,1:N_VARS_IN), ParBounds(3,1:N_VARS_IN));
