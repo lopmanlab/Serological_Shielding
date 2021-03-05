@@ -5,9 +5,9 @@ require(ggplot2)
 require(GGally)
 require(factoextra)
 
-ADD_PLOT_CONSTRAINTS=F
-INCLUDE_LOG_SCALE_TRACE=T
-DATE = "2021-02-26" #"2021-02-13" #"2020-10-07"
+ADD_PLOT_CONSTRAINTS=T
+INCLUDE_LOG_SCALE_TRACE=F
+DATE = "2021-03-02" #"2021-02-13" #"2020-10-07"
 
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
@@ -135,6 +135,8 @@ ls.plotChains = lapply(ls.chainComb, function(x){
   if(ADD_PLOT_CONSTRAINTS){
     temp_df[n_rows+(1:2),] = temp_df[n_rows,] # duplicate last rows instead of rbind
     temp_df[n_rows+(1:2), temp_vars] = df.constraints[,temp_vars]
+    temp_df[n_rows+(1:2), 'idx'] = NA
+    
   }
 
   # melt
@@ -168,25 +170,6 @@ for(i_chain in names(ls.plotChains)){
            , p.traces_log, height = 8, width = 11)
   }
 }
-
-
-# for(REGION in c('nyc', 'sflor', 'wash')){
-#   temp.chains = df.chains[df.chains$region == REGION,]
-#   temp.chains$i_chain = factor(temp.chains$i_chain-1)
-#   
-#   p.traces = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain)) + 
-#     theme_grey(base_size=14) + 
-#     geom_line(alpha = 0.2) + 
-#     facet_wrap('variable', scales = 'free') +
-#     xlab('iterations')
-#   
-#   ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', REGION, '_TracePlots.png', sep='', collapse='')
-#          , p.traces, height = 6, width = 11)
-#   
-# }
-
-
-
 
 
 # (3) RHats ---------------------------------------------------------------

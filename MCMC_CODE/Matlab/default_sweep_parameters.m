@@ -1,18 +1,24 @@
-
 %% Set Pars
 CHAIN_LENGTH = 5000;
-CHAIN_REP = 39;
+CHAIN_REP = 399;
 N_CHAINS = 20;
 
-DATE = "2021-03-01";
+DATE = "2021-03-02";
 PARAMETER_SET = "MMWR";
 LIKELIHOOD_TYPE = "LL";
 
 
-
-
 % OLD PARSETS:
-%% Set Pars
+% %% Set Pars
+% CHAIN_LENGTH = 5000;
+% CHAIN_REP = 39;
+% N_CHAINS = 20;
+% 
+% DATE = "2021-03-01";
+% PARAMETER_SET = "MMWR";
+% LIKELIHOOD_TYPE = "LL";
+%
+% %% Set Pars
 % CHAIN_LENGTH = 5000;
 % CHAIN_REP = 99;
 % N_CHAINS = 20;
