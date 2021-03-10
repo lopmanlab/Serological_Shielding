@@ -9,6 +9,8 @@ ADD_PLOT_CONSTRAINTS=T
 INCLUDE_LOG_SCALE_TRACE=F
 DATE = "2021-03-02" #"2021-02-13" #"2020-10-07"
 
+v.nonConvergent_2021_03_021 = c(3, 4, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20)
+
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
   df.prsf = data.frame(read_xlsx(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))
