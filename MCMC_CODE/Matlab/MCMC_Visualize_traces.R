@@ -9,8 +9,6 @@ ADD_PLOT_CONSTRAINTS=T
 INCLUDE_LOG_SCALE_TRACE=F
 DATE = "2021-03-02" #"2021-02-13" #"2020-10-07"
 
-v.nonConvergent_2021_03_021 = c(3, 4, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20)
-
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
   df.prsf = data.frame(read_xlsx(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))
@@ -196,3 +194,22 @@ p.rhats
 
 ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_GMBConvergenceRhats.png', sep='', collapse='')
        , p.rhats, height = 6, width = 12)
+
+
+# (4) Adhoc ---------------------------------------------------------------
+
+v.nonConvergent_2021_03_021 = c(3, 4, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20)
+i_chain = 'nyc5'
+temp.chains = ls.plotChains[[i_chain]]
+temp.chains$converged = T
+temp.chains[temp.chains$i_chain %in% v.nonConvergent_2021_03_021, 'converged'] = F
+temp.chains = na.omit(temp.chains)
+
+p.traces = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain, alpha = converged)) +
+  theme_grey(base_size=14) +
+  geom_line() +
+  facet_wrap('variable', scales = 'free') +
+  xlab('iterations') + 
+  ggtitle(i_chain)
+ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', i_chain, '_TracePlots_zoom.png', sep='', collapse='')
+       , p.traces, height = 10, width = 22)
