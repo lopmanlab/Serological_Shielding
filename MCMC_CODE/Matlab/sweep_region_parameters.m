@@ -6,11 +6,11 @@ CHAIN_LENGTH = 5000;
 CHAIN_REP = 1;
 N_CHAINS = 5;
 
-DATE = "2021-02-17";
+DATE = "2021-03-25";
 REGION = "nyc";
 PARAMETER_SET = "MMWR";
 LIKELIHOOD_TYPE = "LL";
-N_VARS = 6;
+N_VARS = 5;
             
 
 %% RUN
