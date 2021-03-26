@@ -56,7 +56,7 @@ function outputs = MCMC_write_outputs(DATE_IN, REGION_IN, PARAMETER_SET_IN, LIKE
         temp_target = pars_in.target;
 
         parfor i_llChain=1:CHAIN_LENGTH
-            temp_LL_Vec_out(i_llChain) = SEIR_model_shields_LL(temp_times, temp_target, temp_Theta_Mat_in(i_llChain, :), temp_pars, false);
+            temp_LL_Vec_out(i_llChain) = SEIR_model_shields_LL_logTheta(temp_times, temp_target, temp_Theta_Mat_in(i_llChain, :), temp_pars, false);
         end
         df_Results = [df_Results temp_LL_Vec_out];
 

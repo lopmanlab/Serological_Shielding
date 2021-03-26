@@ -1,13 +1,4 @@
-function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_SET_IN, LIKELIHOOD_TYPE_IN, N_VARS_IN, CHAIN_LENGTH, CHAIN_REP, N_CHAINS)
-% DATE_IN="2021-03-25";
-% REGION_IN="nyc";
-% PARAMETER_SET_IN="MMWR";
-% LIKELIHOOD_TYPE_IN="LL";
-% N_VARS_IN=5;
-% CHAIN_LENGTH=5000;
-% CHAIN_REP=1;
-% N_CHAINS=5;
-
+ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_SET_IN, LIKELIHOOD_TYPE_IN, N_VARS_IN, CHAIN_LENGTH, CHAIN_REP, N_CHAINS)
     %% Load Data
     REGION = REGION_IN;
     PARAMETER_SET = PARAMETER_SET_IN;
@@ -61,10 +52,10 @@ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_
         {'gamma_{hs}^{-1}', 5,                  0,  14}  
         {'gamma_{hc}^{-1}', 7,                  0,  14}  
         };
-    params = params(1:N_VARS_IN); % Subset for variables we're interested in.
-    
+
     % Log-Transform
-    params_log = params;
+    params{1:N_VARS_IN}
+    params_log = params{1:N_VARS_IN}
     for i_param=1:length(params)        
         for j_param=2:4
             params_log{i_param}{j_param} = log(params_log{i_param}{j_param});
@@ -91,28 +82,23 @@ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_
     min_LHS_inits = LHSamples(i_minLHS,:); % take the smallest values
         
     % Setup Parameter bounds with initial guess of LHS sample
-    for i_paramChainSetup = 1:N_CHAINS     
-        temp_params = params_log;
+    for i_paramChainSetup = 1:N_CHAINS        
         for i_param=1:N_VARS_IN            
-            temp_params{i_param}{2} = min_LHS_inits(i_paramChainSetup, i_param);
-            temp_params{i_param}{2} = log(temp_params{i_param}{2}); % log-transform.            
+            params_log{i_param}{2} = min_LHS_inits(i_paramChainSetup, i_param);
+            params_log{i_param}{2} = log(params_log{i_param}{2}); % log-transform.            
         end
-        params_LHS{i_paramChainSetup} = temp_params;
     end
         
     %% Run MCMC
     RES_OUT = cell(1,N_CHAINS);
     parfor iter=1:N_CHAINS        
         % Modify params_in to take the optimal LHC samples     
-        iter_params = params_LHS{iter};
+        iter_params = params_log{iter};
         
         [res_burnin,chain__burnin,s2chain__burnin] = mcmcrun(model,data,iter_params,options_burnin);
         [res_sample,chain__sample,s2chain__sample] = mcmcrun(model,data,iter_params,options_sample, res_burnin);
 
-        % un-log-transform
-        res_sample.mean = exp(res_sample.mean);
-        chain__sample = exp(chain__sample);
-        RES_OUT{iter} = {res_sample,chain__sample,s2chain__sample}
+        RES_OUT{iter} = {res_sample,chain__sample,s2chain__sample}            
     end
     res = RES_OUT;
     
