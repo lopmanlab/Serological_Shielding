@@ -2,11 +2,11 @@ clear
 addpath(genpath(pwd))
 
 %% Set Pars
-CHAIN_LENGTH = 5000;
-CHAIN_REP = 10;
+CHAIN_LENGTH = 1000;
+CHAIN_REP = 4;
 N_CHAINS = 5;
 
-DATE = "2021-03-25";
+DATE = "2021-03-28";
 REGION = "nyc";
 PARAMETER_SET = "MMWR";
 LIKELIHOOD_TYPE = "LL";

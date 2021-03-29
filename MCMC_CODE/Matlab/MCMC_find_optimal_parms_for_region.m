@@ -82,8 +82,8 @@ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_
     LHSamples = LHSmid(10000, ParBounds(2,1:N_VARS_IN), ParBounds(3,1:N_VARS_IN));
     LHS_ERROR = zeros(1,10000);
     parfor i=1:10000        
-        init_para = LHSamples(i,:);
-        LHS_LL(i) = ssminfun(init_para); 
+        init_para = log(LHSamples(i,:));
+        LHS_LL(i) = ssminfun(init_para); % ssminfun takes in log-parameters 
     end
     
     % Sort & retrieve bottom N_CHAINS for initializing each chain
