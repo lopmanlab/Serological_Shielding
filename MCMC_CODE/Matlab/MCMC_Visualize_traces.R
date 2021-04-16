@@ -7,7 +7,7 @@ require(factoextra)
 
 ADD_PLOT_CONSTRAINTS=T
 INCLUDE_LOG_SCALE_TRACE=F
-DATE = "2021-03-28"#"2021-02-13" #"2020-10-07"
+DATE = "2021-04-05"#"2021-03-28"#"2021-02-13" #"2020-10-07"
 
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
@@ -198,7 +198,7 @@ ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_GMBConvergenceRhats.png', sep='', c
 
 # (4) Adhoc ---------------------------------------------------------------
 
-v.nonConvergent_2021_03_021 = c(3, 4, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20)
+v.nonConvergent_2021_03_021 = 1:20#c(3, 4, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20)
 i_chain = 'nyc5'
 temp.chains = ls.plotChains[[i_chain]]
 temp.chains$converged = T

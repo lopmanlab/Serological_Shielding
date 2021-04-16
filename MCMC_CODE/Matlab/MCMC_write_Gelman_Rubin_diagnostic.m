@@ -2,7 +2,7 @@
 % The output is saved in adhoc.csv
 addpath(genpath(pwd))
 
-DATE = "2021-03-28";
+DATE = "2021-04-05";
 REGION_LIST = ["nyc", "sflor", "wash"];
 N_VARS_LIST = [5 6 8 10 12];
 PARAMETER_SET = "MMWR";
@@ -32,7 +32,7 @@ for i_N_NVARS=1:length(N_VARS_LIST)     % Loop through regions and calculate con
             % Allow for manual chain selection
             Convergence_Results_AllNVars = string(zeros(12,N_TOTAL_VARS+4));
             CHAINS_LIST = 1:N_CHAINS;
-            CHAINS_LIST = [1 2 4 5 12 19]; %[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20];
+            %CHAINS_LIST = [1 2 4 5 12 19]; %[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20];
             N_CHAINS_IN = length(CHAINS_LIST);
 
             for i_VAR=1:N_VARS
