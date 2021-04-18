@@ -49,11 +49,11 @@ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_
     
     % Default Parameters
     params = {
-        {'q',               0.1*rand(1),        0,  0.1}
-        {'c',               rand(1),            .01,  1}
-        {'p_{sym}',         rand(1),            .01,  1}
-        {'sd_{red}',        rand(1),            .01,  1}
-        {'p_{red}',         rand(1),            .01,  1}  
+        {'q',               0.1*rand(1),        0.001,  0.1}
+        {'c',               rand(1),            0.001,  1}
+        {'p_{sym}',         rand(1),            0.001,  1}
+        {'sd_{red}',        rand(1),            0.001,  1}
+        {'p_{red}',         rand(1),            0.001,  1}  
         {'asymp_{red}',     0.2+0.8*rand(1),    .2, 1}
         {'gamma_{e}^{-1}',  3,                  0,  7}  
         {'gamma_{a}^{-1}',  7,                  0,  14}  

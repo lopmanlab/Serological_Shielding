@@ -2,7 +2,7 @@
 % The output is saved in adhoc.csv
 addpath(genpath(pwd))
 
-DATE = "2021-04-05";
+DATE = "2021-04-16";
 REGION_LIST = ["nyc", "sflor", "wash"];
 N_VARS_LIST = [5 6 8 10 12];
 PARAMETER_SET = "MMWR";

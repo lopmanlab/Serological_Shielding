@@ -39,15 +39,15 @@ function loglike = SEIR_model_shields_LL_logTheta(times, dYdt_target, ThetaLog, 
     loglike = sum(logpoispdf(lambdas*RESCALE_FACTOR, xs*RESCALE_FACTOR)) + ... % death rates
         logpoispdf(final_deaths*RESCALE_FACTOR, final_xs*RESCALE_FACTOR) + ... % deaths @ end
         logpoispdf(mid_deaths*RESCALE_FACTOR, mid_xs*RESCALE_FACTOR) + ... % deaths @ 77 days
-        logpoispdf(Calc_R0(pars_in), R0_expected) + ... % R0
         logpoispdf(sero_model_R*RESCALE_FACTOR, sero_exp*RESCALE_FACTOR); % delayed sero
-
+        %logpoispdf(Calc_R0(pars_in), R0_expected) + ... % R0
+    
 %     % Rescale for LL
 %     loglike = sum(logpoispdf(lambdas, xs)) + ... % death rates
 %         logpoispdf(final_deaths, final_xs) + ... % deaths @ end
 %         logpoispdf(mid_deaths, mid_xs) + ... % deaths @ 77 days
-%         logpoispdf(Calc_R0(pars_in), R0_expected) + ... % R0
 %         logpoispdf(sero_model_R, sero_exp); % delayed sero    
+%         %logpoispdf(Calc_R0(pars_in), R0_expected) + ... % R0
     
     
 %     RESCALE_FACTOR = 1/Pars.N*1000; % <class> per 1000

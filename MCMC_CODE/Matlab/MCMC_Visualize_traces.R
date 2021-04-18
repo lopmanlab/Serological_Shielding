@@ -7,7 +7,7 @@ require(factoextra)
 
 ADD_PLOT_CONSTRAINTS=T
 INCLUDE_LOG_SCALE_TRACE=F
-DATE = "2021-04-05"#"2021-03-28"#"2021-02-13" #"2020-10-07"
+DATE = "2021-04-16"#"2021-03-28"#"2021-02-13" #"2020-10-07"
 
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
@@ -150,13 +150,13 @@ ls.plotChains = lapply(ls.chainComb, function(x){
 for(i_chain in names(ls.plotChains)){
   temp.chains = ls.plotChains[[i_chain]]
   p.traces = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain)) +
-    theme_grey(base_size=14) +
+    theme_grey(base_size=22) +
     geom_line(alpha = 0.5) +
     facet_wrap('variable', scales = 'free') +
     xlab('iterations') + 
     ggtitle(i_chain)
   ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', i_chain, '_TracePlots.png', sep='', collapse='')
-         , p.traces, height = 8, width = 11)
+         , p.traces, height = 8, width = 14)
   
   if(INCLUDE_LOG_SCALE_TRACE){
     p.traces_log = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain)) +
@@ -167,7 +167,7 @@ for(i_chain in names(ls.plotChains)){
       ggtitle(i_chain) + 
       scale_y_log10()
     ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', i_chain, '_TracePlots_log.png', sep='', collapse='')
-           , p.traces_log, height = 8, width = 11)
+           , p.traces_log, height = 8, width = 12)
   }
 }
 
@@ -193,23 +193,4 @@ p.rhats = ggplot(melt.prsf, aes(x = variable, y = value, color = region)) +
 p.rhats
 
 ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_GMBConvergenceRhats.png', sep='', collapse='')
-       , p.rhats, height = 6, width = 12)
-
-
-# (4) Adhoc ---------------------------------------------------------------
-
-v.nonConvergent_2021_03_021 = 1:20#c(3, 4, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20)
-i_chain = 'nyc5'
-temp.chains = ls.plotChains[[i_chain]]
-temp.chains$converged = T
-temp.chains[temp.chains$i_chain %in% v.nonConvergent_2021_03_021, 'converged'] = F
-temp.chains = na.omit(temp.chains)
-
-p.traces = ggplot(temp.chains, aes(x = idx, y = value, color = i_chain, alpha = converged)) +
-  theme_grey(base_size=14) +
-  geom_line() +
-  facet_wrap('variable', scales = 'free') +
-  xlab('iterations') + 
-  ggtitle(i_chain)
-ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_', i_chain, '_TracePlots_zoom.png', sep='', collapse='')
-       , p.traces, height = 10, width = 22)
+       , p.rhats, height = 8, width = 12)
