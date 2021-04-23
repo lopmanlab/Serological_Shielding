@@ -25,6 +25,10 @@ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_
         print("ERROR: Can't load region data")
     end
     
+    %% TEST - 04.22.2021
+    pars_in.target(1:7) = pars_in.target(1:7) + round(50*rand(7,1));
+
+    
     %% Setup
     data.xdata = pars_in.times';
     data.ydata = pars_in.target; % new deaths reported that day, t=1 == 2/27/2020

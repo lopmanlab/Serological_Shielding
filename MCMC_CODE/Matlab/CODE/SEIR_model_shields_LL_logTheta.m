@@ -2,16 +2,17 @@ function loglike = SEIR_model_shields_LL_logTheta(times, dYdt_target, ThetaLog, 
     % Un-logTransform
     Theta = exp(ThetaLog);
 
+    %% Forward-simulate with parameters
     [t, y, pars_in] = SEIR_model_shields_ThetaSweep(Theta, times, Pars);
     
     %% Calculate New Deaths per Week
     dYdt_target_week = dYdt_target';
     dYdt_model_deaths_byWeek = Calc_dD_dt_byWeek(y, pars_in);
     
-    %% Calculate Log Likelihood
+    %% Calculate Each Log-Likelihood Term
     xs = dYdt_target_week;
     lambdas = dYdt_model_deaths_byWeek;
-   
+    
     % R0 penalty
     R0_expected = 3;
     
@@ -34,6 +35,7 @@ function loglike = SEIR_model_shields_LL_logTheta(times, dYdt_target, ThetaLog, 
     lambdas = lambdas(b_nonzeros);
     lambdas = max(lambdas, 0); % enforce rounding error
     
+    %% Calculate Log-Likelihood
     % In the main call, this will be multiplied by -2.    
     RESCALE_FACTOR = 1/Pars.N*100000; % Deaths per 100000
     loglike = sum(logpoispdf(lambdas*RESCALE_FACTOR, xs*RESCALE_FACTOR)) + ... % death rates
