@@ -34,6 +34,8 @@ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_
     data.ydata = pars_in.target; % new deaths reported that day, t=1 == 2/27/2020
     ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL_logTheta(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
 
+    test = data.ydata
+    
     % Likelihood min function (wrapper)
     ssminfun = @(Theta_in) ssfun(Theta_in, data);
 
