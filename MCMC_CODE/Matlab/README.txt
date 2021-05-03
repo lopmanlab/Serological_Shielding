@@ -4,16 +4,38 @@ MCMC Code for: Modeling serological testing to inform relaxation of social dista
 MATLAB Version 2019a
 core mcmcstat function is here: https://mjlaine.github.io/mcmcstat/
 
-Last Updated: 	2021.03.02
+Last Updated: 	2021.05.03
 Updated by: 	CYZ
 
 To Run:
 	(LOCAL)		(1) Set the # of chains and steps/chain in "default_sweep_parameters.m" 
-			(2) Run "sweep_region_parameters_*_5var.m"
-			(3) Update the constraint excel sheet (copy into new one titled "<date>_MCMCSTAT_*.xlsx"
-			(4) Run "MCMC_Visualize_traces.R"
 
-	(CLUSTER)	PBS scripts are provided ("Run_On_PACE_mcmc_*.pbs")
+			(2) Set MCMC Pars in "Run_MCMC_Pipeline"
+				:: CHAIN_LENGTH				:: # of iterations per repeat
+				:: CHAIN_REP				:: # Chain repeats - Total = CHAIN_LENGTH*(CHAIN_REP+1)
+				:: N_CHAINS				:: # Independent Chain starts
+			
+			(3) Set Run Details in "Run_MCMC_Pipeline"
+				:: DATE					:: Unique Identifier attached to all outputs
+				:: REGION				:: "wash", "nyc", or "sflor" (NOTE: this is overwritten by line 16)
+				:: PARAMETER_SET			:: In the current version, only MMWR parameters are provided
+				:: LIKELIHOOD_TYPE			:: In the current version, only one LL function is provided
+				:: N_VARS				:: Which vars to fit? Fit is in this order:
+									:: q, c, p_sym, sd_red, p_red, asymp_red ...
+									:: gamma_e, gamma_a, gamma_s, gamma_hs, gamma_hc
+			
+			(4) Run "Run_MCMC_Pipeline" for the following outputs:
+				:: /OUTPUT/<DATE>_MCMCRun_<REGION>_<PSet>_<LLType>_NVarsFit<N_VARS>.mat 
+									:: Raw chains (res) and parameters used
+				:: /OUTPUT/<REGION>/...			:: Visual results for only the first chain
+
+			(5) Change the Date & Run "MCMC_write_Gelman_Rubin_diagnostic.m"
+
+			(6) Change the Date & Run "MCMC_Visualize_traces.R" for the following outputs:
+				:: /OUTPUT/'MCMC Figures'/...		:: Summary figures for all chains & regions
+
+	(CLUSTER)	PBS scripts are provided ("ClusterScripts/Run_On_PACE_mcmc_*.pbs") to generate .mat results. 
+			Steps 5&6 still need to be run locally.
 
 
 This folder contains our MCMC pipeline files:
@@ -28,6 +50,6 @@ This folder contains our MCMC pipeline files:
 	[~]		MCMC_Visualize_traces.R				:: Visualizes MCMC chains. Example *_chains.csv files used are in /OUTPUT
 									:: Plots are in /OUTPUT/MCMC Figures
 
-	[Other]		2020-10-19_MCMCSTAT_constraints.xlsx 		:: Bounds for MCMC
-	[Other]		2020-10-19_MCMCSTATmprsf_Diagnostics.xlsx 	:: mcmcstat's built-in Gelman-Rubin ddx criteria
+	[Other]		<DATE>_MCMCSTAT_constraints.xlsx 		:: Bounds for MCMC
+	[Other]		<DATE>_MCMCSTATmprsf_Diagnostics.xlsx 		:: Gelman-Rubin Rhats (calcuated /w built-in fx from mcmcstat)
 

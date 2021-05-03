@@ -1,17 +1,9 @@
 function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_SET_IN, LIKELIHOOD_TYPE_IN, N_VARS_IN, CHAIN_LENGTH, CHAIN_REP, N_CHAINS)
-% DATE_IN="2021-03-25";
-% REGION_IN="nyc";
-% PARAMETER_SET_IN="MMWR";
-% LIKELIHOOD_TYPE_IN="LL";
-% N_VARS_IN=5;
-% CHAIN_LENGTH=5000;
-% CHAIN_REP=1;
-% N_CHAINS=5;
-
     %% Load Data
     REGION = REGION_IN;
     PARAMETER_SET = PARAMETER_SET_IN;
     LIKELIHOOD_TYPE = LIKELIHOOD_TYPE_IN;
+    
     if REGION_IN == "sflor"
         input_sflor
         pars_in = pars_sflor;
@@ -25,14 +17,10 @@ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_
         print("ERROR: Can't load region data")
     end
     
-    %% TEST - 04.22.2021
-    pars_in.target(1:7) = pars_in.target(1:7) + round(50*rand(7,1));
-
-    
-    %% Setup
+    %% Setup Data & Functions
     data.xdata = pars_in.times';
     data.ydata = pars_in.target; % new deaths reported that day, t=1 == 2/27/2020
-    ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL_logTheta(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false);
+    ssfun = @(Theta_in, Data_in) -2*SEIR_model_shields_LL_logTheta(Data_in.xdata, Data_in.ydata, Theta_in, pars_in, false); % technically is llfun
 
     test = data.ydata
     
@@ -82,7 +70,7 @@ function res = MCMC_find_optimal_parms_for_region(DATE_IN, REGION_IN, PARAMETER_
         [0.0222,    0.1,    0.51,   0.2,    0.8,    0.55,   3,      7,      7,      5,      7];
         [0,         0,      0,      0,      0,      0.2,    0,      0,      0,      0,      0];
         [0.0444,    0.2,    1,      0.4,    1,      1,      6,      14,     14,     10,     14]
-        ];
+        ]
     
     % LHS Sampling
     LHSamples = LHSmid(10000, ParBounds(2,1:N_VARS_IN), ParBounds(3,1:N_VARS_IN));

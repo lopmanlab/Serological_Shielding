@@ -7,7 +7,7 @@ require(factoextra)
 
 ADD_PLOT_CONSTRAINTS=T
 INCLUDE_LOG_SCALE_TRACE=F
-DATE = "2021-04-26"
+DATE = "2021-05-03"
 
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
@@ -20,7 +20,7 @@ if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse='
 
 
 # Constraints
-df.constraints = data.frame(read_xlsx(paste(DATE, '_MCMCSTAT_constraints.xlsx', sep='', collapse=''))
+df.constraints = data.frame(read_xlsx('MCMCSTAT_constraints.xlsx')
                             , stringsAsFactors = F, row.names = 1)
 
 # Read in chain summaries. Nested because I'm bad at regex 
