@@ -7,7 +7,7 @@ require(factoextra)
 
 ADD_PLOT_CONSTRAINTS=T
 INCLUDE_LOG_SCALE_TRACE=F
-DATE = "2021-05-03"
+DATE = "2021-05-04"
 
 # Read in Gelman-Rubin RHat results
 if(file.exists(paste(DATE, '_MCMCSTATmprsf_Diagnostics.xlsx', sep='', collapse=''))){
