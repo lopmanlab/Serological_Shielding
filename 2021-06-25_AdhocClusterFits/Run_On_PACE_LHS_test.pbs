@@ -6,7 +6,7 @@
 #PBS -A GT-sbrown365
 
 cd /storage/home/hcoda1/1/czhao98/scratch/Sero_MCMC
-ml R/
+ml r/4.0.4
 cd Serological_Shielding/2021-06-25_AdhocClusterFits
-R LHS_setup_test.R
+Rscript LHS_setup_test.R
 done
