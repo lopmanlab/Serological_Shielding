@@ -1,0 +1,12 @@
+#PBS -q inferno
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=72:00:00
+#PBS -N LHS_wash5
+#PBS -A GT-sbrown365
+
+cd /storage/home/hcoda1/1/czhao98/scratch/Sero_MCMC
+ml R/
+cd Serological_Shielding/2021-06-25_AdhocClusterFits
+R LHS_setup_wash.R
+done
