@@ -750,70 +750,89 @@ seir_model_shields_nopreH <- function(t, x, params) {
 # calculate each quantity for each sampled parameter set
 #Doing a separate loop for each location
 #This one is South Florida
+#Using parallel
 
-for (i in 1:numsamples){
-  #dat<-foreach(i=1:10) %dopar% {
-  # We need to re-scale the parameters to be in the upper and lower bounds above
-  ptemp = paramlower + (paramupper-paramlower)*paramsample[i,]
-  gamma_hc<-1/ptemp[1]
-  gamma_hs<-1/ptemp[2]
-  gamma_a<-1/ptemp[3]
-  gamma_s<-1/ptemp[4]
-  gamma_e<-1/ptemp[5]
-  asymp.red<-ptemp[6]
-  for(j in 1:nrow(interventions.sweep)){
-    if(interventions.sweep$test.timing[j]=='SAH'){start.time.test<-start.time.reopen}
-    if(interventions.sweep$test.timing[j]=='Nov1'){start.time.test<-nov1.numeric}
-    if(interventions.sweep$testval[j]==0){daily.tests<-0}
-    if(interventions.sweep$testval[j]>0){daily.tests<-N/interventions.sweep$testval[j]}
-    alpha<-interventions.sweep$alpha[j]
-    specificity<-interventions.sweep$specificity[j]
-    sd.other2<-1-((1-sd.other)*c)
-    preduced2<-1-((1-preduced)*c)
-    if(daily.tests==0){
-      tswitch1.dat<-data.frame(times=times, test.switch1=c(rep(1, length(t)))) #Changed this to length(t)-was 366
-      tswitch2.dat<-data.frame(times=times, test.switch2=c(rep(0, length(t)))) #Changed this to length(t)-was 366
-    }
-    if(daily.tests>0){
-      tswitch1.dat<-data.frame(times=times, test.switch1=c(rep(1, start.time.test+1),
-                                                           rep(0, length(times)-(start.time.test+1))))
-      tswitch2.dat<-data.frame(times=times, test.switch2=c(rep(0, start.time.test+1),
-                                                           rep(1, length(times)-(start.time.test+1))))
+require(foreach)
+require(doParallel)
+cores=detectCores()
+cl=makeCluster(cores[1]-1)
+registerDoParallel(cl)
+
+#for (i in 1:numsamples){
+dat<-foreach(i=1:numsamples, .combine=c, .packages=c('lhs', 'deSolve', 'ggplot2', 'gridExtra', 'plyr')) %dopar% {
+  tryCatch(expr={
+    # We need to re-scale the parameters to be in the upper and lower bounds above
+    ptemp = paramlower + (paramupper-paramlower)*paramsample[i,]
+    gamma_hc<-1/ptemp[1]
+    gamma_hs<-1/ptemp[2]
+    gamma_a<-1/ptemp[3]
+    gamma_s<-1/ptemp[4]
+    gamma_e<-1/ptemp[5]
+    asymp.red<-ptemp[6]
+    
+    ret = list()
+    for(j in 1:nrow(interventions.sweep)){
+      if(interventions.sweep$test.timing[j]=='SAH'){start.time.test<-start.time.reopen}
+      if(interventions.sweep$test.timing[j]=='Nov1'){start.time.test<-nov1.numeric}
+      if(interventions.sweep$testval[j]==0){daily.tests<-0}
+      if(interventions.sweep$testval[j]>0){daily.tests<-6168615/interventions.sweep$testval[j]}
+      alpha<-interventions.sweep$alpha[j]
+      specificity<-interventions.sweep$specificity[j]
+      sd.other2<-1-((1-sd.other)*c)
+      preduced2<-1-((1-preduced)*c)
+      if(daily.tests==0){
+        tswitch1.dat<-data.frame(times=times, test.switch1=c(rep(1, length(t)))) #Changed this to length(t)-was 366
+        tswitch2.dat<-data.frame(times=times, test.switch2=c(rep(0, length(t)))) #Changed this to length(t)-was 366
+      }
+      if(daily.tests>0){
+        tswitch1.dat<-data.frame(times=times, test.switch1=c(rep(1, start.time.test+1),
+                                                             rep(0, length(times)-(start.time.test+1))))
+        tswitch2.dat<-data.frame(times=times, test.switch2=c(rep(0, start.time.test+1),
+                                                             rep(1, length(times)-(start.time.test+1))))
+      }
+      
+      sw1fxn<-approxfun(tswitch1.dat$times, tswitch1.dat$test.switch1, rule=2)
+      sw2fxn<-approxfun(tswitch2.dat$times, tswitch2.dat$test.switch2, rule=2)
+      params = c('agestruc.c'=agestruc.c, 'agestruc.a'=agestruc.a, 'agestruc.e'=agestruc.e, 
+                 'HomeContacts_5x5'=HomeContacts_5x5, 'WorkContacts_5x5'=WorkContacts_5x5, 'SchoolContacts_5x5'=SchoolContacts_5x5, 
+                 'OtherContacts_5x5'=OtherContacts_5x5, 
+                 'preduced'=preduced, 'pfull'=pfull, 'sd.other'=sd.other,
+                 'preduced2'=preduced2, 'sd.other2'=sd.other2,
+                 'alpha'=alpha, 'daily.tests'=daily.tests,
+                 'start.time.distance'=start.time.distance, 
+                 'school.start.time'=school.start.time, 
+                 'gamma_e'=gamma_e, 'gamma_a'=gamma_a, 'gamma_s'=gamma_s, 'gamma_hs'=gamma_hs, 'gamma_hc'=gamma_hc, 
+                 'p'=p, 'hosp_frac'=hosp_frac, 'hosp_crit'=hosp_crit, 'crit_die'=crit_die,
+                 'sensitivity'=sensitivity, 'specificity'=specificity) 
+      model_out = as.data.frame(ode(y = start, times = t, fun = seir_model_shields_nopreH, parms = params, 
+                                    method='ode45'))
+      
+      test<-ddply(model_out, .(time), summarize, deaths=sum(D.c, D.a, D.e, D.rc, D.fc),
+                  hosp=sum(Hc.fc, Hc.rc, Hc.c, Hc.a, Hc.e, Hs.fc, Hs.rc, Hs.c, Hs.a, Hs.e),
+                  crit=sum(Hc.fc, Hc.rc, Hc.c, Hc.a, Hc.e),
+                  released=sum(S.c.pos, E.c.pos, Ia.c.pos, Is.c.pos, R.c.pos,
+                               S.a.pos, E.a.pos, Ia.a.pos, Is.a.pos, R.a.pos,
+                               S.rc.pos, E.rc.pos, Ia.rc.pos, Is.rc.pos, R.rc.pos,
+                               S.fc.pos, E.fc.pos, Ia.fc.pos, Is.fc.pos, R.fc.pos,
+                               S.e.pos, E.e.pos, Ia.e.pos, Is.e.pos, R.e.pos),
+                  ci=(6168615-sum(S.c, S.c.pos, S.a, S.a.pos, S.rc, S.rc.pos, S.fc, S.fc.pos, S.e, S.e.pos))/6168615)
+      
+      
+      #deathssample[[j]][,i]<-test$deaths
+      #hospsample[[j]][,i]<-test$hosp
+      #critsample[[j]][,i]<-test$crit
+      #releasedsample[[j]][,i]<-test$released
+      #cisample[[j]][,i]<-test$ci
+      
+      ret[[j]] = test
     }
     
-    sw1fxn<-approxfun(tswitch1.dat$times, tswitch1.dat$test.switch1, rule=2)
-    sw2fxn<-approxfun(tswitch2.dat$times, tswitch2.dat$test.switch2, rule=2)
-    params = c('agestruc.c'=agestruc.c, 'agestruc.a'=agestruc.a, 'agestruc.e'=agestruc.e, 
-               'HomeContacts_5x5'=HomeContacts_5x5, 'WorkContacts_5x5'=WorkContacts_5x5, 'SchoolContacts_5x5'=SchoolContacts_5x5, 
-               'OtherContacts_5x5'=OtherContacts_5x5, 
-               'preduced'=preduced, 'pfull'=pfull, 'sd.other'=sd.other,
-               'preduced2'=preduced2, 'sd.other2'=sd.other2,
-               'alpha'=alpha, 'daily.tests'=daily.tests,
-               'start.time.distance'=start.time.distance, 
-               'school.start.time'=school.start.time, 
-               'gamma_e'=gamma_e, 'gamma_a'=gamma_a, 'gamma_s'=gamma_s, 'gamma_hs'=gamma_hs, 'gamma_hc'=gamma_hc, 
-               'p'=p, 'hosp_frac'=hosp_frac, 'hosp_crit'=hosp_crit, 'crit_die'=crit_die,
-               'sensitivity'=sensitivity, 'specificity'=specificity) 
-    model_out = as.data.frame(ode(y = start, times = t, fun = seir_model_shields_nopreH, parms = params, 
-                                  method='ode45'))
-    
-    test<-ddply(model_out, .(time), summarize, deaths=sum(D.c, D.a, D.e, D.rc, D.fc),
-                hosp=sum(Hc.fc, Hc.rc, Hc.c, Hc.a, Hc.e, Hs.fc, Hs.rc, Hs.c, Hs.a, Hs.e),
-                crit=sum(Hc.fc, Hc.rc, Hc.c, Hc.a, Hc.e),
-                released=sum(S.c.pos, E.c.pos, Ia.c.pos, Is.c.pos, R.c.pos,
-                             S.a.pos, E.a.pos, Ia.a.pos, Is.a.pos, R.a.pos,
-                             S.rc.pos, E.rc.pos, Ia.rc.pos, Is.rc.pos, R.rc.pos,
-                             S.fc.pos, E.fc.pos, Ia.fc.pos, Is.fc.pos, R.fc.pos,
-                             S.e.pos, E.e.pos, Ia.e.pos, Is.e.pos, R.e.pos),
-                ci=(N-sum(S.c, S.c.pos, S.a, S.a.pos, S.rc, S.rc.pos, S.fc, S.fc.pos, S.e, S.e.pos))/N)
-    deathssample[[j]][,i]<-test$deaths
-    hospsample[[j]][,i]<-test$hosp
-    critsample[[j]][,i]<-test$crit
-    releasedsample[[j]][,i]<-test$released
-    cisample[[j]][,i]<-test$ci
-  }
+    return(list(ret))
+  }, error=function(e){NA})
 }
 
+#stop cluster
+stopCluster(cl)
 
 save.image(file='LHS_sflor.RData')
 #save.image(file='/home/amullis/shields/lhs_sflor.RData')
