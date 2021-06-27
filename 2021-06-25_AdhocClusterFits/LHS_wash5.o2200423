@@ -1,0 +1,20 @@
+---------------------------------------
+Begin PBS Prologue Sat Jun 26 17:07:02 EDT 2021
+Job ID:     2200423.sched-torque.pace.gatech.edu
+User ID:    czhao98
+Job name:   LHS_wash5
+Queue:      inferno
+End PBS Prologue Sat Jun 26 17:07:02 EDT 2021
+---------------------------------------
+---------------------------------------
+Begin PBS Epilogue Sat Jun 26 19:56:31 EDT 2021
+Job ID:     2200423.sched-torque.pace.gatech.edu
+User ID:    czhao98
+Job name:   LHS_wash5
+Resources:  nodes=1:ppn=10,mem=16gb,walltime=72:00:00,neednodes=1:ppn=10
+Rsrc Used:  cput=28:05:27,vmem=1419416kb,walltime=02:49:29,mem=3496672kb,energy_used=0
+Queue:      inferno
+Nodes:     
+atl1-1-02-010-12-l.pace.gatech.edu
+End PBS Epilogue Sat Jun 26 19:56:31 EDT 2021
+---------------------------------------
