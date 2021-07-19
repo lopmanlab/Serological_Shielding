@@ -4,7 +4,7 @@ MCMC Code for: Modeling serological testing to inform relaxation of social dista
 MATLAB Version 2019a
 core mcmcstat function is here: https://mjlaine.github.io/mcmcstat/
 
-Last Updated: 	2021.05.03
+Last Updated: 	2021.07.19
 Updated by: 	CYZ
 
 To Run:
