@@ -179,6 +179,8 @@ temp.prsf[temp.prsf==0] = NA
 melt.prsf = melt(temp.prsf, c('region', 'n_vars', 'n_chains'))
 melt.prsf = na.omit(melt.prsf)
 melt.prsf$value = as.numeric(as.character(melt.prsf$value))
+melt.prsf$variable = factor(melt.prsf$variable, levels = rev(levels(melt.prsf$variable)))
+melt.prsf$n_vars = paste("N vars fit:", melt.prsf$n_vars)
 
 p.rhats = ggplot(melt.prsf, aes(x = variable, y = value, color = region)) + 
   geom_point(size = 3) + 
@@ -188,9 +190,9 @@ p.rhats = ggplot(melt.prsf, aes(x = variable, y = value, color = region)) +
   theme_grey(base_size = 12) + 
   coord_flip() + 
   ylab('RHat') + 
-  xlab('chain iteration') + 
-  facet_wrap('n_vars', scales = 'free')
+  xlab('') + 
+  facet_wrap('n_vars')
 p.rhats
 
 ggsave(paste('OUTPUT/MCMC Figures/', DATE, '_GMBConvergenceRhats.png', sep='', collapse='')
-       , p.rhats, height = 8, width = 12)
+       , p.rhats, height = 4, width = 6)

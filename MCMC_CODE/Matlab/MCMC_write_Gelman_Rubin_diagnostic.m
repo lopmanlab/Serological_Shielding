@@ -4,21 +4,21 @@ addpath(genpath(pwd))
 
 DATE = "2021-05-04";
 REGION_LIST = ["nyc", "sflor", "wash"];
-N_VARS_LIST = [5 6 8 10 12];
+N_VARS_LIST = [5 7];
 PARAMETER_SET = "MMWR";
 LIKELIHOOD_TYPE = "LL";
 N_TOTAL_VARS = 12;
 
 % Setup CSVs
 fullHeader_Convergence = ["region" "n_vars" "n_chains"...
-    "q" "c" "symptomatic_fraction" "socialDistancing_other" "p_reduced" "Initial_Condition_Scale"...
+    "q" "c" "symptomatic_fraction" "socialDistancing_other" "p_reduced" "R0"...
     "asymp_red" "latent_period"...
     "symptomat recovery_rate" "asymptomatic_recovery_rate"...
     "hosp_subcrit_length" "hosp_crit_length"...
     "full_chain"];
 fileName_Convergence = strcat(DATE, "_MCMCSTATmprsf_Diagnostics.csv");
 
-
+Convergence_Results_AllNVars = string(zeros(12,N_TOTAL_VARS+4));
 for i_N_NVARS=1:length(N_VARS_LIST)     % Loop through regions and calculate convergence
     Convergence_Results = zeros(3,N_TOTAL_VARS+1);
     N_VARS = N_VARS_LIST(i_N_NVARS);
@@ -30,7 +30,6 @@ for i_N_NVARS=1:length(N_VARS_LIST)     % Loop through regions and calculate con
             load(strcat("OUTPUT/", DATE,"_MCMCRun_", REGION, "_", PARAMETER_SET, "_", LIKELIHOOD_TYPE, "_NVarsFit", int2str(N_VARS), ".mat"))
                
             % Allow for manual chain selection
-            Convergence_Results_AllNVars = string(zeros(12,N_TOTAL_VARS+4));
             CHAINS_LIST = 1:N_CHAINS;
             N_CHAINS_IN = length(CHAINS_LIST);
 
@@ -59,7 +58,8 @@ for i_N_NVARS=1:length(N_VARS_LIST)     % Loop through regions and calculate con
         
     end
     
-    Convergence_Results_AllNVars((1+(i_N_NVARS-1)*3):(3+(i_N_NVARS-1)*3),:) = [REGION_LIST' [N_VARS; N_VARS; N_VARS] [N_CHAINS_IN; N_CHAINS_IN; N_CHAINS_IN] string(Convergence_Results)];
+    (1+(i_N_NVARS-1)*3):(3+(i_N_NVARS-1)*3);
+    Convergence_Results_AllNVars((1+(i_N_NVARS-1)*3):(3+(i_N_NVARS-1)*3),:) = [REGION_LIST' [N_VARS; N_VARS; N_VARS] [N_CHAINS_IN; N_CHAINS_IN; N_CHAINS_IN] string(Convergence_Results)]
 end
 
 fid_Convergence = fopen(fileName_Convergence, 'w');
