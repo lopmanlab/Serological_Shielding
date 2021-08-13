@@ -83,11 +83,12 @@ v.variables = v.col_headers[!v.col_headers %in% c('idx', 'i_chain', 'LogLikeliho
 # (1) Pairplots -----------------------------------------------------------
 
 # Contours
-if(F){
-  for(REGION in c('nyc', 'sflor', 'wash')){
-    for(i in 2:11){
-      test = ls.chains[[REGION]]
-      test = test[test$i_chain == i,v.variables] # obtain variables
+if(T){
+  for(REGION in c('nyc5', 'sflor5', 'wash5')){
+    for(i in 1:10){
+      b.chains_in = names(ls.chains)==REGION      
+      test = do.call('rbind', ls.chains[b.chains_in])
+      test = test[test$i_chain == i,v.variables[1:5]] # obtain variables
       
       p_pairs = ggpairs(test, lower = list(continuous = "density"))
       

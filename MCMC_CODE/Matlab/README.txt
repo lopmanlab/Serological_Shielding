@@ -53,3 +53,5 @@ This folder contains our MCMC pipeline files:
 	[Other]		<DATE>_MCMCSTAT_constraints.xlsx 		:: Bounds for MCMC
 	[Other]		<DATE>_MCMCSTATmprsf_Diagnostics.xlsx 		:: Gelman-Rubin Rhats (calcuated /w built-in fx from mcmcstat)
 
+	[/OUTPUT]	Generate_SI_Summary_Figures.m			:: Generates Supplemental Figures S2-S10
+

@@ -28,8 +28,11 @@ function out_plots = MCMC_Generate_Figures(DATE_IN, REGION_IN, PARAMETER_SET_IN,
         Ress = cellfun(@(x) x{1}, temp_res, 'un', 0);
 
         t5 = plot_MCMC_results_fig2(100, Chains, ["Hcri", "R", "D"], pars_in, Ress, REGION_IN);
-
         saveas(t5, strcat('OUTPUT/', REGION_IN, '/', DATE_IN, '_', REGION_IN, '_',  PARAMETER_SET_IN, '_', LIKELIHOOD_TYPE_IN, "_NVarsFit", int2str(N_VARS_IN), '_', int2str(PLOT_CHAIN_NUM), '_fits.png'));
+
+        % Supplemental Figures
+        t5 = plot_MCMC_results_SupplementarySummaries(100, Chains, ["Hcri", "R", "D"], pars_in, Ress, REGION_IN);
+
     else
         'WARNING: MISSING .mat FILE. DOUBLE CHECK INPUTS'
     end

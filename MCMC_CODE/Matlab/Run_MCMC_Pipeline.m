@@ -7,7 +7,7 @@ CHAIN_REP = 1;
 N_CHAINS = 3;
 
 %% Set Run Details
-DATE = "2021-05-03";
+DATE = "2021-05-04";
 PARAMETER_SET = "MMWR";
 LIKELIHOOD_TYPE = "LL";
 N_VARS = 5;
