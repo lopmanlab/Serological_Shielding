@@ -1,0 +1,5 @@
+This folder contains code files used to simulate the model at the MLE for each location (WashOpening_addvax.R, nycOpening_addvax.R, SflorOpening_addvax.R) assuming a vaccination rate of 0.5% of the population per day starting on January 1, 2021. 
+We assume a vaccine efficacy of 95%: vaccinated, protected individuals (95% of vaccinees) are moved from the untested compartments to the tested, recovered (R) compartment and vaccinated, 
+unprotected persons (5% of vaccinees), are placed in the tested, susceptible (S) compartment. This represents an “all-or-nothing” vaccine, whereby vaccinated
+persons receive complete protection from SARS-CoV-2 infection and disease. When run, these three code files generate Rdata sets. 
+We analyze the total number of deaths ine each location using code in vaxmodelresults081121.R.
