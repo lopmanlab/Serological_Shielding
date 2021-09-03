@@ -4,4 +4,5 @@ unprotected persons (5% of vaccinees), are placed in the tested, susceptible (S)
 persons receive complete protection from SARS-CoV-2 infection and disease. When run, these three code files generate Rdata sets. 
 We analyze the total number of deaths ine each location using code in vaxmodelresults081121.R.  These results are summarized in Table S4.
 
-These code files take 2021-06-17_MLEs.csv as input data.  Each of the site-specific code files runs in approximately 10-15 minutes. 
+These code files take 2021-06-17_MLEs.csv as input data (available under the MLE_sims folder in this repository).  
+Each of the site-specific code files runs in approximately 10-15 minutes. 
