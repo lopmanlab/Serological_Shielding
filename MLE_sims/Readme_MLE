@@ -3,7 +3,7 @@ This folder contains code files used to simulate the model at the MLE for each l
 (2) WashingtonOpening_SamplePlots_ak.R (run time ~10 minutes)
 (3) NYCOpening_SamplePlots_ak.R  (run time ~10 minutes)
 
-These three files take 2021-06-17.csv as an input.  When run, these three code files generate Rdata sets, that are used as an input to make plots that 
+These three files take 2021-06-17_MLEs.csv as an input.  When run, these three code files generate Rdata sets, that are used as an input to make plots that 
 combine the files from all three locations (comb_figs_nov2020_ak.R). The file comb_figs_jul2021_ak.R produces Figures 3 and 4 in the manuscript. 
 
 The site-specific R scripts each take about 10 minutes to run (6 seconds per model run with 97 scenarios run per site). Some conditions take longer than others to run, 
@@ -16,4 +16,4 @@ which produces different results then simulating at the MLE for the fit level of
 (2) nyc_csweep_contourplot_ak_0709.R (run time ~20 minutes)
 (3) sflor_csweep_contourplot_ak_0709.R (run time ~20 minutes)
 
-Each of these three files takes 2021-06-17.csv as an input and generates panels for the contour plots, which were combined to make Figure 5 in the main text.
+Each of these three files takes 2021-06-17_MLEs.csv as an input and generates panels for the contour plots, which were combined to make Figure 5 in the main text.
