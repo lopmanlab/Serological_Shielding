@@ -1,0 +1,15 @@
+This folder contains code for running Latin Hypercube Sampling to determine model sensitivity to changes in fixed parameters 
+(plotted in Figures S12-S14 in the supplemental materials).
+
+The code provided in this folder is set up to run on a computing cluster.  The cluster runs on this cluster took ~2 hours per site. These code files are as follows:
+
+(1) LHS_setup_nyc_jul9.R
+(2) LHS_setup_sflor_jul9.R
+(2) LHS_setup_wash_jul9.R
+
+These R code files produce .Rdata files (also uploaded in this folder).  
+
+The .Rdata files were then used as an input to make the figures using the code file Summarize_LHS_Jul12.R.  The Summarize_LHS_Jul12.R file takes ~15 minutes per 
+site to estimate the PRCCs.  However, the estimated PRCCs have been provided as .Rdata files 
+(prcc_nyc_facetwrap.Rdata, prcc_sflor_facetwrap.Rdata, prcc_wash_facetwrap.Rdata), so reading in the files and then making plots is much quicker. 
+
