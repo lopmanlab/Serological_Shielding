@@ -1,6 +1,19 @@
-This folder contains code files used to simulate the model at the MLE for each location (SFloridaOpening_SamplePlots_ak.R, WashingtonOpening_SamplePlots_ak.R, 
-NYCOpening_SamplePlots_ak.R).  These three files take 2021-06-17.csv as an input.  When run, these three code files generate Rdata sets, that are used as an input to make plots that 
+This folder contains code files used to simulate the model at the MLE for each location: 
+(1) SFloridaOpening_SamplePlots_ak.R (run time ~10 minutes)
+(2) WashingtonOpening_SamplePlots_ak.R (run time ~10 minutes)
+(3) NYCOpening_SamplePlots_ak.R  (run time ~10 minutes)
+
+These three files take 2021-06-17.csv as an input.  When run, these three code files generate Rdata sets, that are used as an input to make plots that 
 combine the files from all three locations (comb_figs_nov2020_ak.R). The file comb_figs_jul2021_ak.R produces Figures 3 and 4 in the manuscript. 
 
 The site-specific R scripts each take about 10 minutes to run (6 seconds per model run with 97 scenarios run per site). Some conditions take longer than others to run, 
 so individual users might experience longer run times of up to 15 minutes per site.
+
+This colder also contains code used to create the contour plot (figure 5) in the main text.  The contour code files vary the level of social distancing after reopening,
+which produces different results then simulating at the MLE for the fit level of social distancing in each site. These code files are: 
+
+(1) wash_csweep_contourplot_ak_0709.R (run time ~20 minutes)
+(2) nyc_csweep_contourplot_ak_0709.R (run time ~20 minutes)
+(3) sflor_csweep_contourplot_ak_0709.R (run time ~20 minutes)
+
+Each of these three files takes 2021-06-17.csv as an input and generates panels for the contour plots, which were combined to make Figure 5 in the main text.
