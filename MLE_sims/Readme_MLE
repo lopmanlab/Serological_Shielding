@@ -1,5 +1,6 @@
 This folder contains code files used to simulate the model at the MLE for each location (SFloridaOpening_SamplePlots_ak.R, WashingtonOpening_SamplePlots_ak.R, 
 NYCOpening_SamplePlots_ak.R).  These three files take 2021-06-17.csv as an input.  When run, these three code files generate Rdata sets, that are used as an input to make plots that 
-combine the files from all three locations (comb_figs_nov2020_ak.R). 
+combine the files from all three locations (comb_figs_nov2020_ak.R). The file comb_figs_nov2020_ak.R produces Figures 3 and 4 in the manuscript. 
 
-The site-specific R scripts each take about 5 minutes to run (3 seconds per model run with 97 scenarios run per site). 
+The site-specific R scripts each take about 10 minutes to run (6 seconds per model run with 97 scenarios run per site). Some conditions take longer than others to run, 
+so individual users might experience longer run times of up to 15 minutes per site.
