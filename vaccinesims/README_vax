@@ -2,4 +2,6 @@ This folder contains code files used to simulate the model at the MLE for each l
 We assume a vaccine efficacy of 95%: vaccinated, protected individuals (95% of vaccinees) are moved from the untested compartments to the tested, recovered (R) compartment and vaccinated, 
 unprotected persons (5% of vaccinees), are placed in the tested, susceptible (S) compartment. This represents an “all-or-nothing” vaccine, whereby vaccinated
 persons receive complete protection from SARS-CoV-2 infection and disease. When run, these three code files generate Rdata sets. 
-We analyze the total number of deaths ine each location using code in vaxmodelresults081121.R.
+We analyze the total number of deaths ine each location using code in vaxmodelresults081121.R.  These results are summarized in Table S4.
+
+These code files take 2021-06-17_MLEs.csv as input data.  Each of the site-specific code files runs in approximately 10-15 minutes. 
