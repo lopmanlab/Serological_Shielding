@@ -9,7 +9,7 @@ combine the files from all three locations (comb_figs_nov2020_ak.R). The file co
 The site-specific R scripts each take about 10 minutes to run (6 seconds per model run with 97 scenarios run per site). Some conditions take longer than others to run, 
 so individual users might experience longer run times of up to 15 minutes per site.
 
-This colder also contains code used to create the contour plot (figure 5) in the main text.  The contour code files vary the level of social distancing after reopening,
+This folder also contains code used to create the contour plot (figure 5) in the main text.  The contour code files vary the level of social distancing after reopening,
 which produces different results then simulating at the MLE for the fit level of social distancing in each site. These code files are: 
 
 (1) wash_csweep_contourplot_ak_0709.R (run time ~20 minutes)
@@ -17,3 +17,6 @@ which produces different results then simulating at the MLE for the fit level of
 (3) sflor_csweep_contourplot_ak_0709.R (run time ~20 minutes)
 
 Each of these three files takes 2021-06-17_MLEs.csv as an input and generates panels for the contour plots, which were combined to make Figure 5 in the main text.
+
+The percent reduction in total social contacts corresponding to the fitted MLEs is shown in Table S3 of the main text and simple code used to extract the necessary numbers
+is in GetPercentRedContacts.R (which runs in a few seconds on most machines).
