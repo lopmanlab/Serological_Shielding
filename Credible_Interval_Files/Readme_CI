@@ -3,4 +3,4 @@ This folder contains code used to generate credible intervals for effect estimat
 sample.params.R - code to randomly select parameter sets from the end of each MCMC chain 
 sample.params.2.csv - randomly selected parameter sets
 CredInt_Summaries.R  - summarizes credible interval characteristics by site, uses sample.params.2.csv as an input
-Opening_CredInt_AllLocs.R - simulates the ODE model for the parameter sets selected from the end of the MCMC chain, used to get uncertainty intervals, uses sample.params.2.csv as an input
+Opening_CredInt_AllLocs_0709.R - simulates the ODE model for the parameter sets selected from the end of the MCMC chain, used to get uncertainty intervals, uses sample.params.2.csv as an input
