@@ -4,3 +4,7 @@ sample.params.R - code to randomly select parameter sets from the end of each MC
 sample.params.2.csv - randomly selected parameter sets
 CredInt_Summaries.R  - summarizes credible interval characteristics by site, uses sample.params.2.csv as an input
 Opening_CredInt_AllLocs_0709.R - simulates the ODE model for the parameter sets selected from the end of the MCMC chain, used to get uncertainty intervals, uses sample.params.2.csv as an input
+
+The code files sample.params.R and CredInt_Summaries.R both run very quickly (less than 1 minute).  
+The Opening_CredInt_AllLocs_0709.R file takes ~3 seconds per model run with 1600 model runs per site.  Therefore, generating credible intervals takes approximately 
+80 minutes per site, or 4 hours total for all sites combined. 
