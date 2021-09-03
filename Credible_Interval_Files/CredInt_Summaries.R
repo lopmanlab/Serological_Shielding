@@ -1,3 +1,7 @@
+rm(list=ls()) #Clear workspace
+
+load('/Users/kristinnelson/OneDrive - Emory University/covid-19/Shielding/Results/Opening_CredInt_AllLocs_0714.RData')
+
 dates.site<-data.frame(loc=c('nyc', 'sfl', 'wash'), t0=c(as.Date('02/20/2020', format='%m/%d/%Y'), as.Date('02/27/2020', format='%m/%d/%Y'),
                                                          as.Date('02/13/2020', format='%m/%d/%Y')))
 
@@ -7,8 +11,8 @@ dates.site$June1.site<-as.numeric(as.Date('06/01/2021', format='%m/%d/%Y')-dates
 Nov1.all<-subset(model_time2, model_time2$time==model_time2$nov1.numeric)
 June1.all<-subset(model_time2, (model_time2$loc=='nyc' & model_time2$time==467)|(model_time2$loc=='sfl' & model_time2$time==460)|
   (model_time2$loc=='wash' & model_time2$time==474))
-write.csv(Nov1.all, '/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/Nov1_dat.csv')
-write.csv(June1.all, '/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/June1_dat.csv')
+#write.csv(Nov1.all, '/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/Nov1_dat.csv')
+#write.csv(June1.all, '/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/June1_dat.csv')
 
 Nov1t<-Nov1.all[,c(1:7, 12, 16,20,22,23)]
 June1t<-June1.all[,c(1:7, 12, 16, 20, 22)]
@@ -16,7 +20,7 @@ names(Nov1t)[c(8,10)]<-c('Deaths.nov1', 'CI.nov1')
 names(June1t)[c(8, 10)]<-c('Deaths.june1', 'CI.june1')
 NovJune<-merge(Nov1t[,c(1:8, 10:12)], June1t[,c(8:11)], by='runid')
 NovJune$DeathsLate<-NovJune$Deaths.june1-NovJune$Deaths.nov1
-write.csv(NovJune, '/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/NovJune_dat.csv')
+#write.csv(NovJune, '/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/NovJune_dat.csv')
 
 NovJune<-read.csv('/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/NovJune_dat.csv')
 NovJune<-NovJune[,c(2:ncol(NovJune))]
@@ -54,7 +58,7 @@ Compare5<-merge(Compare4, IdealAnnualShield[,c(1, 4:6)], by='param.id')
 Compare6<-merge(Compare5, EarlyIdealMonthlyShield[,c(1, 4:6)], by='param.id')
 Compare7<-merge(Compare6, EarlyIdealAnnualShield[,c(1, 4:6)], by='param.id')
 
-params.sweep<-read.csv('/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/params_sweep.csv')
+#params.sweep<-read.csv('/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/params_sweep.csv')
 
 Compare7$DeathsAverted.ideal<-Compare7$Deaths.notest-Compare7$Deaths.ideal
 Compare7$DeathsAverted.worst<-Compare7$Deaths.notest-Compare7$Deaths.worst
@@ -148,14 +152,10 @@ DeathsAverted.file<-ddply(NovJune, .(param.id), summarize,
 ddply(params.sweep, .(loc), summarize, qdev=sd(q), pdev=sd(symptomatic_fraction), cdev=sd(c))
 #write.csv(CredInt.file, '/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/NYC_CredInt_First100.csv')
 
-Params<-read.csv('/Users/aliciakraay/Dropbox/COVID Shields Emory/Chains_sampling/samp.params.2.csv')
+Params<-read.csv('/Users/kristinnelson/OneDrive - Emory University/covid-19/Shielding/Parameters/samp.params.0622.csv')
 Params$param.id<-seq(from=1, to=nrow(Params))
 
-Params2<-subset(Params, Params$loc %in% c('nyc', 'sfl')|(Params$loc=='wash' & !(Params$chain=='4\\')))
-Params<-Params2
-
-
-EndParams<-merge(NovJune, Params[,c(2:10, 79)], by='param.id')
+EndParams<-merge(NovJune, Params[,c(2:10, 78)], by='param.id')
 EndNY.none<-subset(EndParams, EndParams$loc=='nyc' & EndParams$intervention.id==0.125)
 
 plot(EndNY.none$R0, EndNY.none$Deaths)
@@ -184,17 +184,69 @@ C<-ggplot(EndSF.none, aes(x=c, y=Deaths.june1, color=p_reduced))+geom_point(aes(
   ggtitle('South Florida')+theme(legend.position='bottom')+lims(y=c(0, 11500))
 require(ggpubr)
 ggarrange(A, C, B, nrow=1)
-ggsave(plot=ggarrange(A, C, B, nrow=1), filename='/Users/aliciakraay/Dropbox/COVID Shields Emory/MetroFits/DeathsCI_byLoc.pdf',
+ggsave(plot=ggarrange(A, C, B, nrow=1), filename='/Users/kristinnelson/OneDrive - Emory University/covid-19/Shielding/Results/DeathsCI_byLoc.pdf',
        w=9, h=5)
 
 ggplot(EndWash.none, aes(x=c, y=Deaths, color=Initial_Condition_Scale))+geom_point(aes(color=Initial_Condition_Scale))+labs(y='Predicted deaths after 1 year')+
   ggtitle('Washington')+theme(legend.position='none')
 
-initcondnyc <- read.csv("/Users/aliciakraay/Dropbox/COVID Shields Emory/2020-10-07_nyc_chains_summary.csv")
-initcondwash <- read.csv("/Users/aliciakraay/Dropbox/COVID Shields Emory/2020-10-07_nyc_chains_summary.csv")
+#initcondnyc <- read.csv("/Users/aliciakraay/Dropbox/COVID Shields Emory/2020-10-07_nyc_chains_summary.csv")
+#initcondwash <- read.csv("/Users/aliciakraay/Dropbox/COVID Shields Emory/2020-10-07_nyc_chains_summary.csv")
 
 
-EndNY.none<-subset(EndParams, EndParams$loc=='sflor' & EndAll$intervention.id==0.125)
-summary(End.unique$Deaths)
-hist(subset(End.unique, End.unique$intervention.id==0)$Deaths)
-hist(subset(End.unique, End.unique$intervention.id==0.125)$Deaths)
+### ranges for fitted params for SI
+ranges.nyc <-subset(EndParams, EndParams$loc=='nyc' & EndParams$intervention.id==0.125)
+
+ranges.sfl <-subset(EndParams, EndParams$loc=='sfl' & EndParams$intervention.id==0.125)
+
+ranges.wash <-subset(EndParams, EndParams$loc=='wash' & EndParams$intervention.id==0.125)
+
+
+ddply(ranges.nyc, .(intervention.id), summarize,
+      symptomatic_fraction=quantile(symptomatic_fraction, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.sfl, .(intervention.id), summarize,
+      symptomatic_fraction=quantile(symptomatic_fraction, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.wash, .(intervention.id), summarize,
+      symptomatic_fraction=quantile(symptomatic_fraction, probs=c(0.05, 0.5, 0.95)))
+
+
+ddply(ranges.nyc, .(intervention.id), summarize,
+      q=quantile(q, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.sfl, .(intervention.id), summarize,
+      q=quantile(q, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.wash, .(intervention.id), summarize,
+      q=quantile(q, probs=c(0.05, 0.5, 0.95)))
+
+
+ddply(ranges.nyc, .(intervention.id), summarize,
+      c=quantile(c, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.sfl, .(intervention.id), summarize,
+      c=quantile(c, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.wash, .(intervention.id), summarize,
+      c=quantile(c, probs=c(0.05, 0.5, 0.95)))
+
+
+ddply(ranges.nyc, .(intervention.id), summarize,
+      p_reduced=quantile(p_reduced, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.sfl, .(intervention.id), summarize,
+      p_reduced=quantile(p_reduced, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.wash, .(intervention.id), summarize,
+      p_reduced=quantile(p_reduced, probs=c(0.05, 0.5, 0.95)))
+
+
+ddply(ranges.nyc, .(intervention.id), summarize,
+      socialDistancing_other=quantile(socialDistancing_other, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.sfl, .(intervention.id), summarize,
+      socialDistancing_other=quantile(socialDistancing_other, probs=c(0.05, 0.5, 0.95)))
+ddply(ranges.wash, .(intervention.id), summarize,
+      socialDistancing_other=quantile(socialDistancing_other, probs=c(0.05, 0.5, 0.95)))
+
+
+
+#EndNY.none<-subset(EndParams, EndParams$loc=='sflor' & EndAll$intervention.id==0.125)
+#summary(End.unique$Deaths)
+#hist(subset(End.unique, End.unique$intervention.id==0)$Deaths)
+#hist(subset(End.unique, End.unique$intervention.id==0.125)$Deaths)
+
+
+
