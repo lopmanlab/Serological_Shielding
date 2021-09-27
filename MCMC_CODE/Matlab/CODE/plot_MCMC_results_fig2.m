@@ -10,7 +10,7 @@ elseif REGION == 'wash'
 end
 
 % For all Chains
-out = figure('Name', 'Res', 'Position', [5 5 500 600]); clf    
+out = figure('Name', 'Res', 'Position', [6 6 1000 1000]); clf    
 k = 2;
 Chain = Chains{k};
 Res = Ress{k};
@@ -24,10 +24,10 @@ i_samp = randi([1, length(burnOut)], 1,NSamples);
 chain_samp = chain_out(i_samp,:);
 
 % Change plot position
-x0 = 10;
-y0 = 10;
-width = 700;
-height = 1200;
+x0 = 0;
+y0 = 0;
+width = 600;
+height = 1600;
 
 % Plot by component.
 for j = 1:length(Comps)
@@ -35,8 +35,8 @@ for j = 1:length(Comps)
     
     % Subplot based on the # of components
     subplot(length(Comps), 1, j)
-    sgtitle(region_name, 'FontWeight', 'bold', 'FontSize', 18);
-    set(gca,'linewidth',1, 'fontsize', 14);
+    sgtitle(region_name, 'FontWeight', 'bold', 'FontSize', 30);
+    set(gca,'linewidth',1, 'fontsize', 18);
     set(gcf, 'position', [x0,y0,width,height])
     hold on
 
@@ -72,6 +72,8 @@ for j = 1:length(Comps)
         'HandleVisibility','off');
     
     % For certain components, add additional information to the plot.
+    ylabel_xpos = -30;
+
     if j_comp == "S"            % If we're plotting S, include sero
         plot(Pars.tSero+Pars.t0, (1-Pars.sero/100)*Pars.N, 's', 'Color', [1 0 0], ...
             'MarkerFaceColor',[1 0 0], 'DisplayName', 'S')
@@ -90,23 +92,33 @@ for j = 1:length(Comps)
         ylabel('Subcritical Hospitalizations','fontweight','bold')
         
     elseif j_comp == "Hcri"     % Critical Care Cases
+        yl=ylabel('Crit Cases', 'fontweight', 'bold');
+        pos=get(yl,'Pos');
+        set(yl,'Pos',[ylabel_xpos pos(2) pos(3)]);
         
     elseif j_comp == "R"        % If we're plotting R, include sero
         plot(Pars.tSero+Pars.t0, Pars.sero/100*Pars.N, 's', 'Color', [.6 0 0], 'MarkerSize', 15, ...
             'MarkerFaceColor',[1 0 0], 'DisplayName', 'Serology data')
-        legend({'Serology data'},'Location','southeast', 'fontsize', 13)
+        legend({'Serology data'},'Location','southeast', 'fontsize', 18)
         legend boxoff
-
+        yl=ylabel('Recovered','fontweight','bold');
+        pos=get(yl,'Pos');
+        set(yl,'Pos',[ylabel_xpos pos(2) pos(3)]);
+        
     elseif j_comp == "D"        % If deaths, include data
         plot(7*(1:Pars.nWeeks)+Pars.t0, cumsum(Pars.target), 's', 'Color', [0.2, 0.3, 0.6], 'MarkerSize', 15, ...
             'MarkerFaceColor', [0.3, 0.5, 0.9], 'DisplayName', 'Death data')
-        legend({'Death data'},'Location','southeast',  'fontsize', 13)
+        legend({'Death data'},'Location','southeast',  'fontsize', 18)
         legend boxoff
+        yl=ylabel('Deaths','fontweight','bold');
+        pos=get(yl,'Pos');
+        set(yl,'Pos',[ylabel_xpos pos(2) pos(3)]);
         
     end
     ylim([0, Inf])
     xlim([Pars.t0, Pars.tf])
-   
+    
+    
     box on
 end
 

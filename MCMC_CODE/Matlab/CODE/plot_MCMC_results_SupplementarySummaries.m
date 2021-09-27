@@ -90,7 +90,7 @@ for k = 1:length(Chains)
                 ylabel('Subcrit Hosp','fontweight','bold')
 
             elseif j_comp == "Hcri"     % Critical Care Cases
-                ylabel('Crit Care','fontweight','bold')
+                ylabel('Crit Cases','fontweight','bold')
 
             elseif j_comp == "R"        % If we're plotting R, include sero
                 ylabel('Recovered','fontweight','bold')
