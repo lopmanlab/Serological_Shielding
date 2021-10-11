@@ -1,11 +1,11 @@
-function out = plot_MCMC_results_SupplementarySummaries(NSamples, Chains, Comps, Pars, Ress, REGION, DATE, PARAMETER_SET, LL_TYPE, N_VARS)
+function out = plot_MCMC_results_SupplementarySummaries(NSamples, Chains, Comps, Pars, Ress, REGION_IN, DATE_IN, PARAMETER_SET_IN, LIKELIHOOD_TYPE_IN, N_VARS_IN)
 %% Predictions from MCMC
 
-if REGION == 'nyc'
+if REGION_IN == 'nyc'
     region_name = 'New York City';
-elseif REGION == 'sflor'
+elseif REGION_IN == 'sflor'
     region_name = 'South Florida';
-elseif REGION == 'wash'
+elseif REGION_IN == 'wash'
     region_name = 'Washington Puget Sound';
 end
 
@@ -122,6 +122,7 @@ for k = 1:length(Chains)
     end
 end
 
+Supplementary_Fig_File = strcat('OUTPUT/', REGION_IN, '/', DATE_IN, '_', REGION_IN, '_',  PARAMETER_SET_IN, '_', LIKELIHOOD_TYPE_IN, "_NVarsFit", int2str(N_VARS_IN), '_fits')
 set(gcf,'PaperUnits','inches','PaperPosition',[0 0 32 20])
-print(strcat('OUTPUT/', REGION, '/', DATE, '_', REGION, '_',  PARAMETER_SET, '_', LL_TYPE, "_NVarsFit", int2str(N_VARS), '_fits'), '-dpng')
-
+print(Supplementary_Fig_File, '-dpng')
+%% not sure why this donn't work.  

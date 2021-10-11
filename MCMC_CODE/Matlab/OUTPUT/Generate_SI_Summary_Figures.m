@@ -1,3 +1,6 @@
+%% Last Modified: 10/11/2021
+% This script re-generates all the supplementary figures post-hoc.
+
 addpath(genpath(pwd))
 DATE = "2021-05-04";
 PARAMETER_SET = "MMWR";

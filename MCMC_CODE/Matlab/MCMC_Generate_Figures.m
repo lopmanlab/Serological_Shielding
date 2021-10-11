@@ -19,9 +19,9 @@ function out_plots = MCMC_Generate_Figures(DATE_IN, REGION_IN, PARAMETER_SET_IN,
             "Too Many Variables - Skipping Pairplots"
         end
 
-    %         t4 = figure(4); clf;
-    %         mcmcplot(res{PLOT_CHAIN_NUM}{2},[],res{PLOT_CHAIN_NUM}{1},'denspanel',2);
-    %         saveas(t4, strcat('OUTPUT/', REGION_IN, '/', DATE_IN, '_', REGION_IN, '_',  PARAMETER_SET_IN, '_', LIKELIHOOD_TYPE_IN, "_NVarsFit", int2str(N_VARS_IN), '_', int2str(PLOT_CHAIN_NUM), '_denspanel.png'));
+        % t4 = figure(4); clf;
+        % mcmcplot(res{PLOT_CHAIN_NUM}{2},[],res{PLOT_CHAIN_NUM}{1},'denspanel',2);
+        % saveas(t4, strcat('OUTPUT/', REGION_IN, '/', DATE_IN, '_', REGION_IN, '_',  PARAMETER_SET_IN, '_', LIKELIHOOD_TYPE_IN, "_NVarsFit", int2str(N_VARS_IN), '_', int2str(PLOT_CHAIN_NUM), '_denspanel.png'));
 
         temp_res = res;
         Chains = cellfun(@(x) x{2}, temp_res, 'un', 0);
@@ -33,9 +33,10 @@ function out_plots = MCMC_Generate_Figures(DATE_IN, REGION_IN, PARAMETER_SET_IN,
             saveas(t5, strcat('OUTPUT/', REGION_IN, '/', DATE_IN, '_', REGION_IN, '_',  PARAMETER_SET_IN, '_', LIKELIHOOD_TYPE_IN, "_NVarsFit", int2str(N_VARS_IN), '_', int2str(PLOT_CHAIN_NUM), '_fits_fig2.png'));
         else
             saveas(t5, strcat('OUTPUT/', REGION_IN, '/', DATE_IN, '_', REGION_IN, '_',  PARAMETER_SET_IN, '_', LIKELIHOOD_TYPE_IN, "_NVarsFit", int2str(N_VARS_IN), '_', int2str(PLOT_CHAIN_NUM), '_fits.png'));
+        end
 
-        Supplemental Figures
-        t5 = plot_MCMC_results_SupplementarySummaries(100, Chains, ["Hcri", "R", "D"], pars_in, Ress, REGION_IN);
+        % Supplemental Figures
+        t5 = plot_MCMC_results_SupplementarySummaries(100, Chains, ["Hcri", "R", "D"], pars_in, Ress, REGION_IN, DATE_IN, PARAMETER_SET_IN, LIKELIHOOD_TYPE_IN, N_VARS_IN);
 
     else
         'WARNING: MISSING .mat FILE. DOUBLE CHECK INPUTS'
